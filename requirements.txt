@@ -1,0 +1,13 @@
+# Crypto Futures Intelligence v2.0 — dependências Python
+# Instalar: pip install -r requirements.txt
+# GitHub Actions: ver .github/workflows/scanner.yml
+
+# Anthropic API — única chamada externa ao Claude (heatmap_claude.py)
+anthropic>=0.25.0
+
+# Playwright — captura do heatmap Coinglass (heatmap_claude.py)
+# Após instalar: playwright install chromium --with-deps
+playwright>=1.40.0
+
+# Nota: todos os outros módulos usam apenas stdlib Python:
+# urllib, json, asyncio, datetime, math, base64, logging, os, sys

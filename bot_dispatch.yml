@@ -1,0 +1,64 @@
+name: Andreya v2 — Bot Dispatch
+
+# Disparado pelo bot Telegram (Railway.app) via GitHub API.
+# Permite correr scans manualmente via Telegram:
+#   /scannow pesado | leve | breakout
+#
+# O bot envia:
+#   POST https://api.github.com/repos/malaquiastimoteocompany/andreya_2.0/
+#        actions/workflows/bot_dispatch.yml/dispatches
+#   Body: {"ref": "main", "inputs": {"scan_tipo": "pesado", "origem": "telegram"}}
+
+on:
+  workflow_dispatch:
+    inputs:
+      scan_tipo:
+        description: 'Tipo de scan'
+        required: true
+        default: 'pesado'
+        type: choice
+        options:
+          - pesado
+          - leve
+          - breakout
+      origem:
+        description: 'Origem do disparo'
+        required: false
+        default: 'manual'
+
+permissions:
+  contents: write
+
+jobs:
+  bot-scan:
+    name: "Bot → Scan ${{ inputs.scan_tipo }} (via ${{ inputs.origem }})"
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Instalar dependências Python
+        run: pip install -r requirements.txt
+
+      - name: Instalar Chromium (Playwright)
+        if: inputs.scan_tipo == 'pesado' || inputs.scan_tipo == 'breakout'
+        run: playwright install chromium --with-deps
+
+      - name: "Run scanner (${{ inputs.scan_tipo }})"
+        env:
+          SCAN_TIPO:          ${{ inputs.scan_tipo }}
+          MEXC_API_KEY:       ${{ secrets.MEXC_API_KEY }}
+          MEXC_API_SECRET:    ${{ secrets.MEXC_API_SECRET }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          ANTHROPIC_API_KEY:  ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN:       ${{ secrets.GITHUB_TOKEN }}
+          NOTION_TOKEN:       ${{ secrets.NOTION_TOKEN }}
+        run: python scanner.py
