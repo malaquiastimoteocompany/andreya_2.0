@@ -1,1 +1,64 @@
+name: Andreya v2 — Scanner
+
+# Disparado via webhook do cron-job.org (workflow_dispatch)
+# NÃO usar schedule do GitHub Actions — atrasos de até 10min inaceitáveis
+# para o scan de breakout (30 min) e scan leve (1h).
+# Ver docs/cron_setup.md para configuração do cron-job.org.
+
+on:
+  workflow_dispatch:
+    inputs:
+      scan_tipo:
+        description: 'Tipo de scan'
+        required: true
+        default: 'pesado'
+        type: choice
+        options:
+          - pesado
+          - leve
+          - breakout
+
+permissions:
+  contents: write   # necessário para ler e escrever state.json
+
+jobs:
+  scanner:
+    name: "Scan ${{ inputs.scan_tipo }}"
+    runs-on: ubuntu-latest
+    timeout-minutes: 15   # scan pesado pode demorar até 10min com Playwright
+
+    steps:
+      # ── 1. Checkout ─────────────────────────────────────────────────────────
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # ── 2. Python ───────────────────────────────────────────────────────────
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      # ── 3. Dependências ──────────────────────────────────────────────────────
+      - name: Instalar dependências Python
+        run: pip install -r requirements.txt
+
+      # Playwright — só necessário para scan pesado (Método A, heatmap)
+      # e scan de breakout (Método A no Momento 2).
+      # Scan leve nunca chama Playwright.
+      - name: Instalar Chromium (Playwright)
+        if: inputs.scan_tipo == 'pesado' || inputs.scan_tipo == 'breakout'
+        run: playwright install chromium --with-deps
+
+      # ── 4. Executar scanner ──────────────────────────────────────────────────
+      - name: "Run scanner (${{ inputs.scan_tipo }})"
+        env:
+          SCAN_TIPO:          ${{ inputs.scan_tipo }}
+          MEXC_API_KEY:       ${{ secrets.MEXC_API_KEY }}
+          MEXC_API_SECRET:    ${{ secrets.MEXC_API_SECRET }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          ANTHROPIC_API_KEY:  ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN:       ${{ secrets.GITHUB_TOKEN }}
+          NOTION_TOKEN:       ${{ secrets.NOTION_TOKEN }}
+        run: python scanner.py
 
