@@ -10,7 +10,7 @@ headers = {
 
 # Teste Base 1
 r = requests.post("https://api.notion.com/v1/pages", headers=headers, json={
-    "parent": {"database_id": "8715f7ab-e1a4-43ee-9201-dfe9927a5090"},
+    "parent": {"database_id": "ebd18b31-bad2-4faa-a812-ff6580dd4930"},
     "properties": {
         "Scan ID": {"title": [{"text": {"content": "TESTE-CONEXAO"}}]}
     }
@@ -20,7 +20,7 @@ print(r.text)
 
 # Teste Base 2
 r2 = requests.post("https://api.notion.com/v1/pages", headers=headers, json={
-    "parent": {"database_id": "d8d785c1-f500-4a87-8074-59f07831cfbb"},
+    "parent": {"database_id": "ef42937a-58a3-4957-8a90-30d78e8ff8db"},
     "properties": {
         "Token": {"title": [{"text": {"content": "TESTE"}}]}
     }
