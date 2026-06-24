@@ -159,14 +159,20 @@ def _notas_prioridade(notas: list[str]) -> str:
 # FORMATADORES DE CADA MOMENTO
 # =============================================================================
 
-def _momento_0(symbol: str, token, resultado_scoring, funding_flag: Optional[str]) -> str:
+def _momento_0(
+    symbol: str,
+    token,
+    resultado_scoring,
+    funding_flag: Optional[str],
+    sinais=None,
+) -> str:
     """
     Momento 0 — entrada em Estado 2 (Radar Activo).
     Manual secção 9.1.
+    sinais: ResultadoSinais da direcção dominante (LONG ou SHORT).
     """
     direccao = token.direccao if token else "—"
     score    = token.score_actual if token else 0
-    sinais   = None  # scan pesado tem LONG e SHORT — usa o dominante
     linha_s  = _linha_sinais(sinais)
     flag_str = f"\n⚠️ FLAG: {funding_flag}" if funding_flag else ""
 
@@ -389,6 +395,7 @@ def enviar_momento(
     janela_horas: int = 2,
     nivel_pre_breakout: float = 0.0,
     conclusao=None,
+    sinais=None,
     **kwargs,
 ) -> bool:
     """
@@ -397,11 +404,16 @@ def enviar_momento(
     tipo: "MOMENTO_0" | "MOMENTO_1" | "MOMENTO_2" | "MOMENTO_3A"
           | "MOMENTO_3B" | "MOMENTO_3B_PREP" | "DEGRADACAO"
           | "SAIU_UNIVERSO"
+
+    sinais: ResultadoSinais da direcção dominante — usado pelo Momento 0
+            para mostrar quais sinais estão activos em vez de todos "--".
     """
+    import time
     notas = notas_prioridade or []
 
     if tipo == "MOMENTO_0":
-        texto = _momento_0(symbol, token, resultado_scoring, funding_flag)
+        texto = _momento_0(symbol, token, resultado_scoring, funding_flag,
+                           sinais=sinais)
 
     elif tipo == "MOMENTO_1":
         texto = _momento_1(symbol, token, resultado_scoring,
