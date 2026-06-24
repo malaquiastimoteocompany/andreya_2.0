@@ -345,10 +345,11 @@ def _obter_ls_ratio(symbol: str) -> float:
     """
     url = f"{MEXC_BASE_URL}/contract/long_short_ratio/{symbol}"
     try:
-        req = urllib.request.Request(
-            url + "?period=1h&limit=1",
-            headers={"User-Agent": "andreya-v2-scanner", "Accept": "application/json"},
-        )
+        req = urllib.request.Request(url + "?period=1h&limit=1", headers={
+    "User-Agent": "andreya-v2-scanner",
+    "ApiKey": mx0vglGstOK6nihksE,
+})
+            
         with urllib.request.urlopen(req, timeout=5) as r:
             resp = json.loads(r.read())
             dados = resp.get("data", resp)
