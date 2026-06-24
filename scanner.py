@@ -338,16 +338,30 @@ def construir_dados_mexc(
 
 def _obter_ls_ratio(symbol: str) -> float:
     """
-    Obtém L/S ratio via MEXC API.
-    Devolve 1.0 (neutral) se indisponível.
+    Tenta obter L/S ratio via MEXC API.
+    O endpoint /contract/long_short_ratio/ retorna 404 na MEXC para a maioria
+    dos tokens — fallback silencioso para 1.0 (neutral).
+    Com L/S neutral, S6 fica sempre False: comportamento conservador aceite.
     """
-    dados = _mexc_get(f"/contract/long_short_ratio/{symbol}", {"period": "1h", "limit": 1})
-    if dados and isinstance(dados, list) and dados:
-        try:
-            return float(dados[0].get("longShortRatio", 1.0))
-        except Exception:
-            pass
-    return 1.0  # neutral se não disponível
+    url = f"{MEXC_BASE_URL}/contract/long_short_ratio/{symbol}"
+    try:
+        req = urllib.request.Request(
+            url + "?period=1h&limit=1",
+            headers={"User-Agent": "andreya-v2-scanner", "Accept": "application/json"},
+        )
+        with urllib.request.urlopen(req, timeout=5) as r:
+            resp = json.loads(r.read())
+            dados = resp.get("data", resp)
+            if isinstance(dados, list) and dados:
+                return float(dados[0].get("longShortRatio", 1.0))
+    except urllib.error.HTTPError as e:
+        if e.code == 404:
+            log.debug(f"[{symbol}] L/S ratio: endpoint não disponível (404) → neutral 1.0")
+        else:
+            log.debug(f"[{symbol}] L/S ratio: HTTP {e.code} → neutral 1.0")
+    except Exception:
+        log.debug(f"[{symbol}] L/S ratio: falhou → neutral 1.0")
+    return 1.0
 
 
 # =============================================================================
