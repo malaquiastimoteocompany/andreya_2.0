@@ -323,8 +323,19 @@ def construir_dados_mexc(
     # Funding rate
     funding = float(ticker.get("fundingRate", 0))
 
-    # L/S ratio — tentar endpoint dedicado; fallback neutral
-    ls_ratio = _obter_ls_ratio(symbol)
+    # L/S ratio — proxy via funding rate (S6, manual secção 3.1/3.2)
+    # Endpoint MEXC /contract/long_short_ratio/ não existe nesta exchange.
+    # Funding rate é o melhor proxy disponível sem chamada externa extra:
+    #   funding negativo → shorts dominam → ls_ratio baixo  (< 0.7 → S6 SHORT passa)
+    #   funding positivo → longs dominam  → ls_ratio alto   (> 1.3 → S6 LONG passa)
+    #   funding ≈ neutro → indefinido     → ls_ratio = 1.0  (S6 não passa)
+    # Threshold ±0.005% cobre zona neutral sem ser demasiado restritivo.
+    if funding < -0.00005:
+        ls_ratio = 0.5    # shorts dominam → passa S6 SHORT
+    elif funding > 0.00005:
+        ls_ratio = 1.5    # longs dominam  → passa S6 LONG
+    else:
+        ls_ratio = 1.0    # neutro → S6 não passa
 
     coinglass = DadosCoinglass(
         ticker=symbol,
@@ -334,35 +345,6 @@ def construir_dados_mexc(
     )
 
     return mexc, coinglass, atr_pct
-
-
-def _obter_ls_ratio(symbol: str) -> float:
-    """
-    Tenta obter L/S ratio via MEXC API.
-    O endpoint /contract/long_short_ratio/ retorna 404 na MEXC para a maioria
-    dos tokens — fallback silencioso para 1.0 (neutral).
-    Com L/S neutral, S6 fica sempre False: comportamento conservador aceite.
-    """
-    url = f"{MEXC_BASE_URL}/contract/long_short_ratio/{symbol}"
-    try:
-        req = urllib.request.Request(url + "?period=1h&limit=1", headers={
-    "User-Agent": "andreya-v2-scanner",
-    "ApiKey": mx0vglGstOK6nihksE,
-})
-            
-        with urllib.request.urlopen(req, timeout=5) as r:
-            resp = json.loads(r.read())
-            dados = resp.get("data", resp)
-            if isinstance(dados, list) and dados:
-                return float(dados[0].get("longShortRatio", 1.0))
-    except urllib.error.HTTPError as e:
-        if e.code == 404:
-            log.debug(f"[{symbol}] L/S ratio: endpoint não disponível (404) → neutral 1.0")
-        else:
-            log.debug(f"[{symbol}] L/S ratio: HTTP {e.code} → neutral 1.0")
-    except Exception:
-        log.debug(f"[{symbol}] L/S ratio: falhou → neutral 1.0")
-    return 1.0
 
 
 # =============================================================================
