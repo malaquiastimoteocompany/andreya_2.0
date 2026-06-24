@@ -1,0 +1,39 @@
+name: Andreya v2 — Popular Notion
+
+# Correr UMA VEZ manualmente para sincronizar Notion com o state.json actual.
+# Depois disto, os scans pesados regulares mantêm o Notion actualizado.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  populate:
+    name: "Popular Notion com estado actual"
+    runs-on: ubuntu-latest
+    timeout-minutes: 30   # pode demorar até 20 min com 100+ tokens
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Instalar dependências
+        run: pip install anthropic playwright
+
+      - name: Popular Notion
+        env:
+          GITHUB_TOKEN:       ${{ secrets.GITHUB_TOKEN }}
+          NOTION_TOKEN:       ${{ secrets.NOTION_TOKEN }}
+          MEXC_API_KEY:       ${{ secrets.MEXC_API_KEY }}
+          MEXC_API_SECRET:    ${{ secrets.MEXC_API_SECRET }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          ANTHROPIC_API_KEY:  ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python populate_notion.py
