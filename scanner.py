@@ -506,9 +506,12 @@ def scan_pesado(hora_lisboa: int) -> None:
 
         # ── 5e. Alertas Telegram ─────────────────────────────────────────────
         for alerta in resultado.alertas:
+            import time
             sizing = (SIZING_SALTO_DIRECTO if resultado.salto_directo
                       else SIZING_VINHA_ESTADO3 if token.estado == ESTADO_PRIORITARIO
                       else SIZING_VINHA_ESTADO2)
+            # Passar sinais da direcção dominante ao Momento 0
+            sinais_dominantes = sl if token.direccao == "LONG" else ss
             enviar_momento(
                 tipo=alerta,
                 symbol=symbol,
@@ -517,9 +520,11 @@ def scan_pesado(hora_lisboa: int) -> None:
                 resultado_leverage=leverage_resultado,
                 funding_flag=funding_flag,
                 sizing=sizing,
+                sinais=sinais_dominantes,
             )
             if alerta == Alerta.MOMENTO_0:
                 novos_estado2.append(symbol)
+                time.sleep(1)   # anti-flood: 1s entre Momento 0 consecutivos
             elif alerta == Alerta.MOMENTO_1:
                 novos_estado3.append(symbol)
 
