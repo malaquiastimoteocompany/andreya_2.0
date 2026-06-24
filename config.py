@@ -61,11 +61,10 @@ STATE_JSON_PATH = "state.json"    # raiz do repo — fonte de verdade operaciona
 NOTION_TOKEN = os.environ["NOTION_TOKEN"]
 
 NOTION_PAGE_RAIZ          = "384a5230-de72-81fb-92b5-de4c0b064b2a"
-NOTION_DB_SCANS           = "8715f7ab-e1a4-43ee-9201-dfe9927a5090"  # 📡 Base 1
-NOTION_DB_TOKENS          = "d8d785c1-f500-4a87-8074-59f07831cfbb"  # 🪙 Base 2
-NOTION_DB_DETECCOES       = "5d86a2a7-4eb6-4ee6-bc87-7ade2b7ca08e"  # 🔍 Base 3
-NOTION_DB_MOVES           = "544b1e93-11da-40a0-abf6-2195f8a66228"  # 📈 Base 4
-
+NOTION_DB_SCANS           = "ebd18b31-bad2-4faa-a812-ff6580dd4930"  # 📡 Base 1
+NOTION_DB_TOKENS          = "ef42937a-58a3-4957-8a90-30d78e8ff8db"  # 🪙 Base 2
+NOTION_DB_DETECCOES       = "816d9df4-357e-48e8-aedb-e83a754ffb0f"  # 🔍 Base 3
+NOTION_DB_MOVES           = "3a76df46-d585-407b-9c02-8d50e2eb3444"  # 📈 Base 4
 # -----------------------------------------------------------------------------
 # OUTPUT — PDFs (pasta separada do v1.6)
 # -----------------------------------------------------------------------------
