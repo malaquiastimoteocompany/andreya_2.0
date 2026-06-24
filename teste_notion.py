@@ -15,7 +15,8 @@ r = requests.post("https://api.notion.com/v1/pages", headers=headers, json={
         "Scan ID": {"title": [{"text": {"content": "TESTE-CONEXAO"}}]}
     }
 })
-print(f"Base 1: {r.status_code} — {r.json().get('object', r.text[:200])}")
+print(f"Base 1: {r.status_code}")
+print(r.text)
 
 # Teste Base 2
 r2 = requests.post("https://api.notion.com/v1/pages", headers=headers, json={
@@ -24,4 +25,5 @@ r2 = requests.post("https://api.notion.com/v1/pages", headers=headers, json={
         "Token": {"title": [{"text": {"content": "TESTE"}}]}
     }
 })
-print(f"Base 2: {r2.status_code} — {r2.json().get('object', r2.text[:200])}")
+print(f"Base 2: {r2.status_code}")
+print(r2.text)
