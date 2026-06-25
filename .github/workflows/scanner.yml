@@ -1,10 +1,7 @@
 name: Andreya v2 — Scanner
-
 # Disparado via webhook do cron-job.org (workflow_dispatch)
 # NÃO usar schedule do GitHub Actions — atrasos de até 10min inaceitáveis
 # para o scan de breakout (30 min) e scan leve (1h).
-# Ver docs/cron_setup.md para configuração do cron-job.org.
-
 on:
   workflow_dispatch:
     inputs:
@@ -30,7 +27,7 @@ jobs:
     steps:
       # ── 1. Checkout ─────────────────────────────────────────────────────────
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # ── 2. Python ───────────────────────────────────────────────────────────
       - name: Setup Python 3.12
@@ -43,8 +40,7 @@ jobs:
       - name: Instalar dependências Python
         run: pip install -r requirements.txt
 
-      # Playwright — só necessário para scan pesado (Método A, heatmap)
-      # e scan de breakout (Método A no Momento 2).
+      # Playwright — só necessário para scan pesado e breakout (Método A, heatmap)
       # Scan leve nunca chama Playwright.
       - name: Instalar Chromium (Playwright)
         if: inputs.scan_tipo == 'pesado' || inputs.scan_tipo == 'breakout'
@@ -61,4 +57,3 @@ jobs:
           GITHUB_TOKEN:       ${{ secrets.GITHUB_TOKEN }}
           NOTION_TOKEN:       ${{ secrets.NOTION_TOKEN }}
         run: python scanner.py
-
