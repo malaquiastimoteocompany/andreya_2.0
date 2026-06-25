@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-# =============================================================================
-# scanner.py — Orchestrador principal do CFI v2.0
-# Manual CFI v2.0 — Secção 8
-# =============================================================================
+# scanner.py com diagnóstico de tickers — versão temporária
 
 from __future__ import annotations
 
@@ -317,6 +314,17 @@ def scan_pesado(hora_lisboa: int) -> None:
         log.error("MEXC falhou — scan abortado")
         return
 
+    # ── DIAGNÓSTICO — remover após confirmar ─────────────────────────────────
+    log.info(f"DIAG — Tickers MEXC recebidos: {len(tickers)}")
+    exemplos = list(tickers.keys())[:5]
+    log.info(f"DIAG — Exemplos de symbols: {exemplos}")
+    state_exemplos = list(estado_json.keys())[:5]
+    log.info(f"DIAG — Exemplos state.json: {state_exemplos}")
+    # Verificar sobreposição
+    matches = sum(1 for s in estado_json if s in tickers)
+    log.info(f"DIAG — Tokens state.json encontrados nos tickers: {matches}/{len(estado_json)}")
+    # ─────────────────────────────────────────────────────────────────────────
+
     candles_btc = fetch_candles(BTC_TICKER, "Min60", 50)
     btc_acima_ema21, btc_var_actual, btc_var_anterior = obter_regime_btc(candles_btc)
     btc_volatil = verificar_btc_volatil(btc_var_actual)
@@ -325,11 +333,10 @@ def scan_pesado(hora_lisboa: int) -> None:
     if hora_lisboa == UNIVERSO_REVISAO_HORA_LISBOA:
         _rever_universo(estado_json, tickers, agora_utc)
 
-    # Acumuladores — tudo em listas, nada enviado individualmente
-    novos_e2        = []  # [{symbol, direccao, score, sinais, funding_flag}]
-    novos_e3        = []  # [{symbol, direccao, score, sinais, lev_r, funding_flag}]
-    saidos_universo = []  # [symbol]
-    novos_e3_nomes  = []  # para log Notion
+    novos_e2        = []
+    novos_e3        = []
+    saidos_universo = []
+    novos_e3_nomes  = []
     misses          = []
 
     for symbol, campos in list(estado_json.items()):
@@ -360,7 +367,6 @@ def scan_pesado(hora_lisboa: int) -> None:
         resultado = processar_scan_pesado(token, sl, ss, btc_acima_ema21, agora_utc)
         token     = resultado.novo_estado_token
 
-        # Miss detection
         if estado_antes == ESTADO_PASSIVA and token.estado == ESTADO_PASSIVA:
             limiar = MISS_THRESHOLD_PCT.get(categoria, 0.10)
             high   = ticker.get("upper24Price", 0)
@@ -370,7 +376,6 @@ def scan_pesado(hora_lisboa: int) -> None:
                 if amplitude > limiar:
                     misses.append({"symbol": symbol, "amplitude": amplitude})
 
-        # Heatmap se chegou a E3
         leverage_resultado = None
         if token.estado == ESTADO_PRIORITARIO and estado_antes < ESTADO_PRIORITARIO:
             target_pct, metodo = obter_target_metodo_a(
@@ -391,7 +396,6 @@ def scan_pesado(hora_lisboa: int) -> None:
             token.momento1_leverage   = leverage_resultado.leverage
             token.momento1_metodo     = leverage_resultado.target_metodo
 
-        # Acumular alertas — nunca enviar individualmente aqui
         sinais_dominantes = sl if token.direccao == "LONG" else ss
         for alerta in resultado.alertas:
             if alerta == Alerta.MOMENTO_0:
@@ -413,7 +417,6 @@ def scan_pesado(hora_lisboa: int) -> None:
                 })
                 novos_e3_nomes.append(symbol)
 
-        # Campos extra
         campos_extra = {
             "categoria":       categoria,
             "oi_atual":        float(ticker.get("holdVol", 0)),
@@ -426,7 +429,6 @@ def scan_pesado(hora_lisboa: int) -> None:
         }
         estado_json[symbol] = token_para_dict(token, campos_extra)
 
-        # Log Notion Base 3
         if resultado.estado_novo != resultado.estado_anterior:
             log_deteccao(
                 token=token,
@@ -440,14 +442,12 @@ def scan_pesado(hora_lisboa: int) -> None:
                 bloqueado_filtro_btc=resultado.bloqueado_filtro_btc,
             )
 
-    # Guardar estado
     try:
         sha = guardar_estado(estado_json, sha, f"scan pesado {hora_lisboa}h — {scan_id}")
         log.info(f"state.json guardado (SHA ...{sha[-8:]})")
     except Exception as e:
         log.error(f"Falha ao guardar state.json: {e}")
 
-    # 1 mensagem consolidada
     contagem_e2 = sum(1 for c in estado_json.values() if c.get("estado") == 2)
     contagem_e3 = sum(1 for c in estado_json.values() if c.get("estado") == 3)
     contagem_e4 = sum(1 for c in estado_json.values() if c.get("estado") == 4)
@@ -462,7 +462,6 @@ def scan_pesado(hora_lisboa: int) -> None:
         btc_acima_ema21=btc_acima_ema21,
     )
 
-    # Log Notion Base 1
     _contar_e_log_scan_pesado(
         scan_id, hora_lisboa, estado_json,
         novos_e2, novos_e3_nomes, misses,
@@ -499,10 +498,9 @@ def scan_leve() -> None:
         log.info("Sem tokens activos — scan leve sem updates")
         return
 
-    # Acumuladores de eventos
-    encerrados = []  # E2→E1: [{symbol, direccao, score}]
-    degradados = []  # E3→E2: [{symbol, direccao, score}]
-    concluidos = []  # E4→E5: [{symbol, direccao, ganho_pct, horas, condicao}]
+    encerrados = []
+    degradados = []
+    concluidos = []
     alterados  = False
 
     for symbol, campos in activos.items():
@@ -532,7 +530,6 @@ def scan_leve() -> None:
             candles_1h=candles_1h,
         )
 
-        # Estado 4 — verificar conclusão
         if estado_antes == ESTADO_BREAKOUT:
             conclusao_info = _processar_estado4(
                 token, mexc_d, campos, estado_json, symbol, agora_utc
@@ -542,7 +539,6 @@ def scan_leve() -> None:
             alterados = True
             continue
 
-        # Estado 5 — resetar
         if estado_antes == ESTADO_CONCLUIDO:
             token = estado_para_token({}, symbol)
             estado_json[symbol] = token_para_dict(
@@ -551,13 +547,11 @@ def scan_leve() -> None:
             alterados = True
             continue
 
-        # Estados 2 e 3
         herdados  = token.get_sinais_herdados()
         sinais    = calcular_sinais_scan_leve(mexc_d, herdados, token.direccao)
         resultado = processar_scan_leve(token, sinais, btc_acima_ema21, agora_utc)
         token     = resultado.novo_estado_token
 
-        # Acumular eventos
         for alerta in resultado.alertas:
             if alerta == Alerta.MOMENTO_3A:
                 encerrados.append({
@@ -590,7 +584,6 @@ def scan_leve() -> None:
         except Exception as e:
             log.error(f"Falha ao guardar estado no scan leve: {e}")
 
-    # Até 2 mensagens consolidadas
     enviar_resumo_scan_leve(
         hora_lisboa=hora_lisboa,
         encerrados=encerrados,
@@ -602,7 +595,6 @@ def scan_leve() -> None:
 
 
 def _processar_estado4(token, mexc_d, campos, estado_json, symbol, agora_utc):
-    """Processa E4, regista checkpoints. Retorna dict de conclusão se terminou, None caso contrário."""
     ts_trigger  = campos.get("trigger_timestamp", agora_utc)
     target_pct  = token.momento1_target_pct or 0.062
     checkpoints = {int(k): v for k, v in campos.get("checkpoints", {}).items()}
@@ -707,7 +699,6 @@ def scan_breakout() -> None:
             low_24h=float(ticker.get("lower24Price", 0)),
         )
 
-        # Trigger pendente
         if campos.get("trigger_pendente") and btc_normaliza:
             valido = verificar_trigger_ainda_valido(dados_bo, token.direccao)
             if valido:
@@ -725,7 +716,6 @@ def scan_breakout() -> None:
             })
             continue
 
-        # Trigger fresco
         resultado_bo = verificar_trigger_breakout(dados_bo, token.direccao)
 
         if resultado_bo.trigger_ativo:
@@ -772,9 +762,9 @@ def scan_breakout() -> None:
 def _emitir_momento2(symbol, token, campos, ticker, agora_utc,
                      btc_volatil_trigger=False, nivel_pre_breakout=0.0,
                      trigger_volume=0.0, trigger_oi=0.0):
-    atr_pct    = campos.get("atr_1h_pct", 0.008)
-    preco      = float(ticker.get("lastPrice", 0))
-    cat        = campos.get("categoria", "Memes")
+    atr_pct = campos.get("atr_1h_pct", 0.008)
+    preco   = float(ticker.get("lastPrice", 0))
+    cat     = campos.get("categoria", "Memes")
 
     target_pct, metodo = obter_target_metodo_a(symbol, preco, token.direccao, atr_pct)
     leverage_r = calcular_leverage_niveis(
@@ -796,7 +786,6 @@ def _emitir_momento2(symbol, token, campos, ticker, agora_utc,
 
     sizing = SIZING_SALTO_DIRECTO if token.salto_directo else SIZING_VINHA_ESTADO3
 
-    # Único momento enviado individualmente
     enviar_momento_breakout(
         symbol=symbol,
         token=token,
@@ -848,9 +837,6 @@ def _rever_universo(estado_json, tickers, agora_utc):
                 campos["grace_period_dias_restantes"] = dias_grace
                 if dias_grace <= 0:
                     log.info(f"[{symbol}] Grace period expirado — removido")
-                    # Acumulado no scan pesado via saidos_universo
-                    # O scanner.py trata disto na _rever_universo
-                    # mas por simplicidade removemos aqui directamente
                     del estado_json[symbol]
         else:
             if em_grace:
