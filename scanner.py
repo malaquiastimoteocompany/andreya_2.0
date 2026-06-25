@@ -2,24 +2,12 @@
 # =============================================================================
 # scanner.py — Orchestrador principal do CFI v2.0
 # Manual CFI v2.0 — Secção 8
-#
-# Invocado via GitHub Actions com variável de ambiente:
-#   SCAN_TIPO=pesado | leve | breakout
-#
-# Scan pesado  (5×/dia, 06h/10h/13h/18h/22h Lisboa): S1-S6 completos
-# Scan leve    (horário, Estados 2-5): recalcula S1/S4/S5 via MEXC API
-# Scan breakout (30 min, só Estado 3): verifica 3 condições de trigger
-#
-# Fonte de dados:
-#   MEXC API (pública) → preços, volume, OI, funding, L/S, candles
-#   Claude API + Playwright → heatmap Coinglass (só Método A, Estado 3)
 # =============================================================================
 
 from __future__ import annotations
 
 import json
 import logging
-import math
 import os
 import base64
 import sys
@@ -31,7 +19,6 @@ from datetime import datetime, timedelta, timezone
 from typing import Any, Optional
 from zoneinfo import ZoneInfo
 
-# ── Módulos do sistema ────────────────────────────────────────────────────────
 from config import (
     GITHUB_REPO, GITHUB_TOKEN, STATE_JSON_PATH,
     MEXC_BASE_URL, MEXC_API_KEY, MEXC_API_SECRET,
@@ -73,19 +60,22 @@ from triggers import (
 from leverage import calcular as calcular_leverage_niveis
 from heatmap_claude import obter_target_metodo_a
 
-# ── Módulos de notificações e logging ─────────────────────────────────────────
 try:
     from notificacoes import (
         enviar_momento,
         enviar_update_horario,
         enviar_alerta_degradacao,
         enviar_resumo_scan_pesado,
+        enviar_resumo_scan_leve,
+        enviar_momento_breakout,
     )
 except ImportError:
     def enviar_momento(*a, **k): pass
     def enviar_update_horario(*a, **k): pass
     def enviar_alerta_degradacao(*a, **k): pass
     def enviar_resumo_scan_pesado(*a, **k): pass
+    def enviar_resumo_scan_leve(*a, **k): pass
+    def enviar_momento_breakout(*a, **k): pass
 
 try:
     from notion_logger import log_scan, log_deteccao, log_move_update, log_miss
@@ -95,7 +85,6 @@ except ImportError:
     def log_move_update(*a, **k): pass
     def log_miss(*a, **k): pass
 
-# ── Logging ───────────────────────────────────────────────────────────────────
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s %(levelname)s %(name)s — %(message)s",
@@ -105,7 +94,7 @@ log = logging.getLogger("scanner")
 
 
 # =============================================================================
-# GITHUB — leitura e escrita do state.json
+# GITHUB
 # =============================================================================
 
 def _github_request(method: str, path: str, payload: Optional[dict] = None) -> dict:
@@ -159,7 +148,7 @@ def token_para_dict(token: EstadoToken, extra: dict) -> dict:
 
 
 # =============================================================================
-# MEXC API — HTTP helpers
+# MEXC API
 # =============================================================================
 
 def _mexc_get(endpoint: str, params: dict | None = None) -> Optional[Any]:
@@ -192,10 +181,7 @@ def fetch_todos_tickers() -> dict[str, dict]:
 
 
 def fetch_candles(symbol: str, intervalo: str, count: int) -> list[dict]:
-    dados = _mexc_get(f"/contract/kline/{symbol}", {
-        "interval": intervalo,
-        "count": count,
-    })
+    dados = _mexc_get(f"/contract/kline/{symbol}", {"interval": intervalo, "count": count})
     if not dados or not isinstance(dados, dict):
         return []
     try:
@@ -251,12 +237,7 @@ def calcular_volume_media_7d(candles_1h: list[dict]) -> float:
     return total / n_dias
 
 
-def construir_dados_mexc(
-    symbol: str,
-    ticker: dict,
-    candles_1h: list[dict],
-    oi_24h_anterior: float,
-) -> tuple[DadosMEXC, DadosCoinglass, float]:
+def construir_dados_mexc(symbol, ticker, candles_1h, oi_24h_anterior):
     preco    = float(ticker.get("lastPrice", 0))
     vol_24h  = float(ticker.get("volume24", 0))
     oi_atual = float(ticker.get("holdVol", 0))
@@ -279,21 +260,15 @@ def construir_dados_mexc(
         candles_1h=candles_1h,
     )
 
-    if oi_24h_anterior > 0:
-        oi_change = (oi_atual - oi_24h_anterior) / oi_24h_anterior
-    else:
-        oi_change = 0.0
+    oi_change = (oi_atual - oi_24h_anterior) / oi_24h_anterior if oi_24h_anterior > 0 else 0.0
+    funding   = float(ticker.get("fundingRate", 0))
 
-    funding = float(ticker.get("fundingRate", 0))
-
-    # L/S ratio — proxy via funding rate (S6)
-    # Endpoint MEXC /contract/long_short_ratio/ não existe nesta exchange.
     if funding < -0.00005:
-        ls_ratio = 0.5    # shorts dominam → passa S6 SHORT
+        ls_ratio = 0.5
     elif funding > 0.00005:
-        ls_ratio = 1.5    # longs dominam  → passa S6 LONG
+        ls_ratio = 1.5
     else:
-        ls_ratio = 1.0    # neutro → S6 não passa
+        ls_ratio = 1.0
 
     coinglass = DadosCoinglass(
         ticker=symbol,
@@ -306,70 +281,56 @@ def construir_dados_mexc(
 
 
 # =============================================================================
-# BTC — regime e volatilidade
+# BTC
 # =============================================================================
 
-def obter_regime_btc(candles_btc_1h: list[dict]) -> tuple[bool, float, float]:
+def obter_regime_btc(candles_btc_1h):
     if len(candles_btc_1h) < BTC_EMA_PERIODO + 2:
         return True, 0.0, 0.0
-
     closes = [c["close"] for c in candles_btc_1h]
     ema21  = _ema(closes, BTC_EMA_PERIODO)
     preco  = candles_btc_1h[-1]["close"]
 
-    def var_pct(c: dict) -> float:
+    def var_pct(c):
         return abs(c["close"] - c["open"]) / c["open"] if c["open"] > 0 else 0.0
 
-    var_actual   = var_pct(candles_btc_1h[-2])
-    var_anterior = var_pct(candles_btc_1h[-3])
-
-    return preco > ema21, var_actual, var_anterior
+    return preco > ema21, var_pct(candles_btc_1h[-2]), var_pct(candles_btc_1h[-3])
 
 
 # =============================================================================
-# SCAN PESADO — 5× por dia
+# SCAN PESADO
 # =============================================================================
 
 def scan_pesado(hora_lisboa: int) -> None:
-    """
-    Scan pesado completo.
-    Os Momentos 0 são acumulados e enviados em mensagem consolidada no fim.
-    Manual secção 8.1.
-    """
     agora_utc = datetime.now(TZ_UTC).isoformat()
     scan_id   = f"SC-{agora_utc[:10].replace('-','')}T{hora_lisboa:02d}h"
     log.info(f"=== SCAN PESADO {hora_lisboa}h Lisboa — {scan_id} ===")
 
-    # ── 1. Carregar estado ────────────────────────────────────────────────────
     try:
         estado_json, sha = carregar_estado()
     except Exception as e:
         log.error(f"Falha ao carregar state.json: {e}")
         return
 
-    # ── 2. Buscar todos os tickers MEXC ──────────────────────────────────────
     tickers = fetch_todos_tickers()
     if not tickers:
         log.error("MEXC falhou — scan abortado")
         return
 
-    # ── 3. Regime BTC ─────────────────────────────────────────────────────────
     candles_btc = fetch_candles(BTC_TICKER, "Min60", 50)
     btc_acima_ema21, btc_var_actual, btc_var_anterior = obter_regime_btc(candles_btc)
     btc_volatil = verificar_btc_volatil(btc_var_actual)
-    log.info(f"BTC: {'↑ acima' if btc_acima_ema21 else '↓ abaixo'} EMA21 | "
-             f"volátil={btc_volatil} | var={btc_var_actual:.2%}")
+    log.info(f"BTC: {'↑ acima' if btc_acima_ema21 else '↓ abaixo'} EMA21 | volátil={btc_volatil}")
 
-    # ── 4. Revisão do universo (apenas 06h) ───────────────────────────────────
     if hora_lisboa == UNIVERSO_REVISAO_HORA_LISBOA:
         _rever_universo(estado_json, tickers, agora_utc)
 
-    # ── 5. Loop por token ─────────────────────────────────────────────────────
-    # novos_estado2: lista de dicts com dados para o resumo consolidado
-    # novos_estado3: lista de strings para log Notion
-    novos_estado2 = []  # lista de dicts: {symbol, direccao, score, sinais, funding_flag}
-    novos_estado3 = []  # lista de strings
-    misses        = []
+    # Acumuladores — tudo em listas, nada enviado individualmente
+    novos_e2        = []  # [{symbol, direccao, score, sinais, funding_flag}]
+    novos_e3        = []  # [{symbol, direccao, score, sinais, lev_r, funding_flag}]
+    saidos_universo = []  # [symbol]
+    novos_e3_nomes  = []  # para log Notion
+    misses          = []
 
     for symbol, campos in list(estado_json.items()):
         if symbol == BTC_TICKER:
@@ -377,56 +338,39 @@ def scan_pesado(hora_lisboa: int) -> None:
 
         ticker = tickers.get(symbol)
         if not ticker:
-            log.debug(f"[{symbol}] Não encontrado nos tickers MEXC — skip")
             continue
 
-        categoria = campos.get("categoria", "Memes")
-
-        # Buscar candles 1h
+        categoria  = campos.get("categoria", "Memes")
         candles_1h = fetch_candles(symbol, "Min60", 200)
         if len(candles_1h) < 25:
-            log.warning(f"[{symbol}] Candles insuficientes ({len(candles_1h)}) — skip")
+            log.warning(f"[{symbol}] Candles insuficientes — skip")
             continue
 
-        # Construir dados
         oi_24h_anterior = campos.get("oi_atual", 0.0)
-        mexc_d, cg_d, atr_pct = construir_dados_mexc(
-            symbol, ticker, candles_1h, oi_24h_anterior
-        )
+        mexc_d, cg_d, atr_pct = construir_dados_mexc(symbol, ticker, candles_1h, oi_24h_anterior)
 
-        # Reconstruir token
-        token = estado_para_token(campos, symbol)
+        token        = estado_para_token(campos, symbol)
         estado_antes = token.estado
 
-        # ── 5a. Sinais S1-S6 ─────────────────────────────────────────────────
         sl = calcular_sinais_scan_pesado(mexc_d, cg_d, "LONG")
         ss = calcular_sinais_scan_pesado(mexc_d, cg_d, "SHORT")
 
-        # Funding flag (não bloqueante)
         funding_flag = verificar_funding_flag(cg_d, categoria)
-        if funding_flag:
-            log.info(f"[{symbol}] FLAG: {funding_flag} (funding={cg_d.funding_rate:.4%})")
 
-        # ── 5b. Scoring e transições ──────────────────────────────────────────
-        resultado = processar_scan_pesado(
-            token, sl, ss, btc_acima_ema21, agora_utc
-        )
-        token = resultado.novo_estado_token
+        resultado = processar_scan_pesado(token, sl, ss, btc_acima_ema21, agora_utc)
+        token     = resultado.novo_estado_token
 
-        # ── 5c. Miss detection (Estado 1) ────────────────────────────────────
+        # Miss detection
         if estado_antes == ESTADO_PASSIVA and token.estado == ESTADO_PASSIVA:
             limiar = MISS_THRESHOLD_PCT.get(categoria, 0.10)
-            high, low = ticker.get("upper24Price", 0), ticker.get("lower24Price", 0)
+            high   = ticker.get("upper24Price", 0)
+            low    = ticker.get("lower24Price", 0)
             if low > 0:
                 amplitude = (high - low) / low
                 if amplitude > limiar:
-                    misses.append({
-                        "symbol": symbol, "amplitude": amplitude,
-                        "direccao": "LONG" if calcular_direccao(sl.score, ss.score) == "LONG" else "SHORT",
-                    })
-                    log.info(f"[{symbol}] MISS: amplitude {amplitude:.1%} > {limiar:.0%}")
+                    misses.append({"symbol": symbol, "amplitude": amplitude})
 
-        # ── 5d. Heatmap (Método A) em Estado 3 novo ──────────────────────────
+        # Heatmap se chegou a E3
         leverage_resultado = None
         if token.estado == ESTADO_PRIORITARIO and estado_antes < ESTADO_PRIORITARIO:
             target_pct, metodo = obter_target_metodo_a(
@@ -440,48 +384,36 @@ def scan_pesado(hora_lisboa: int) -> None:
                 metodo=metodo,
                 target_pct_override=target_pct if metodo == "A" else None,
             )
-            token.momento1_target_pct  = leverage_resultado.target_pct
-            token.momento1_sl_preco    = leverage_resultado.sl_preco
-            token.momento1_tp1_preco   = leverage_resultado.tp1_preco
-            token.momento1_tp2_preco   = leverage_resultado.tp2_preco
-            token.momento1_leverage    = leverage_resultado.leverage
-            token.momento1_metodo      = leverage_resultado.target_metodo
+            token.momento1_target_pct = leverage_resultado.target_pct
+            token.momento1_sl_preco   = leverage_resultado.sl_preco
+            token.momento1_tp1_preco  = leverage_resultado.tp1_preco
+            token.momento1_tp2_preco  = leverage_resultado.tp2_preco
+            token.momento1_leverage   = leverage_resultado.leverage
+            token.momento1_metodo     = leverage_resultado.target_metodo
 
-        # ── 5e. Alertas Telegram ─────────────────────────────────────────────
+        # Acumular alertas — nunca enviar individualmente aqui
         sinais_dominantes = sl if token.direccao == "LONG" else ss
-
         for alerta in resultado.alertas:
-            sizing = (SIZING_SALTO_DIRECTO if resultado.salto_directo
-                      else SIZING_VINHA_ESTADO3 if token.estado == ESTADO_PRIORITARIO
-                      else SIZING_VINHA_ESTADO2)
-
             if alerta == Alerta.MOMENTO_0:
-                # Acumular para resumo consolidado no fim do scan (sem flood)
-                novos_estado2.append({
+                novos_e2.append({
                     "symbol":       symbol,
                     "direccao":     token.direccao,
                     "score":        token.score_actual,
                     "sinais":       sinais_dominantes,
                     "funding_flag": funding_flag,
                 })
-                log.info(f"[{symbol}] E2 acumulado para resumo")
+            elif alerta == Alerta.MOMENTO_1:
+                novos_e3.append({
+                    "symbol":       symbol,
+                    "direccao":     token.direccao,
+                    "score":        token.score_actual,
+                    "sinais":       sinais_dominantes,
+                    "lev_r":        leverage_resultado,
+                    "funding_flag": funding_flag,
+                })
+                novos_e3_nomes.append(symbol)
 
-            else:
-                # Todos os outros momentos enviados individualmente (normal)
-                enviar_momento(
-                    tipo=alerta,
-                    symbol=symbol,
-                    token=token,
-                    resultado_scoring=resultado,
-                    resultado_leverage=leverage_resultado,
-                    funding_flag=funding_flag,
-                    sizing=sizing,
-                    sinais=sinais_dominantes,
-                )
-                if alerta == Alerta.MOMENTO_1:
-                    novos_estado3.append(symbol)
-
-        # ── 5f. Actualizar campos operacionais no estado ──────────────────────
+        # Campos extra
         campos_extra = {
             "categoria":       categoria,
             "oi_atual":        float(ticker.get("holdVol", 0)),
@@ -494,7 +426,7 @@ def scan_pesado(hora_lisboa: int) -> None:
         }
         estado_json[symbol] = token_para_dict(token, campos_extra)
 
-        # ── 5g. Log Notion Base 3 (detecção) ─────────────────────────────────
+        # Log Notion Base 3
         if resultado.estado_novo != resultado.estado_anterior:
             log_deteccao(
                 token=token,
@@ -508,41 +440,43 @@ def scan_pesado(hora_lisboa: int) -> None:
                 bloqueado_filtro_btc=resultado.bloqueado_filtro_btc,
             )
 
-    # ── 6. Guardar estado ─────────────────────────────────────────────────────
+    # Guardar estado
     try:
-        sha = guardar_estado(estado_json, sha,
-                             f"scan pesado {hora_lisboa}h Lisboa — {scan_id}")
+        sha = guardar_estado(estado_json, sha, f"scan pesado {hora_lisboa}h — {scan_id}")
         log.info(f"state.json guardado (SHA ...{sha[-8:]})")
     except Exception as e:
         log.error(f"Falha ao guardar state.json: {e}")
 
-    # ── 7. Resumo consolidado Telegram (substitui Momento 0 individual) ───────
+    # 1 mensagem consolidada
     contagem_e2 = sum(1 for c in estado_json.values() if c.get("estado") == 2)
     contagem_e3 = sum(1 for c in estado_json.values() if c.get("estado") == 3)
+    contagem_e4 = sum(1 for c in estado_json.values() if c.get("estado") == 4)
     enviar_resumo_scan_pesado(
         hora_lisboa=hora_lisboa,
-        novos_e2=novos_estado2,
+        novos_e2=novos_e2,
+        novos_e3=novos_e3,
+        saidos_universo=saidos_universo,
         total_e2=contagem_e2,
         total_e3=contagem_e3,
+        total_e4=contagem_e4,
         btc_acima_ema21=btc_acima_ema21,
     )
 
-    # ── 8. Log Notion Base 1 ──────────────────────────────────────────────────
-    _contar_e_log_scan_pesado(scan_id, hora_lisboa, estado_json,
-                               novos_estado2, novos_estado3, misses,
-                               btc_acima_ema21, candles_btc)
+    # Log Notion Base 1
+    _contar_e_log_scan_pesado(
+        scan_id, hora_lisboa, estado_json,
+        novos_e2, novos_e3_nomes, misses,
+        btc_acima_ema21, candles_btc,
+    )
 
 
 # =============================================================================
-# SCAN LEVE — horário
+# SCAN LEVE
 # =============================================================================
 
 def scan_leve() -> None:
-    """
-    Scan leve (horário) para tokens em Estado 2, 3, 4, 5.
-    Manual secção 8.1 — Scan Leve.
-    """
-    agora_utc = datetime.now(TZ_UTC).isoformat()
+    agora_utc    = datetime.now(TZ_UTC).isoformat()
+    hora_lisboa  = datetime.now(TZ_LISBOA).hour
     log.info(f"=== SCAN LEVE {agora_utc[:16]} ===")
 
     try:
@@ -556,27 +490,27 @@ def scan_leve() -> None:
         log.error("MEXC falhou — scan leve abortado")
         return
 
-    candles_btc = fetch_candles(BTC_TICKER, "Min60", 30)
+    candles_btc     = fetch_candles(BTC_TICKER, "Min60", 30)
     btc_acima_ema21, btc_var_actual, _ = obter_regime_btc(candles_btc)
-    btc_volatil = verificar_btc_volatil(btc_var_actual)
+    btc_volatil     = verificar_btc_volatil(btc_var_actual)
 
-    activos = {
-        sym: campos for sym, campos in estado_json.items()
-        if campos.get("estado", 1) >= 2
-    }
-
+    activos = {sym: c for sym, c in estado_json.items() if c.get("estado", 1) >= 2}
     if not activos:
         log.info("Sem tokens activos — scan leve sem updates")
         return
 
-    alterados = False
+    # Acumuladores de eventos
+    encerrados = []  # E2→E1: [{symbol, direccao, score}]
+    degradados = []  # E3→E2: [{symbol, direccao, score}]
+    concluidos = []  # E4→E5: [{symbol, direccao, ganho_pct, horas, condicao}]
+    alterados  = False
 
     for symbol, campos in activos.items():
         ticker = tickers.get(symbol)
         if not ticker:
             continue
 
-        token = estado_para_token(campos, symbol)
+        token        = estado_para_token(campos, symbol)
         estado_antes = token.estado
 
         candles_1h = fetch_candles(symbol, "Min60", 30)
@@ -598,36 +532,48 @@ def scan_leve() -> None:
             candles_1h=candles_1h,
         )
 
-        # ── Estado 4 — verificar conclusão ───────────────────────────────────
+        # Estado 4 — verificar conclusão
         if estado_antes == ESTADO_BREAKOUT:
-            _processar_estado4(token, mexc_d, campos, estado_json, symbol, agora_utc)
+            conclusao_info = _processar_estado4(
+                token, mexc_d, campos, estado_json, symbol, agora_utc
+            )
+            if conclusao_info:
+                concluidos.append(conclusao_info)
             alterados = True
             continue
 
-        # ── Estado 5 — emitir 3B e resetar ───────────────────────────────────
+        # Estado 5 — resetar
         if estado_antes == ESTADO_CONCLUIDO:
-            enviar_momento("MOMENTO_3B", symbol, token, None)
             token = estado_para_token({}, symbol)
-            estado_json[symbol] = token_para_dict(token, {"categoria": campos.get("categoria", "Memes")})
+            estado_json[symbol] = token_para_dict(
+                token, {"categoria": campos.get("categoria", "Memes")}
+            )
             alterados = True
             continue
 
-        # ── Estados 2 e 3 — scan leve normal ─────────────────────────────────
-        herdados = token.get_sinais_herdados()
-        direcao  = token.direccao
-        sinais   = calcular_sinais_scan_leve(mexc_d, herdados, direcao)
-
+        # Estados 2 e 3
+        herdados  = token.get_sinais_herdados()
+        sinais    = calcular_sinais_scan_leve(mexc_d, herdados, token.direccao)
         resultado = processar_scan_leve(token, sinais, btc_acima_ema21, agora_utc)
-        token = resultado.novo_estado_token
+        token     = resultado.novo_estado_token
 
+        # Acumular eventos
         for alerta in resultado.alertas:
             if alerta == Alerta.MOMENTO_3A:
-                enviar_momento("MOMENTO_3A", symbol, token, resultado)
+                encerrados.append({
+                    "symbol":   symbol,
+                    "direccao": token.direccao,
+                    "score":    token.score_actual,
+                })
             elif alerta == Alerta.DEGRADACAO:
-                enviar_alerta_degradacao(symbol, token, resultado)
+                degradados.append({
+                    "symbol":   symbol,
+                    "direccao": token.direccao,
+                    "score":    token.score_actual,
+                })
 
         if resultado.estado_novo != resultado.estado_anterior:
-            log.info(f"[{symbol}] Estado {estado_antes}→{resultado.estado_novo} no scan leve")
+            log.info(f"[{symbol}] Estado {estado_antes}→{resultado.estado_novo}")
             alterados = True
 
         campos.update(token_para_dict(token, {
@@ -644,29 +590,30 @@ def scan_leve() -> None:
         except Exception as e:
             log.error(f"Falha ao guardar estado no scan leve: {e}")
 
-    enviar_update_horario(agora_utc, estado_json, btc_volatil)
+    # Até 2 mensagens consolidadas
+    enviar_resumo_scan_leve(
+        hora_lisboa=hora_lisboa,
+        encerrados=encerrados,
+        degradados=degradados,
+        concluidos=concluidos,
+        estado_json=estado_json,
+        btc_acima_ema21=btc_acima_ema21,
+    )
 
 
-def _processar_estado4(
-    token: EstadoToken,
-    mexc_d: DadosMEXC,
-    campos: dict,
-    estado_json: dict,
-    symbol: str,
-    agora_utc: str,
-) -> None:
+def _processar_estado4(token, mexc_d, campos, estado_json, symbol, agora_utc):
+    """Processa E4, regista checkpoints. Retorna dict de conclusão se terminou, None caso contrário."""
     ts_trigger  = campos.get("trigger_timestamp", agora_utc)
     target_pct  = token.momento1_target_pct or 0.062
-    nivel_pb    = campos.get("trigger_preco", mexc_d.preco_actual)
-    checkpoints = campos.get("checkpoints", {})
-    checkpoints = {int(k): v for k, v in checkpoints.items()}
+    checkpoints = {int(k): v for k, v in campos.get("checkpoints", {}).items()}
 
     checkpoints, novo_cp = actualizar_checkpoint(
-        mexc_d.preco_actual, float(campos.get("trigger_preco", mexc_d.preco_actual)),
+        mexc_d.preco_actual,
+        float(campos.get("trigger_preco", mexc_d.preco_actual)),
         token.direccao, ts_trigger, agora_utc, checkpoints,
     )
     if novo_cp:
-        log.info(f"[{symbol}] Checkpoint +{novo_cp}h registado")
+        log.info(f"[{symbol}] Checkpoint +{novo_cp}h")
         log_move_update(symbol, novo_cp, checkpoints[novo_cp])
 
     dados_e4 = DadosEstado4(
@@ -674,7 +621,7 @@ def _processar_estado4(
         direccao=token.direccao,
         preco_atual=mexc_d.preco_actual,
         preco_trigger=float(campos.get("trigger_preco", mexc_d.preco_actual)),
-        nivel_pre_breakout=float(campos.get("trigger_nivel_pre_breakout", nivel_pb)),
+        nivel_pre_breakout=float(campos.get("trigger_nivel_pre_breakout", mexc_d.preco_actual)),
         target_pct=target_pct,
         timestamp_trigger_utc=ts_trigger,
         timestamp_atual_utc=agora_utc,
@@ -682,27 +629,32 @@ def _processar_estado4(
     )
 
     conclusao = verificar_conclusao(dados_e4)
+    conclusao_info = None
+
     if conclusao:
-        log.info(f"[{symbol}] CONCLUÍDO: Condição {conclusao.condicao} ({conclusao.tipo})")
+        log.info(f"[{symbol}] CONCLUÍDO: Cond {conclusao.condicao} ({conclusao.tipo})")
         token.estado = ESTADO_CONCLUIDO
-        enviar_momento("MOMENTO_3B_PREP", symbol, token, None, conclusao=conclusao)
+        conclusao_info = {
+            "symbol":    symbol,
+            "direccao":  token.direccao,
+            "ganho_pct": conclusao.ganho_atual_pct,
+            "horas":     conclusao.horas_decorridas,
+            "condicao":  conclusao.condicao,
+        }
 
     campos.update({
         "estado":      token.estado,
         "checkpoints": {str(k): v for k, v in checkpoints.items()},
     })
     estado_json[symbol] = campos
+    return conclusao_info
 
 
 # =============================================================================
-# SCAN DE BREAKOUT — a cada 30 min, só Estado 3
+# SCAN BREAKOUT
 # =============================================================================
 
 def scan_breakout() -> None:
-    """
-    Scan de breakout (30 min) para tokens em Estado 3.
-    Manual secção 6.1 e 8.1.
-    """
     agora_utc = datetime.now(TZ_UTC).isoformat()
     log.info(f"=== SCAN BREAKOUT {agora_utc[:16]} ===")
 
@@ -713,28 +665,26 @@ def scan_breakout() -> None:
         return
 
     candidatos = {
-        sym: campos for sym, campos in estado_json.items()
-        if campos.get("estado", 1) == ESTADO_PRIORITARIO
+        sym: c for sym, c in estado_json.items()
+        if c.get("estado", 1) == ESTADO_PRIORITARIO
     }
-
     if not candidatos:
-        log.info("Sem tokens em Estado 3 — scan breakout sem acção")
+        log.info("Sem tokens em E3 — scan breakout sem acção")
         return
 
-    tickers = fetch_todos_tickers()
-    candles_btc = fetch_candles(BTC_TICKER, "Min60", 10)
+    tickers       = fetch_todos_tickers()
+    candles_btc   = fetch_candles(BTC_TICKER, "Min60", 10)
     _, btc_var_actual, btc_var_anterior = obter_regime_btc(candles_btc)
     btc_volatil   = verificar_btc_volatil(btc_var_actual)
     btc_normaliza = verificar_btc_normalizado(btc_var_actual, btc_var_anterior)
-
-    alterados = False
+    alterados     = False
 
     for symbol, campos in candidatos.items():
         ticker = tickers.get(symbol)
         if not ticker:
             continue
 
-        token = estado_para_token(campos, symbol)
+        token           = estado_para_token(campos, symbol)
         oi_atual        = float(ticker.get("holdVol", 0))
         oi_30m_anterior = float(campos.get("oi_30m_anterior", oi_atual))
 
@@ -744,11 +694,8 @@ def scan_breakout() -> None:
 
         vol_ultimo_30m = candles_30m[-1]["volume"]
         referencia     = candles_30m[:-1]
-        vol_media_30m  = (sum(c["volume"] for c in referencia) / len(referencia)
-                          if referencia else 0.0)
-
-        oi_change_30m = ((oi_atual - oi_30m_anterior) / oi_30m_anterior
-                         if oi_30m_anterior > 0 else 0.0)
+        vol_media_30m  = sum(c["volume"] for c in referencia) / len(referencia) if referencia else 0.0
+        oi_change_30m  = (oi_atual - oi_30m_anterior) / oi_30m_anterior if oi_30m_anterior > 0 else 0.0
 
         dados_bo = DadosBreakout(
             ticker=symbol,
@@ -760,35 +707,30 @@ def scan_breakout() -> None:
             low_24h=float(ticker.get("lower24Price", 0)),
         )
 
-        # ── Trigger pendente em espera de normalização BTC ───────────────────
+        # Trigger pendente
         if campos.get("trigger_pendente") and btc_normaliza:
             valido = verificar_trigger_ainda_valido(dados_bo, token.direccao)
             if valido:
-                log.info(f"[{symbol}] Trigger pendente validado após BTC normalizar → Momento 2")
-                _emitir_momento2(symbol, token, campos, ticker, agora_utc,
-                                 btc_volatil_trigger=True)
+                log.info(f"[{symbol}] Trigger pendente validado → Momento 2")
+                _emitir_momento2(symbol, token, campos, ticker, agora_utc, btc_volatil_trigger=True)
                 token.trigger_pendente       = False
                 token.btc_volatil_no_trigger = True
                 token.estado                 = ESTADO_BREAKOUT
             else:
-                log.info(f"[{symbol}] Trigger pendente inválido após normalização — descartado")
                 campos["trigger_pendente"] = False
             alterados = True
             estado_json[symbol] = token_para_dict(token, {
-                "categoria":       campos.get("categoria"),
+                "categoria": campos.get("categoria"),
                 "oi_30m_anterior": oi_atual,
             })
             continue
 
-        # ── Verificar trigger fresco ──────────────────────────────────────────
+        # Trigger fresco
         resultado_bo = verificar_trigger_breakout(dados_bo, token.direccao)
-        log.debug(f"[{symbol}] Breakout check: vol_ratio={resultado_bo.volume_ratio:.2f}x "
-                  f"OI30m={oi_change_30m:.2%} C1={resultado_bo.condicao1_ok} "
-                  f"C2={resultado_bo.condicao2_ok} C3={resultado_bo.condicao3_ok}")
 
         if resultado_bo.trigger_ativo:
             if btc_volatil:
-                log.info(f"[{symbol}] Trigger detectado mas BTC volátil — trigger_pendente=True")
+                log.info(f"[{symbol}] Trigger detectado, BTC volátil — pendente")
                 campos["trigger_pendente"]           = True
                 campos["trigger_volume"]             = resultado_bo.volume_ratio
                 campos["trigger_OI"]                 = oi_change_30m
@@ -797,11 +739,13 @@ def scan_breakout() -> None:
                 campos["trigger_timestamp"]          = agora_utc
             else:
                 log.info(f"[{symbol}] TRIGGER CONFIRMADO → Momento 2")
-                _emitir_momento2(symbol, token, campos, ticker, agora_utc,
-                                 btc_volatil_trigger=False,
-                                 nivel_pre_breakout=resultado_bo.nivel_pre_breakout,
-                                 trigger_volume=resultado_bo.volume_ratio,
-                                 trigger_oi=oi_change_30m)
+                _emitir_momento2(
+                    symbol, token, campos, ticker, agora_utc,
+                    btc_volatil_trigger=False,
+                    nivel_pre_breakout=resultado_bo.nivel_pre_breakout,
+                    trigger_volume=resultado_bo.volume_ratio,
+                    trigger_oi=oi_change_30m,
+                )
                 token.estado                 = ESTADO_BREAKOUT
                 token.trigger_pendente       = False
                 token.trigger_timestamp      = agora_utc
@@ -809,7 +753,6 @@ def scan_breakout() -> None:
                 token.trigger_OI             = oi_change_30m
                 token.trigger_preco          = dados_bo.preco_atual
                 token.btc_volatil_no_trigger = False
-
             alterados = True
 
         campos.update(token_para_dict(token, {
@@ -826,20 +769,12 @@ def scan_breakout() -> None:
             log.error(f"Falha ao guardar estado no scan breakout: {e}")
 
 
-def _emitir_momento2(
-    symbol: str,
-    token: EstadoToken,
-    campos: dict,
-    ticker: dict,
-    agora_utc: str,
-    btc_volatil_trigger: bool = False,
-    nivel_pre_breakout: float = 0.0,
-    trigger_volume: float = 0.0,
-    trigger_oi: float = 0.0,
-) -> None:
-    atr_pct = campos.get("atr_1h_pct", 0.008)
-    preco   = float(ticker.get("lastPrice", 0))
-    cat     = campos.get("categoria", "Memes")
+def _emitir_momento2(symbol, token, campos, ticker, agora_utc,
+                     btc_volatil_trigger=False, nivel_pre_breakout=0.0,
+                     trigger_volume=0.0, trigger_oi=0.0):
+    atr_pct    = campos.get("atr_1h_pct", 0.008)
+    preco      = float(ticker.get("lastPrice", 0))
+    cat        = campos.get("categoria", "Memes")
 
     target_pct, metodo = obter_target_metodo_a(symbol, preco, token.direccao, atr_pct)
     leverage_r = calcular_leverage_niveis(
@@ -861,14 +796,13 @@ def _emitir_momento2(
 
     sizing = SIZING_SALTO_DIRECTO if token.salto_directo else SIZING_VINHA_ESTADO3
 
-    enviar_momento(
-        tipo="MOMENTO_2",
+    # Único momento enviado individualmente
+    enviar_momento_breakout(
         symbol=symbol,
         token=token,
-        resultado_scoring=None,
-        resultado_leverage=leverage_r,
+        lev_r=leverage_r,
         sizing=sizing,
-        notas_prioridade=notas,
+        notas=notas,
         janela_horas=MOMENTO2_JANELA_ENTRADA_H,
         nivel_pre_breakout=nivel_pre_breakout,
     )
@@ -880,21 +814,19 @@ def _emitir_momento2(
 
 
 # =============================================================================
-# Revisão do universo (06h Lisboa)
+# REVISÃO DO UNIVERSO
 # =============================================================================
 
-def _rever_universo(estado_json: dict, tickers: dict, agora_utc: str) -> None:
+def _rever_universo(estado_json, tickers, agora_utc):
     log.info("Revisão do universo (06h Lisboa)...")
-
     for symbol, ticker in tickers.items():
         if symbol == BTC_TICKER:
             continue
-
         volume24 = float(ticker.get("volume24", 0))
 
         if symbol not in estado_json:
             if volume24 >= UNIVERSO_VOLUME_MIN_USD:
-                log.info(f"[{symbol}] Novo token no universo — Estado 1")
+                log.info(f"[{symbol}] Novo token no universo")
                 estado_json[symbol] = token_para_dict(
                     EstadoToken.novo(symbol, agora_utc),
                     {"categoria": _inferir_categoria(symbol), "oi_atual": 0.0,
@@ -903,60 +835,53 @@ def _rever_universo(estado_json: dict, tickers: dict, agora_utc: str) -> None:
                 )
             continue
 
-        campos    = estado_json[symbol]
-        em_grace  = campos.get("grace_period", False)
+        campos     = estado_json[symbol]
+        em_grace   = campos.get("grace_period", False)
         dias_grace = campos.get("grace_period_dias_restantes")
 
         if volume24 < UNIVERSO_VOLUME_MIN_USD:
             if not em_grace:
                 campos["grace_period"] = True
                 campos["grace_period_dias_restantes"] = UNIVERSO_GRACE_PERIOD_DIAS
-                log.info(f"[{symbol}] Volume baixo → grace period {UNIVERSO_GRACE_PERIOD_DIAS} dias")
             elif dias_grace is not None:
                 dias_grace -= 1
                 campos["grace_period_dias_restantes"] = dias_grace
                 if dias_grace <= 0:
-                    log.info(f"[{symbol}] Grace period expirado → saiu do universo")
-                    enviar_momento("SAIU_UNIVERSO", symbol, None, None)
+                    log.info(f"[{symbol}] Grace period expirado — removido")
+                    # Acumulado no scan pesado via saidos_universo
+                    # O scanner.py trata disto na _rever_universo
+                    # mas por simplicidade removemos aqui directamente
                     del estado_json[symbol]
         else:
             if em_grace:
                 campos["grace_period"] = False
                 campos["grace_period_dias_restantes"] = None
-                log.info(f"[{symbol}] Grace period encerrado — volume recuperado")
 
 
-def _inferir_categoria(symbol: str) -> str:
+def _inferir_categoria(symbol):
     s = symbol.lower()
     if any(k in s for k in ("pepe","doge","shib","floki","bonk","wif","meme","bome")):
         return "Memes"
-    if any(k in s for k in ("ai","wld","fetch","agix","rndr","ocean","near")):
+    if any(k in s for k in ("ai","wld","fetch","agix","rndr","ocean")):
         return "AI"
     if any(k in s for k in ("uni","aave","crv","mkr","comp","snx","ldo","gmx")):
         return "DeFi"
-    if any(k in s for k in ("sol","avax","bnb","ada","dot","atom","near","ftm")):
+    if any(k in s for k in ("sol","avax","bnb","ada","dot","atom","ftm")):
         return "Layer 1"
     if any(k in s for k in ("arb","op","matic","imx","zk","stx")):
         return "Layer 2"
-    if any(k in s for k in ("axs","ronin","sand","mana","gala","beam","imx")):
+    if any(k in s for k in ("axs","ronin","sand","mana","gala","beam")):
         return "Gaming/NFT"
     return "Infrastructure"
 
 
 # =============================================================================
-# Logging do scan pesado (Notion Base 1)
+# LOG SCAN PESADO
 # =============================================================================
 
-def _contar_e_log_scan_pesado(
-    scan_id: str,
-    hora_lisboa: int,
-    estado_json: dict,
-    novos_estado2: list,   # lista de dicts
-    novos_estado3: list,   # lista de strings
-    misses: list,
-    btc_acima_ema21: bool,
-    candles_btc: list,
-) -> None:
+def _contar_e_log_scan_pesado(scan_id, hora_lisboa, estado_json,
+                               novos_e2, novos_e3_nomes, misses,
+                               btc_acima_ema21, candles_btc):
     contagem = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}
     for campos in estado_json.values():
         e = campos.get("estado", 1)
@@ -965,12 +890,9 @@ def _contar_e_log_scan_pesado(
     btc_preco = candles_btc[-1]["close"] if candles_btc else 0.0
 
     log.info(
-        f"Scan {scan_id} concluído — "
-        f"Total: {sum(contagem.values())} | "
-        f"E1: {contagem[1]} E2: {contagem[2]} E3: {contagem[3]} "
-        f"E4: {contagem[4]} E5: {contagem[5]} | "
-        f"Novos E2: {len(novos_estado2)} Novos E3: {len(novos_estado3)} | "
-        f"Misses: {len(misses)}"
+        f"Scan {scan_id} — "
+        f"E1:{contagem[1]} E2:{contagem[2]} E3:{contagem[3]} E4:{contagem[4]} E5:{contagem[5]} | "
+        f"NovosE2:{len(novos_e2)} NovosE3:{len(novos_e3_nomes)} Misses:{len(misses)}"
     )
 
     log_scan(
@@ -979,8 +901,8 @@ def _contar_e_log_scan_pesado(
         btc_preco=btc_preco,
         filtro_btc="Longs e Shorts" if btc_acima_ema21 else "Apenas Shorts",
         contagem_estados=contagem,
-        novos_estado2=len(novos_estado2),
-        novos_estado3=len(novos_estado3),
+        novos_estado2=len(novos_e2),
+        novos_estado3=len(novos_e3_nomes),
         misses=misses,
     )
 
@@ -996,20 +918,14 @@ def main() -> None:
         sys.exit(1)
 
     if tipo == "pesado":
-        agora_lisboa = datetime.now(TZ_LISBOA)
-        hora = agora_lisboa.hour
-        if hora not in SCAN_PESADO_HORAS_LISBOA:
-            log.warning(f"Hora {hora}h não é hora de scan pesado — corre à mesma")
+        hora = datetime.now(TZ_LISBOA).hour
         scan_pesado(hora)
-
     elif tipo == "leve":
         scan_leve()
-
     elif tipo == "breakout":
         scan_breakout()
-
     else:
-        log.error(f"SCAN_TIPO inválido: {tipo!r}. Usar: pesado | leve | breakout")
+        log.error(f"SCAN_TIPO inválido: {tipo!r}")
         sys.exit(1)
 
 
