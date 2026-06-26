@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-# scanner.py com diagnóstico de tickers — versão temporária
+# =============================================================================
+# scanner.py — Orchestrador principal do CFI v2.0
+# Manual CFI v2.0 — Secção 8
+# =============================================================================
 
 from __future__ import annotations
 
@@ -88,6 +91,10 @@ logging.basicConfig(
     datefmt="%Y-%m-%dT%H:%M:%SZ",
 )
 log = logging.getLogger("scanner")
+
+# Mínimo de candles 1h para considerar token com histórico suficiente
+# 168 = 7 dias × 24h
+CANDLES_HISTORICO_MIN = 168
 
 
 # =============================================================================
@@ -205,6 +212,18 @@ def fetch_candles(symbol: str, intervalo: str, count: int) -> list[dict]:
         return []
 
 
+def token_tem_historico_suficiente(symbol: str) -> bool:
+    """
+    Verifica se o token tem pelo menos 168 candles 1h (7 dias) na MEXC.
+    Usado antes de adicionar ao universo — garante dados fiáveis para sinais.
+    """
+    candles = fetch_candles(symbol, "Min60", CANDLES_HISTORICO_MIN)
+    tem = len(candles) >= CANDLES_HISTORICO_MIN
+    if not tem:
+        log.info(f"[{symbol}] Histórico insuficiente ({len(candles)} candles 1h < {CANDLES_HISTORICO_MIN}) — não adicionado")
+    return tem
+
+
 # =============================================================================
 # Cálculos auxiliares
 # =============================================================================
@@ -295,6 +314,108 @@ def obter_regime_btc(candles_btc_1h):
 
 
 # =============================================================================
+# REVISÃO DO UNIVERSO — duas funções separadas
+# =============================================================================
+
+def _verificar_novos_tokens(estado_json: dict, tickers: dict, agora_utc: str) -> list[str]:
+    """
+    Corre em TODOS os scans pesados.
+    Adiciona tokens novos elegíveis que tenham histórico suficiente (168 candles 1h).
+    Retorna lista de symbols adicionados.
+    """
+    adicionados = []
+    for symbol, ticker in tickers.items():
+        if symbol == BTC_TICKER:
+            continue
+        if symbol in estado_json:
+            continue
+
+        volume24 = float(ticker.get("volume24", 0))
+        if volume24 < UNIVERSO_VOLUME_MIN_USD:
+            continue
+
+        # Verificar histórico antes de adicionar
+        if not token_tem_historico_suficiente(symbol):
+            continue
+
+        log.info(f"[{symbol}] Novo token adicionado ao universo (vol=${volume24:,.0f})")
+        estado_json[symbol] = token_para_dict(
+            EstadoToken.novo(symbol, agora_utc),
+            {
+                "categoria":       _inferir_categoria(symbol),
+                "oi_atual":        float(ticker.get("holdVol", 0)),
+                "oi_inicio_dia":   float(ticker.get("holdVol", 0)),
+                "volume_media_7d": volume24,
+                "atr_1h_pct":      0.008,
+                "oi_30m_anterior": float(ticker.get("holdVol", 0)),
+            },
+        )
+        adicionados.append(symbol)
+
+    if adicionados:
+        log.info(f"Novos tokens adicionados neste scan: {len(adicionados)} — {adicionados}")
+    return adicionados
+
+
+def _rever_universo_completa(estado_json: dict, tickers: dict, agora_utc: str) -> list[str]:
+    """
+    Corre APENAS às 06h Lisboa.
+    Gere grace period, remoções e também chama _verificar_novos_tokens.
+    Retorna lista de symbols removidos.
+    """
+    log.info("Revisão completa do universo (06h Lisboa)...")
+    removidos = []
+
+    for symbol, campos in list(estado_json.items()):
+        if symbol == BTC_TICKER:
+            continue
+
+        ticker    = tickers.get(symbol)
+        em_grace  = campos.get("grace_period", False)
+        dias_grace = campos.get("grace_period_dias_restantes")
+
+        # Token não encontrado na MEXC — possível delisted
+        if not ticker:
+            if not em_grace:
+                campos["grace_period"] = True
+                campos["grace_period_dias_restantes"] = UNIVERSO_GRACE_PERIOD_DIAS
+                log.info(f"[{symbol}] Não encontrado na MEXC → grace period")
+            elif dias_grace is not None:
+                dias_grace -= 1
+                campos["grace_period_dias_restantes"] = dias_grace
+                if dias_grace <= 0:
+                    log.info(f"[{symbol}] Grace period expirado (delisted) → removido")
+                    removidos.append(symbol)
+                    del estado_json[symbol]
+            continue
+
+        volume24 = float(ticker.get("volume24", 0))
+
+        if volume24 < UNIVERSO_VOLUME_MIN_USD:
+            if not em_grace:
+                campos["grace_period"] = True
+                campos["grace_period_dias_restantes"] = UNIVERSO_GRACE_PERIOD_DIAS
+                log.info(f"[{symbol}] Volume baixo (${volume24:,.0f}) → grace period {UNIVERSO_GRACE_PERIOD_DIAS} dias")
+            elif dias_grace is not None:
+                dias_grace -= 1
+                campos["grace_period_dias_restantes"] = dias_grace
+                if dias_grace <= 0:
+                    log.info(f"[{symbol}] Grace period expirado → removido")
+                    removidos.append(symbol)
+                    del estado_json[symbol]
+        else:
+            if em_grace:
+                campos["grace_period"] = False
+                campos["grace_period_dias_restantes"] = None
+                log.info(f"[{symbol}] Grace period encerrado — volume recuperado")
+
+    # Adicionar novos tokens
+    _verificar_novos_tokens(estado_json, tickers, agora_utc)
+
+    return removidos
+
+
+# =============================================================================
 # SCAN PESADO
 # =============================================================================
 
@@ -314,30 +435,25 @@ def scan_pesado(hora_lisboa: int) -> None:
         log.error("MEXC falhou — scan abortado")
         return
 
-    # ── DIAGNÓSTICO — remover após confirmar ─────────────────────────────────
-    log.info(f"DIAG — Tickers MEXC recebidos: {len(tickers)}")
-    exemplos = list(tickers.keys())[:5]
-    log.info(f"DIAG — Exemplos de symbols: {exemplos}")
-    state_exemplos = list(estado_json.keys())[:5]
-    log.info(f"DIAG — Exemplos state.json: {state_exemplos}")
-    # Verificar sobreposição
-    matches = sum(1 for s in estado_json if s in tickers)
-    log.info(f"DIAG — Tokens state.json encontrados nos tickers: {matches}/{len(estado_json)}")
-    # ─────────────────────────────────────────────────────────────────────────
-
     candles_btc = fetch_candles(BTC_TICKER, "Min60", 50)
     btc_acima_ema21, btc_var_actual, btc_var_anterior = obter_regime_btc(candles_btc)
     btc_volatil = verificar_btc_volatil(btc_var_actual)
     log.info(f"BTC: {'↑ acima' if btc_acima_ema21 else '↓ abaixo'} EMA21 | volátil={btc_volatil}")
 
-    if hora_lisboa == UNIVERSO_REVISAO_HORA_LISBOA:
-        _rever_universo(estado_json, tickers, agora_utc)
-
-    novos_e2        = []
-    novos_e3        = []
+    # ── Gestão do universo ────────────────────────────────────────────────────
     saidos_universo = []
-    novos_e3_nomes  = []
-    misses          = []
+    if hora_lisboa == UNIVERSO_REVISAO_HORA_LISBOA:
+        # 06h — revisão completa (grace period, remoções, novos)
+        saidos_universo = _rever_universo_completa(estado_json, tickers, agora_utc)
+    else:
+        # Outros pesados — só verificar novos tokens
+        _verificar_novos_tokens(estado_json, tickers, agora_utc)
+
+    # ── Loop por token ────────────────────────────────────────────────────────
+    novos_e2       = []
+    novos_e3       = []
+    novos_e3_nomes = []
+    misses         = []
 
     for symbol, campos in list(estado_json.items()):
         if symbol == BTC_TICKER:
@@ -367,6 +483,7 @@ def scan_pesado(hora_lisboa: int) -> None:
         resultado = processar_scan_pesado(token, sl, ss, btc_acima_ema21, agora_utc)
         token     = resultado.novo_estado_token
 
+        # Miss detection
         if estado_antes == ESTADO_PASSIVA and token.estado == ESTADO_PASSIVA:
             limiar = MISS_THRESHOLD_PCT.get(categoria, 0.10)
             high   = ticker.get("upper24Price", 0)
@@ -376,6 +493,7 @@ def scan_pesado(hora_lisboa: int) -> None:
                 if amplitude > limiar:
                     misses.append({"symbol": symbol, "amplitude": amplitude})
 
+        # Heatmap se chegou a E3
         leverage_resultado = None
         if token.estado == ESTADO_PRIORITARIO and estado_antes < ESTADO_PRIORITARIO:
             target_pct, metodo = obter_target_metodo_a(
@@ -396,6 +514,7 @@ def scan_pesado(hora_lisboa: int) -> None:
             token.momento1_leverage   = leverage_resultado.leverage
             token.momento1_metodo     = leverage_resultado.target_metodo
 
+        # Acumular alertas
         sinais_dominantes = sl if token.direccao == "LONG" else ss
         for alerta in resultado.alertas:
             if alerta == Alerta.MOMENTO_0:
@@ -442,12 +561,14 @@ def scan_pesado(hora_lisboa: int) -> None:
                 bloqueado_filtro_btc=resultado.bloqueado_filtro_btc,
             )
 
+    # Guardar estado
     try:
         sha = guardar_estado(estado_json, sha, f"scan pesado {hora_lisboa}h — {scan_id}")
         log.info(f"state.json guardado (SHA ...{sha[-8:]})")
     except Exception as e:
         log.error(f"Falha ao guardar state.json: {e}")
 
+    # 1 mensagem consolidada
     contagem_e2 = sum(1 for c in estado_json.values() if c.get("estado") == 2)
     contagem_e3 = sum(1 for c in estado_json.values() if c.get("estado") == 3)
     contagem_e4 = sum(1 for c in estado_json.values() if c.get("estado") == 4)
@@ -474,8 +595,8 @@ def scan_pesado(hora_lisboa: int) -> None:
 # =============================================================================
 
 def scan_leve() -> None:
-    agora_utc    = datetime.now(TZ_UTC).isoformat()
-    hora_lisboa  = datetime.now(TZ_LISBOA).hour
+    agora_utc   = datetime.now(TZ_UTC).isoformat()
+    hora_lisboa = datetime.now(TZ_LISBOA).hour
     log.info(f"=== SCAN LEVE {agora_utc[:16]} ===")
 
     try:
@@ -711,7 +832,7 @@ def scan_breakout() -> None:
                 campos["trigger_pendente"] = False
             alterados = True
             estado_json[symbol] = token_para_dict(token, {
-                "categoria": campos.get("categoria"),
+                "categoria":       campos.get("categoria"),
                 "oi_30m_anterior": oi_atual,
             })
             continue
@@ -803,46 +924,8 @@ def _emitir_momento2(symbol, token, campos, ticker, agora_utc,
 
 
 # =============================================================================
-# REVISÃO DO UNIVERSO
+# INFERIR CATEGORIA
 # =============================================================================
-
-def _rever_universo(estado_json, tickers, agora_utc):
-    log.info("Revisão do universo (06h Lisboa)...")
-    for symbol, ticker in tickers.items():
-        if symbol == BTC_TICKER:
-            continue
-        volume24 = float(ticker.get("volume24", 0))
-
-        if symbol not in estado_json:
-            if volume24 >= UNIVERSO_VOLUME_MIN_USD:
-                log.info(f"[{symbol}] Novo token no universo")
-                estado_json[symbol] = token_para_dict(
-                    EstadoToken.novo(symbol, agora_utc),
-                    {"categoria": _inferir_categoria(symbol), "oi_atual": 0.0,
-                     "volume_media_7d": volume24, "atr_1h_pct": 0.008,
-                     "oi_30m_anterior": 0.0},
-                )
-            continue
-
-        campos     = estado_json[symbol]
-        em_grace   = campos.get("grace_period", False)
-        dias_grace = campos.get("grace_period_dias_restantes")
-
-        if volume24 < UNIVERSO_VOLUME_MIN_USD:
-            if not em_grace:
-                campos["grace_period"] = True
-                campos["grace_period_dias_restantes"] = UNIVERSO_GRACE_PERIOD_DIAS
-            elif dias_grace is not None:
-                dias_grace -= 1
-                campos["grace_period_dias_restantes"] = dias_grace
-                if dias_grace <= 0:
-                    log.info(f"[{symbol}] Grace period expirado — removido")
-                    del estado_json[symbol]
-        else:
-            if em_grace:
-                campos["grace_period"] = False
-                campos["grace_period_dias_restantes"] = None
-
 
 def _inferir_categoria(symbol):
     s = symbol.lower()
@@ -877,7 +960,8 @@ def _contar_e_log_scan_pesado(scan_id, hora_lisboa, estado_json,
 
     log.info(
         f"Scan {scan_id} — "
-        f"E1:{contagem[1]} E2:{contagem[2]} E3:{contagem[3]} E4:{contagem[4]} E5:{contagem[5]} | "
+        f"E1:{contagem[1]} E2:{contagem[2]} E3:{contagem[3]} "
+        f"E4:{contagem[4]} E5:{contagem[5]} | "
         f"NovosE2:{len(novos_e2)} NovosE3:{len(novos_e3_nomes)} Misses:{len(misses)}"
     )
 
