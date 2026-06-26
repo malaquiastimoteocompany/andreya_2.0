@@ -1,0 +1,36 @@
+name: Andreya v2 — Auditoria Universo
+# Corre manualmente para comparar tokens elegíveis MEXC vs state.json
+# Não tem schedule — disparar via GitHub Actions UI ou bot /auditoria
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  auditoria:
+    name: "Auditoria Universo"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v5
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependências
+        run: pip install requests
+
+      - name: Correr auditoria
+        env:
+          GITHUB_TOKEN:   ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPO:    ${{ github.repository }}
+          STATE_JSON_PATH: state.json
+          MEXC_BASE_URL:  https://contract.mexc.com/api/v1
+          UNIVERSO_VOLUME_MIN_USD: "500000"
+        run: python audit_universo.py
