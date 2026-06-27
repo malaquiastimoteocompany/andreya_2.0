@@ -81,7 +81,6 @@ def get_updates(offset: int) -> list[dict]:
         log.error(f"getUpdates falhou: {e}")
         return []
 
-
 # =============================================================================
 # GITHUB ACTIONS — dispatch
 # =============================================================================
