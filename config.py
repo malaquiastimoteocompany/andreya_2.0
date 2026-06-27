@@ -30,7 +30,7 @@ MEXC_API_SECRET  = os.environ["MEXC_API_SECRET"]
 # TELEGRAM
 # -----------------------------------------------------------------------------
 TELEGRAM_BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
-TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "-1003811042997")
 
 # -----------------------------------------------------------------------------
 # ANTHROPIC — Claude API (Método A: análise de heatmap)
