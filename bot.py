@@ -30,7 +30,7 @@ log = logging.getLogger("bot")
 
 # ── Configuração ──────────────────────────────────────────────────────────────
 BOT_TOKEN      = os.environ["TELEGRAM_BOT_TOKEN"]
-ALLOWED_CHATS  = set(os.environ.get("ALLOWED_CHAT_IDS", "5867943102").split(","))
+ALLOWED_CHATS  = set(os.environ.get("ALLOWED_CHAT_IDS", "-1003811042997").split(","))
 GITHUB_TOKEN   = os.environ["GITHUB_TOKEN"]
 GITHUB_REPO    = os.environ.get("GITHUB_REPO", "malaquiastimoteocompany/andreya_2.0")
 STATE_JSON_PATH = os.environ.get("STATE_JSON_PATH", "state.json")
