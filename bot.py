@@ -73,9 +73,10 @@ def get_updates(offset: int) -> list[dict]:
             "timeout": 30,
         })
         return resp.get("result", [])
-    except urllib.error.HTTPError as e:
-        body = e.read().decode()
-        log.error(f"getUpdates falhou: HTTP {e.code} — {body}")
+    except urllib.error.URLError as e:
+        if "timed out" in str(e).lower():
+            return []  # timeout normal — sem mensagens
+        log.error(f"getUpdates falhou: {e}")
         return []
     except Exception as e:
         log.error(f"getUpdates falhou: {e}")
