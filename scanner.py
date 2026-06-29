@@ -78,12 +78,13 @@ except ImportError:
     def enviar_momento_breakout(*a, **k): pass
 
 try:
-    from notion_logger import log_scan, log_deteccao, log_move_update, log_miss
+    from notion_logger import log_scan, log_deteccao, log_move_update, log_miss, log_move_conclusao
 except ImportError:
     def log_scan(*a, **k): pass
     def log_deteccao(*a, **k): pass
     def log_move_update(*a, **k): pass
     def log_miss(*a, **k): pass
+    def log_move_conclusao(*a, **k): pass
 
 logging.basicConfig(
     level=logging.INFO,
@@ -747,6 +748,12 @@ def _processar_estado4(token, mexc_d, campos, estado_json, symbol, agora_utc):
     if conclusao:
         log.info(f"[{symbol}] CONCLUÍDO: Cond {conclusao.condicao} ({conclusao.tipo})")
         token.estado = ESTADO_CONCLUIDO
+        log_move_conclusao(
+            symbol=symbol,
+            conclusao=conclusao,
+            preco_conclusao=mexc_d.preco_actual,
+            checkpoints=checkpoints,
+        )
         conclusao_info = {
             "symbol":    symbol,
             "direccao":  token.direccao,
