@@ -317,13 +317,13 @@ SIZING_SALTO_DIRECTO    = 0.20   # 20% (com nota de cautela no Momento 1 e 2)
 CONCLUSAO_COND1_TEMPO_MIN_H = 0    # Target atingido — sem tempo mínimo
 CONCLUSAO_COND2_TEMPO_MIN_H = 2    # Reversão após ganho — mínimo 2h
 CONCLUSAO_COND3_TEMPO_MIN_H = 1    # Breakout falso (volta ao nível pré-breakout) — 1h
-CONCLUSAO_COND4_TEMPO_MIN_H = 24   # Tempo esgotado — 24h (por natureza, só activa às 24h)
+CONCLUSAO_COND4_TEMPO_MIN_H = 48   # Tempo esgotado — 48h (era 24h)
 
 # Condição 2 — limiar de reversão
 CONCLUSAO_COND2_REVERSAO_FRACCAO = 0.50   # reverteu >= 50% do ganho máximo
 
 # Campos hora-a-hora da Base 4 para cálculo do ganho máximo
-CONCLUSAO_CHECKPOINTS_H = [1, 2, 4, 8, 24]
+CONCLUSAO_CHECKPOINTS_H = [1, 2, 4, 8, 24, 48]   # era [1, 2, 4, 8, 24]
 # Limitação conhecida: picos intra-hora não capturados — imprecisão ocasional aceite
 
 # -----------------------------------------------------------------------------
