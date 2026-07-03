@@ -37,6 +37,7 @@ from config import (
     SIZING_VINHA_ESTADO2, SIZING_VINHA_ESTADO3, SIZING_SALTO_DIRECTO,
     MOMENTO2_JANELA_ENTRADA_H,
     CONCLUSAO_CHECKPOINTS_H,
+    S2B_OUTCOMES_PATH, S2B_RESULTADO_THRESHOLD_PCT,
 )
 from signals import (
     DadosMEXC, DadosCoinglass, SinaisHerdados,
@@ -140,6 +141,168 @@ def guardar_estado(estado: dict[str, dict], sha: str, mensagem: str) -> str:
         "sha": sha,
     })
     return resp["content"]["sha"]
+
+
+# =============================================================================
+# S2B — TRACKING AUTOMÁTICO DE RESULTADOS
+#
+# Resposta a "como é que vamos saber se funciona?" (03/07/2026): cada sinal
+# S2b fica registado com o preço de entrada; o próprio scan leve, correndo
+# como já corre, verifica automaticamente o preço aos checkpoints de 1h/4h/
+# 24h e classifica GANHO/PERDA/NEUTRO sozinho. Ninguém precisa de anotar
+# nada à mão — é o mesmo princípio do monitor_alertas.py no CSA.
+# =============================================================================
+
+def carregar_s2b_outcomes() -> tuple[list[dict], Optional[str]]:
+    """
+    Carrega o histórico de sinais S2b e os seus resultados. Se o ficheiro
+    ainda não existir no repo (primeira vez), devolve lista vazia e sha=None
+    — guardar_s2b_outcomes() sabe criar o ficheiro nesse caso.
+    """
+    try:
+        resp     = _github_request("GET", S2B_OUTCOMES_PATH)
+        conteudo = base64.b64decode(resp["content"]).decode()
+        return json.loads(conteudo), resp["sha"]
+    except urllib.error.HTTPError as e:
+        if e.code == 404:
+            return [], None
+        raise
+
+
+def guardar_s2b_outcomes(outcomes: list[dict], sha: Optional[str], mensagem: str) -> None:
+    conteudo_b64 = base64.b64encode(
+        json.dumps(outcomes, indent=2, ensure_ascii=False).encode()
+    ).decode()
+    payload = {"message": mensagem, "content": conteudo_b64}
+    if sha:
+        payload["sha"] = sha
+    _github_request("PUT", S2B_OUTCOMES_PATH, payload)
+
+
+def registar_sinal_s2b(
+    symbol: str, direccao: str, preco_entrada: float,
+    contexto_score: int, timestamp_utc: str,
+) -> None:
+    """Chamado no momento exacto em que um sinal S2b é confirmado."""
+    try:
+        outcomes, sha = carregar_s2b_outcomes()
+        outcomes.append({
+            "symbol":            symbol,
+            "direccao":          direccao,
+            "preco_entrada":     preco_entrada,
+            "contexto_score":    contexto_score,
+            "timestamp_entrada": timestamp_utc,
+            "preco_1h":  None,
+            "preco_4h":  None,
+            "preco_24h": None,
+            "resultado": None,   # "GANHO" | "PERDA" | "NEUTRO" | None (ainda aberto)
+        })
+        guardar_s2b_outcomes(outcomes, sha, f"S2b: registar sinal {symbol} {direccao}")
+        log.info(f"[{symbol}] S2b outcome registado (entrada={preco_entrada:.6g})")
+    except Exception as e:
+        # Nunca deixar o registo de tracking derrubar o scan — o alerta em
+        # si já foi enviado, isto é só telemetria.
+        log.error(f"[{symbol}] Falha a registar outcome S2b: {e}")
+
+
+def _classificar_resultado_s2b(direccao: str, preco_entrada: float, preco_24h: float) -> str:
+    var           = (preco_24h - preco_entrada) / preco_entrada * 100
+    var_direccao  = var if direccao == "LONG" else -var
+    if var_direccao >= S2B_RESULTADO_THRESHOLD_PCT:
+        return "GANHO"
+    if var_direccao <= -S2B_RESULTADO_THRESHOLD_PCT:
+        return "PERDA"
+    return "NEUTRO"
+
+
+def actualizar_checkpoints_s2b(tickers: Optional[dict] = None) -> None:
+    """
+    Corre a cada scan leve (barato: reaproveita os tickers já obtidos pelo
+    scan, não faz chamada extra). Para cada sinal ainda "aberto", preenche o
+    checkpoint de preço correspondente assim que passa tempo suficiente.
+    Ao preencher o checkpoint de 24h, classifica o resultado final.
+    """
+    try:
+        outcomes, sha = carregar_s2b_outcomes()
+    except Exception as e:
+        log.error(f"Falha a carregar s2b_outcomes.json: {e}")
+        return
+    if not outcomes:
+        return
+
+    abertos = [o for o in outcomes if o.get("resultado") is None]
+    if not abertos:
+        return
+
+    if tickers is None:
+        tickers = fetch_todos_tickers()
+    agora     = datetime.now(TZ_UTC)
+    alterado  = False
+
+    for registo in abertos:
+        symbol = registo["symbol"]
+        ticker = tickers.get(symbol) if tickers else None
+        if not ticker:
+            continue  # pode ter sido deslistado; fica em aberto, tenta-se no próximo scan
+        preco_actual = float(ticker.get("lastPrice", 0))
+        if not preco_actual:
+            continue
+
+        try:
+            entrada = datetime.fromisoformat(registo["timestamp_entrada"])
+        except Exception:
+            continue
+        horas_passadas = (agora - entrada).total_seconds() / 3600
+
+        if registo["preco_1h"] is None and horas_passadas >= 1:
+            registo["preco_1h"] = preco_actual
+            alterado = True
+        if registo["preco_4h"] is None and horas_passadas >= 4:
+            registo["preco_4h"] = preco_actual
+            alterado = True
+        if registo["preco_24h"] is None and horas_passadas >= 24:
+            registo["preco_24h"] = preco_actual
+            registo["resultado"] = _classificar_resultado_s2b(
+                registo["direccao"], registo["preco_entrada"], preco_actual
+            )
+            alterado = True
+            log.info(f"[{symbol}] S2b resultado fechado: {registo['resultado']}")
+
+    if alterado:
+        guardar_s2b_outcomes(outcomes, sha, "S2b: actualizar checkpoints")
+
+
+def calcular_taxa_sucesso_s2b() -> dict:
+    """Estatísticas agregadas — usado pelo comando /s2b_stats do bot.py."""
+    outcomes, _ = carregar_s2b_outcomes()
+    fechados = [o for o in outcomes if o.get("resultado") is not None]
+    abertos  = [o for o in outcomes if o.get("resultado") is None]
+
+    resultado = {
+        "total":        len(outcomes),
+        "fechados":     len(fechados),
+        "abertos":      len(abertos),
+        "taxa_sucesso": None,
+        "ganhos":       0,
+        "perdas":       0,
+        "neutros":      0,
+        "por_contexto": {},
+    }
+    if not fechados:
+        return resultado
+
+    resultado["ganhos"]  = sum(1 for o in fechados if o["resultado"] == "GANHO")
+    resultado["perdas"]  = sum(1 for o in fechados if o["resultado"] == "PERDA")
+    resultado["neutros"] = sum(1 for o in fechados if o["resultado"] == "NEUTRO")
+    resultado["taxa_sucesso"] = resultado["ganhos"] / len(fechados) * 100
+
+    for score in (0, 1, 2, 3):
+        subset = [o for o in fechados if o.get("contexto_score") == score]
+        if subset:
+            g = sum(1 for o in subset if o["resultado"] == "GANHO")
+            resultado["por_contexto"][score] = {"n": len(subset), "taxa": g / len(subset) * 100}
+
+    return resultado
 
 
 def estado_para_token(campos: dict, ticker: str) -> EstadoToken:
@@ -619,6 +782,13 @@ def scan_leve() -> None:
     btc_acima_ema21, btc_var_actual, _ = obter_regime_btc(candles_btc)
     btc_volatil     = verificar_btc_volatil(btc_var_actual)
 
+    # Tracking automático de resultados S2b — barato (reaproveita tickers
+    # já obtidos), corre em todos os scans leve. Nunca bloqueia o resto.
+    try:
+        actualizar_checkpoints_s2b(tickers)
+    except Exception as e:
+        log.error(f"actualizar_checkpoints_s2b falhou (não bloqueante): {e}")
+
     activos = {sym: c for sym, c in estado_json.items() if c.get("estado", 1) >= 2}
 
     encerrados = []
@@ -703,6 +873,14 @@ def scan_leve() -> None:
             "contexto":       contexto,
             "gatilho":        "S2b",
         })
+
+        registar_sinal_s2b(
+            symbol=symbol,
+            direccao=direccao_provavel,
+            preco_entrada=float(ticker.get("lastPrice", mexc_d.preco_actual)),
+            contexto_score=contexto["contexto_score"],
+            timestamp_utc=agora_utc,
+        )
 
         campos_extra = {
             "categoria":       campos.get("categoria", "Memes"),
