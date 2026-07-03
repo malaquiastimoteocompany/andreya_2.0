@@ -42,7 +42,7 @@ from signals import (
     DadosMEXC, DadosCoinglass, SinaisHerdados,
     calcular_sinais_scan_pesado, calcular_sinais_scan_leve,
     verificar_funding_flag,
-    preco_ja_em_breakout, volume_confirma_breakout,
+    preco_ja_em_breakout, volume_confirma_breakout, contexto_informativo_s2b,
     _ema,
 )
 from scoring import (
@@ -621,8 +621,7 @@ def scan_leve() -> None:
     encerrados = []
     degradados = []
     concluidos = []
-    novos_e2_s2b = []       # promoções E1→E2 apanhadas pelo gatilho S2b (fora do calendário pesado)
-    novos_e3_s2b_nomes = []
+    novos_e2_s2b = []       # sinais gerados pelo gatilho S2b (fora do calendário pesado)
     alterados  = False
 
     # ── S2b — varrimento barato de tokens em Estado 1 ───────────────────────
@@ -647,7 +646,11 @@ def scan_leve() -> None:
             candidatos_s2b.append((symbol, campos, ticker, direccao_provavel))
 
     if candidatos_s2b:
-        log.info(f"S2b: {len(candidatos_s2b)} candidato(s) passaram o filtro de preço (grátis) — a verificar volume")
+        nomes = ", ".join(f"{s}({d})" for s, _, _, d in candidatos_s2b)
+        log.info(
+            f"S2b: {len(candidatos_s2b)} candidato(s) passaram o filtro de preço "
+            f"(grátis) — a verificar volume: {nomes}"
+        )
 
     for symbol, campos, ticker, direccao_provavel in candidatos_s2b:
         candles_1h = fetch_candles(symbol, "Min60", 30)
@@ -656,37 +659,47 @@ def scan_leve() -> None:
 
         passa_vol, vol_dir_pct = volume_confirma_breakout(candles_1h, direccao_provavel)
         if not passa_vol:
+            log.info(
+                f"[{symbol}] S2b: preço confirmou ({direccao_provavel}) mas volume "
+                f"ainda não confirma ({vol_dir_pct*100:.1f}%) — ignorado"
+            )
             continue
 
-        log.info(
-            f"[{symbol}] S2b confirmado ({direccao_provavel}, "
-            f"vol_dir={vol_dir_pct*100:.1f}%) — a correr avaliação pesada fora do calendário"
-        )
-
+        # ── A partir daqui, S2b (preço + volume) É o sinal ──────────────────
+        # Não passa pela fórmula de acumulação silenciosa (calcular_sinais_
+        # scan_pesado) — decisão 03/07/2026: S1/S4 exigem mercado "quieto",
+        # incompatível por definição com um breakout já confirmado. S3/S5/S6
+        # ficam registados como contexto informativo, não como portão,
+        # para começarmos a ter dados reais de taxa de sucesso.
         oi_24h_anterior = campos.get("oi_atual", 0.0)
         mexc_d, cg_d, atr_pct = construir_dados_mexc(symbol, ticker, candles_1h, oi_24h_anterior)
+        contexto = contexto_informativo_s2b(mexc_d, cg_d, direccao_provavel)
 
-        token        = estado_para_token(campos, symbol)
-        estado_antes = token.estado
+        log.info(
+            f"[{symbol}] S2b CONFIRMADO ({direccao_provavel}, "
+            f"vol_dir={vol_dir_pct*100:.1f}%, contexto={contexto['contexto_score']}/3) — a gerar alerta"
+        )
 
-        sl = calcular_sinais_scan_pesado(mexc_d, cg_d, "LONG")
-        ss = calcular_sinais_scan_pesado(mexc_d, cg_d, "SHORT")
+        token = estado_para_token(campos, symbol)
+        token.estado                   = ESTADO_RADAR
+        token.direccao                 = direccao_provavel
+        token.score_actual             = contexto["contexto_score"]  # informativo, 0-3
+        token.score_anterior           = 0
+        token.scans_consecutivos       = 1
+        token.contador_estado2         = 0
+        token.timestamp_entrada_estado = agora_utc
+        token.ultimo_scan              = agora_utc
+        token.salto_directo            = False
 
-        resultado = processar_scan_pesado(token, sl, ss, btc_acima_ema21, agora_utc)
-        token     = resultado.novo_estado_token
-
-        sinais_dominantes = sl if token.direccao == "LONG" else ss
-        for alerta in resultado.alertas:
-            if alerta == Alerta.MOMENTO_0:
-                novos_e2_s2b.append({
-                    "symbol":       symbol,
-                    "direccao":     token.direccao,
-                    "score":        token.score_actual,
-                    "sinais":       sinais_dominantes,
-                    "gatilho":      "S2b",
-                })
-            elif alerta == Alerta.MOMENTO_1:
-                novos_e3_s2b_nomes.append(symbol)
+        novos_e2_s2b.append({
+            "symbol":         symbol,
+            "direccao":       direccao_provavel,
+            "score":          contexto["contexto_score"],
+            "preco_var_pct":  float(ticker.get("priceChangeRate", 0)) * 100,
+            "vol_dir_pct":    vol_dir_pct * 100,
+            "contexto":       contexto,
+            "gatilho":        "S2b",
+        })
 
         campos_extra = {
             "categoria":       campos.get("categoria", "Memes"),
