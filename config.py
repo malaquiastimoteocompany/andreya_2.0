@@ -191,6 +191,12 @@ S2B_PRECO_BREAKOUT_MIN_PCT = 0.06   # |variação 24h| > 6% — sai da janela "q
 S2B_VOLUME_JANELA_CANDLES  = 6      # janela curta p/ reagir mais depressa que o S2 (24 candles)
 S2B_VOLUME_DIRECCAO_MIN_PCT = 0.60  # >60% do volume da janela curta na direcção do preço
 
+# Tracking automático de resultados — para responder "isto está a funcionar?"
+# com dados, não com impressão. Ver scanner.registar_sinal_s2b/actualizar_
+# checkpoints_s2b/calcular_taxa_sucesso_s2b. Decisão 03/07/2026.
+S2B_OUTCOMES_PATH          = "s2b_outcomes.json"  # raiz do repo, mesmo padrão do state.json
+S2B_RESULTADO_THRESHOLD_PCT = 3.0   # ±3% na direcção do sinal ao checkpoint de 24h = GANHO/PERDA
+
 # S3 — Funding neutro (igual LONG e SHORT)
 S3_FUNDING_MIN = -0.0001   # -0.01%
 S3_FUNDING_MAX = +0.0001   # +0.01%
