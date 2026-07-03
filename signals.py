@@ -179,6 +179,52 @@ def _estrutura_hl_lh(candles: list[dict], n: int, tipo: str) -> bool:
 
 
 # -----------------------------------------------------------------------------
+# S2b — Breakout já confirmado (pré-filtro barato para scan leve em Estado 1)
+#
+# Problema que resolve: o S2 exige preço "quieto" (-3%..+3% em 24h) enquanto
+# o OI entra. Em movimentos rápidos, o preço sai dessa janela em 1-2h, antes
+# do volume direccional (média de 24 candles) confirmar — os dois nunca
+# coincidem no mesmo scan, e o token fica invisível ao S2 para sempre nesse
+# movimento (ver casos reais ALLO/TLM/PIPPIN, análise de 03/07/2026).
+#
+# Este NÃO substitui o S2. É um gatilho adicional, mais barato e mais rápido
+# a reagir, usado apenas em Estado 1 no scan leve para decidir se vale a pena
+# correr uma avaliação pesada (calcular_sinais_scan_pesado) fora do calendário.
+# -----------------------------------------------------------------------------
+
+def preco_ja_em_breakout(preco_change_24h_pct: float) -> tuple[bool, str]:
+    """
+    Primeiro filtro, GRÁTIS — usa só o campo `priceChangeRate` do ticker MEXC,
+    já disponível em fetch_todos_tickers() sem qualquer chamada extra.
+
+    Retorna (passa, direccao_provavel). direccao_provavel é "LONG" ou "SHORT",
+    só tem significado se passa=True.
+    """
+    from config import S2B_PRECO_BREAKOUT_MIN_PCT
+    if preco_change_24h_pct > S2B_PRECO_BREAKOUT_MIN_PCT:
+        return True, "LONG"
+    if preco_change_24h_pct < -S2B_PRECO_BREAKOUT_MIN_PCT:
+        return True, "SHORT"
+    return False, ""
+
+
+def volume_confirma_breakout(candles_1h: list[dict], direccao_provavel: str) -> tuple[bool, float]:
+    """
+    Segundo filtro, com custo — só deve ser chamado para tokens que já
+    passaram preco_ja_em_breakout(). Usa uma janela curta (S2B_VOLUME_JANELA_CANDLES,
+    default 6) em vez das 24 candles do S2, para reagir mais depressa a uma
+    mudança recente de direcção do volume.
+
+    Retorna (passa, vol_dir_pct).
+    """
+    from config import S2B_VOLUME_JANELA_CANDLES, S2B_VOLUME_DIRECCAO_MIN_PCT
+    janela = candles_1h[-S2B_VOLUME_JANELA_CANDLES:] if len(candles_1h) >= S2B_VOLUME_JANELA_CANDLES else candles_1h
+    direccao = "subida" if direccao_provavel == "LONG" else "descida"
+    vol_dir_pct = _volume_direcional_pct(janela, direccao)
+    return vol_dir_pct > S2B_VOLUME_DIRECCAO_MIN_PCT, vol_dir_pct
+
+
+# -----------------------------------------------------------------------------
 # Cálculo individual de cada sinal
 # (funções privadas chamadas pelas funções principais em baixo)
 # -----------------------------------------------------------------------------
