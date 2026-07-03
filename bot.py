@@ -365,7 +365,7 @@ def main() -> None:
         for update in updates:
             offset = update["update_id"] + 1
 
-            msg = update.get("message", {})
+            msg = update.get("message") or update.get("edited_message") or {}
             if not msg:
                 continue
 
