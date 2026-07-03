@@ -42,6 +42,7 @@ from signals import (
     DadosMEXC, DadosCoinglass, SinaisHerdados,
     calcular_sinais_scan_pesado, calcular_sinais_scan_leve,
     verificar_funding_flag,
+    preco_ja_em_breakout, volume_confirma_breakout,
     _ema,
 )
 from scoring import (
@@ -616,14 +617,91 @@ def scan_leve() -> None:
     btc_volatil     = verificar_btc_volatil(btc_var_actual)
 
     activos = {sym: c for sym, c in estado_json.items() if c.get("estado", 1) >= 2}
-    if not activos:
-        log.info("Sem tokens activos — scan leve sem updates")
-        return
 
     encerrados = []
     degradados = []
     concluidos = []
+    novos_e2_s2b = []       # promoções E1→E2 apanhadas pelo gatilho S2b (fora do calendário pesado)
+    novos_e3_s2b_nomes = []
     alterados  = False
+
+    # ── S2b — varrimento barato de tokens em Estado 1 ───────────────────────
+    # Manual CFI v2.0 — extensão 03/07/2026. Ver docstring de
+    # signals.preco_ja_em_breakout() para o problema que resolve.
+    #
+    # Passo 1 (grátis): filtra pelo priceChangeRate já presente no ticker —
+    # sem qualquer chamada extra à API, aplicado aos ~500 tokens em E1 de uma vez.
+    # Passo 2 (com custo): só os sobreviventes do passo 1 pagam o fetch de candles.
+    e1_tokens = {
+        sym: c for sym, c in estado_json.items()
+        if c.get("estado", 1) == 1 and sym != BTC_TICKER
+    }
+    candidatos_s2b = []
+    for symbol, campos in e1_tokens.items():
+        ticker = tickers.get(symbol)
+        if not ticker:
+            continue
+        preco_change = float(ticker.get("priceChangeRate", 0))
+        passa_preco, direccao_provavel = preco_ja_em_breakout(preco_change)
+        if passa_preco:
+            candidatos_s2b.append((symbol, campos, ticker, direccao_provavel))
+
+    if candidatos_s2b:
+        log.info(f"S2b: {len(candidatos_s2b)} candidato(s) passaram o filtro de preço (grátis) — a verificar volume")
+
+    for symbol, campos, ticker, direccao_provavel in candidatos_s2b:
+        candles_1h = fetch_candles(symbol, "Min60", 30)
+        if len(candles_1h) < 25:
+            continue
+
+        passa_vol, vol_dir_pct = volume_confirma_breakout(candles_1h, direccao_provavel)
+        if not passa_vol:
+            continue
+
+        log.info(
+            f"[{symbol}] S2b confirmado ({direccao_provavel}, "
+            f"vol_dir={vol_dir_pct*100:.1f}%) — a correr avaliação pesada fora do calendário"
+        )
+
+        oi_24h_anterior = campos.get("oi_atual", 0.0)
+        mexc_d, cg_d, atr_pct = construir_dados_mexc(symbol, ticker, candles_1h, oi_24h_anterior)
+
+        token        = estado_para_token(campos, symbol)
+        estado_antes = token.estado
+
+        sl = calcular_sinais_scan_pesado(mexc_d, cg_d, "LONG")
+        ss = calcular_sinais_scan_pesado(mexc_d, cg_d, "SHORT")
+
+        resultado = processar_scan_pesado(token, sl, ss, btc_acima_ema21, agora_utc)
+        token     = resultado.novo_estado_token
+
+        sinais_dominantes = sl if token.direccao == "LONG" else ss
+        for alerta in resultado.alertas:
+            if alerta == Alerta.MOMENTO_0:
+                novos_e2_s2b.append({
+                    "symbol":       symbol,
+                    "direccao":     token.direccao,
+                    "score":        token.score_actual,
+                    "sinais":       sinais_dominantes,
+                    "gatilho":      "S2b",
+                })
+            elif alerta == Alerta.MOMENTO_1:
+                novos_e3_s2b_nomes.append(symbol)
+
+        campos_extra = {
+            "categoria":       campos.get("categoria", "Memes"),
+            "oi_atual":        float(ticker.get("holdVol", 0)),
+            "oi_inicio_dia":   campos.get("oi_inicio_dia", float(ticker.get("holdVol", 0))),
+            "volume_media_7d": mexc_d.volume_media_7d,
+            "atr_1h_pct":      atr_pct,
+            "oi_30m_anterior": float(ticker.get("holdVol", 0)),
+        }
+        estado_json[symbol] = token_para_dict(token, campos_extra)
+        alterados = True
+
+    if not activos and not novos_e2_s2b:
+        log.info("Sem tokens activos e sem detecções S2b — scan leve sem updates")
+        return
 
     for symbol, campos in activos.items():
         ticker = tickers.get(symbol)
@@ -713,6 +791,7 @@ def scan_leve() -> None:
         concluidos=concluidos,
         estado_json=estado_json,
         btc_acima_ema21=btc_acima_ema21,
+        novos_e2_s2b=novos_e2_s2b,
     )
 
 
