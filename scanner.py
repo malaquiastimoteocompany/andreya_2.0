@@ -43,6 +43,7 @@ from signals import (
     calcular_sinais_scan_pesado, calcular_sinais_scan_leve,
     verificar_funding_flag,
     preco_ja_em_breakout, volume_confirma_breakout, contexto_informativo_s2b,
+    calcular_rsi,
     _ema,
 )
 from scoring import (
@@ -69,6 +70,7 @@ try:
         enviar_resumo_scan_pesado,
         enviar_resumo_scan_leve,
         enviar_momento_breakout,
+        enviar_analise_token,
     )
 except ImportError:
     def enviar_momento(*a, **k): pass
@@ -77,6 +79,7 @@ except ImportError:
     def enviar_resumo_scan_pesado(*a, **k): pass
     def enviar_resumo_scan_leve(*a, **k): pass
     def enviar_momento_breakout(*a, **k): pass
+    def enviar_analise_token(*a, **k): pass
 
 try:
     from notion_logger import log_scan, log_deteccao, log_move_update, log_miss, log_move_conclusao
@@ -1077,13 +1080,115 @@ def _contar_e_log_scan_pesado(scan_id, hora_lisboa, estado_json,
 
 
 # =============================================================================
+# ANÁLISE AD-HOC — /analise_token SYMBOL (comando Telegram)
+# =============================================================================
+
+def analise_token() -> None:
+    """
+    Análise pontual de um único token, disparada pelo comando /analise_token
+    do bot.py. Não faz parte do calendário de scans, não altera o
+    estado_json — é só uma "opinião" formatada, com os mesmos dados e
+    sinais que o resto do sistema usa (S1-S6, RSI, EMA, ATR, funding, OI).
+    """
+    symbol = os.environ.get("SYMBOL", "").strip().upper()
+    if not symbol:
+        log.error("SYMBOL não definido para SCAN_TIPO=analise_token")
+        return
+    if not symbol.endswith("_USDT"):
+        symbol = symbol + "_USDT"
+
+    log.info(f"=== ANÁLISE AD-HOC: {symbol} ===")
+
+    tickers = fetch_todos_tickers()
+    ticker  = tickers.get(symbol) if tickers else None
+    if not ticker:
+        enviar_analise_token(f"❓ <b>{symbol}</b> não encontrado na MEXC (futuros USDT-M).")
+        return
+
+    candles_1h = fetch_candles(symbol, "Min60", 200)
+    if len(candles_1h) < 25:
+        enviar_analise_token(f"❌ <b>{symbol}</b> — candles insuficientes para análise ({len(candles_1h)}/25 mín.).")
+        return
+
+    # OI de referência: se o token já está no universo, usa o último valor
+    # conhecido; caso contrário usa o OI actual (variação fica a 0%, informativo).
+    try:
+        estado_json, _ = carregar_estado()
+    except Exception:
+        estado_json = {}
+    campos_existentes = estado_json.get(symbol, {})
+    oi_24h_anterior    = campos_existentes.get("oi_atual", float(ticker.get("holdVol", 0)))
+
+    mexc_d, cg_d, atr_pct = construir_dados_mexc(symbol, ticker, candles_1h, oi_24h_anterior)
+
+    candles_btc = fetch_candles(BTC_TICKER, "Min60", 30)
+    btc_acima_ema21, _, _ = obter_regime_btc(candles_btc)
+
+    sl = calcular_sinais_scan_pesado(mexc_d, cg_d, "LONG")
+    ss = calcular_sinais_scan_pesado(mexc_d, cg_d, "SHORT")
+
+    closes = [c["close"] for c in candles_1h]
+    rsi14  = calcular_rsi(closes, 14)
+    ema9   = _ema(closes[-30:], 9)
+    ema21  = _ema(closes[-30:], 21)
+    preco  = mexc_d.preco_actual
+    estrutura_ema = "empilhadas ↑ (preço>EMA9>EMA21)" if preco > ema9 > ema21 else (
+        "empilhadas ↓ (preço<EMA9<EMA21)" if preco < ema9 < ema21 else "entrelaçadas, sem tendência clara"
+    )
+
+    ja_no_universo = symbol in estado_json
+    estado_actual  = campos_existentes.get("estado", 1) if ja_no_universo else None
+
+    # ── Veredicto sintetizado ────────────────────────────────────────────────
+    if sl.score >= 4 and sl.score >= ss.score + 2:
+        veredicto = f"🟢 Sinais LONG a alinhar-se ({sl.score}/6) — vale vigiar de perto."
+    elif ss.score >= 4 and ss.score >= sl.score + 2:
+        veredicto = f"🔴 Sinais SHORT a alinhar-se ({ss.score}/6) — vale vigiar de perto."
+    elif rsi14 is not None and rsi14 >= 70:
+        veredicto = f"🟡 Sobrecomprado (RSI {rsi14:.0f}) — cuidado com entradas tardias em LONG."
+    elif rsi14 is not None and rsi14 <= 30:
+        veredicto = f"🟡 Sobrevendido (RSI {rsi14:.0f}) — possível zona de ressalto, sem confirmação ainda."
+    elif atr_pct < 0.01 and abs(mexc_d.preco_change_24h_pct) < 0.03:
+        veredicto = "⚪ Mercado morto — sem volume, sem volatilidade, sem sinal para explorar."
+    else:
+        veredicto = "⚪ Sem confluência clara nos dois sentidos — nada de accionável agora."
+
+    linhas = [
+        f"🔍 <b>Análise ad-hoc — {symbol}</b>",
+        "",
+        f"Preço: <code>{preco:.6g}</code>  ({mexc_d.preco_change_24h_pct*100:+.1f}% 24h)",
+        f"Funding: <code>{cg_d.funding_rate*100:+.4f}%</code>",
+        f"OI actual: <code>${float(ticker.get('holdVol', 0)):,.0f}</code>",
+        f"Volume 24h: <code>${mexc_d.volume_24h:,.0f}</code>",
+        f"RSI(14): <code>{rsi14:.1f}</code>" if rsi14 is not None else "RSI(14): —",
+        f"ATR(1h): <code>{atr_pct*100:.2f}%</code>",
+        f"EMA9/21: {estrutura_ema}",
+        "",
+        f"<b>S1-S6 LONG:</b> {sl.score}/6  ({sl.resumo()})",
+        f"<b>S1-S6 SHORT:</b> {ss.score}/6  ({ss.resumo()})",
+        "",
+    ]
+    if ja_no_universo:
+        linhas.append(f"No teu universo: Estado {estado_actual}.")
+    else:
+        linhas.append("Não está no universo activo do CFI (fora dos critérios de volume/listagem).")
+    linhas.append("")
+    linhas.append(veredicto)
+    linhas.append("")
+    linhas.append("<i>Leitura técnica, não é conselho de investimento.</i>")
+
+    enviar_analise_token("\n".join(linhas))
+    log.info(f"[{symbol}] Análise ad-hoc enviada — LONG {sl.score}/6 SHORT {ss.score}/6")
+
+
+# =============================================================================
 # ENTRY POINT
 # =============================================================================
 
 def main() -> None:
     tipo = os.environ.get("SCAN_TIPO", "").lower()
     if not tipo:
-        log.error("SCAN_TIPO não definido. Usar: pesado | leve | breakout")
+        log.error("SCAN_TIPO não definido. Usar: pesado | leve | breakout | analise_token")
         sys.exit(1)
 
     if tipo == "pesado":
@@ -1093,6 +1198,8 @@ def main() -> None:
         scan_leve()
     elif tipo == "breakout":
         scan_breakout()
+    elif tipo == "analise_token":
+        analise_token()
     else:
         log.error(f"SCAN_TIPO inválido: {tipo!r}")
         sys.exit(1)
