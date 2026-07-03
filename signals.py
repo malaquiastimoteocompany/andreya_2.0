@@ -224,6 +224,37 @@ def volume_confirma_breakout(candles_1h: list[dict], direccao_provavel: str) -> 
     return vol_dir_pct > S2B_VOLUME_DIRECCAO_MIN_PCT, vol_dir_pct
 
 
+def contexto_informativo_s2b(
+    mexc: DadosMEXC,
+    coinglass: DadosCoinglass,
+    direccao: str,
+) -> dict:
+    """
+    Contexto S3/S5/S6, calculado com os MESMOS dados frescos do S2b mas
+    NUNCA usado como portão de decisão — o S2b (preço+volume) já É o sinal.
+
+    Motivo (decisão 03/07/2026, com Malaquias): S1 e S4 exigem mercado
+    "quieto" (volume seco, range apertado) — condições estruturalmente
+    incompatíveis com um breakout já em curso, que é precisamente quando o
+    S2b dispara. Forçar um "novo ALLO" a passar por essa fórmula dava
+    sempre score ~1/6. Em vez disso, regista-se S3/S5/S6 como METADADOS
+    para, com o tempo, perceber que combinações correlacionam com sucesso
+    — sem bloquear o alerta enquanto não há dados nenhuns.
+    """
+    s3_ok, s3_funding                = _s3(coinglass)
+    s5_ok, ema9, ema21, s5_estrutura = _s5(mexc, direccao)
+    s6_ok, s6_ls, s6_preco           = _s6(mexc, coinglass, direccao)
+    return {
+        "s3_funding_neutro": s3_ok,
+        "s3_funding_valor":  s3_funding,
+        "s5_estrutura_ema":  s5_ok,
+        "s5_hl_lh_confirma": s5_estrutura,
+        "s6_ls_confirma":    s6_ok,
+        "s6_ls_ratio":       s6_ls,
+        "contexto_score":    sum([s3_ok, s5_ok, s6_ok]),  # 0-3, informativo
+    }
+
+
 # -----------------------------------------------------------------------------
 # Cálculo individual de cada sinal
 # (funções privadas chamadas pelas funções principais em baixo)
