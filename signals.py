@@ -255,6 +255,29 @@ def contexto_informativo_s2b(
     }
 
 
+def calcular_rsi(closes: list[float], periodo: int = 14) -> Optional[float]:
+    """
+    RSI clássico (Wilder), sobre uma lista de closes em ordem cronológica.
+    Retorna None se não houver candles suficientes (precisa de periodo+1).
+    """
+    if len(closes) < periodo + 1:
+        return None
+    ganhos, perdas = [], []
+    for i in range(1, len(closes)):
+        delta = closes[i] - closes[i - 1]
+        ganhos.append(max(delta, 0.0))
+        perdas.append(max(-delta, 0.0))
+    media_ganho = sum(ganhos[:periodo]) / periodo
+    media_perda = sum(perdas[:periodo]) / periodo
+    for i in range(periodo, len(ganhos)):
+        media_ganho = (media_ganho * (periodo - 1) + ganhos[i]) / periodo
+        media_perda = (media_perda * (periodo - 1) + perdas[i]) / periodo
+    if media_perda == 0:
+        return 100.0
+    rs = media_ganho / media_perda
+    return 100 - (100 / (1 + rs))
+
+
 # -----------------------------------------------------------------------------
 # Cálculo individual de cada sinal
 # (funções privadas chamadas pelas funções principais em baixo)
