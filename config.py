@@ -182,6 +182,15 @@ S2_PRECO_CHANGE_MAX_PCT = +0.03  # +3%
 S2_LONG_VOLUME_SUBIDA_MIN_PCT  = 0.60   # >60% do volume total em candles de subida
 S2_SHORT_VOLUME_DESCIDA_MIN_PCT = 0.60  # >60% do volume total em candles de descida
 
+# S2b — Breakout já confirmado (E1, scan leve). Complementar ao S2: apanha
+# tokens que já saíram da janela "silenciosa" do S2 mas cujo volume ainda
+# está a confirmar direcção. Calibrado em 03/07/2026 contra 3 casos reais
+# (ALLO, TLM, PIPPIN) + ~2.5 meses de histórico de 11 tokens de controlo
+# (ruído entre 2.6% e 7% das observações horárias, sem duplicação por token).
+S2B_PRECO_BREAKOUT_MIN_PCT = 0.06   # |variação 24h| > 6% — sai da janela "quieta" do S2
+S2B_VOLUME_JANELA_CANDLES  = 6      # janela curta p/ reagir mais depressa que o S2 (24 candles)
+S2B_VOLUME_DIRECCAO_MIN_PCT = 0.60  # >60% do volume da janela curta na direcção do preço
+
 # S3 — Funding neutro (igual LONG e SHORT)
 S3_FUNDING_MIN = -0.0001   # -0.01%
 S3_FUNDING_MAX = +0.0001   # +0.01%
