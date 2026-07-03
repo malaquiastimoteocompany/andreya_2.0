@@ -14,6 +14,12 @@ on:
           - pesado
           - leve
           - breakout
+          - analise_token
+      symbol:
+        description: 'Token a analisar (só para scan_tipo=analise_token). Ex: SHIB ou SHIB_USDT'
+        required: false
+        default: ''
+        type: string
 
 permissions:
   contents: write   # necessário para ler e escrever state.json
@@ -50,6 +56,7 @@ jobs:
       - name: "Run scanner (${{ inputs.scan_tipo }})"
         env:
           SCAN_TIPO:          ${{ inputs.scan_tipo }}
+          SYMBOL:              ${{ inputs.symbol }}
           MEXC_API_KEY:       ${{ secrets.MEXC_API_KEY }}
           MEXC_API_SECRET:    ${{ secrets.MEXC_API_SECRET }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
