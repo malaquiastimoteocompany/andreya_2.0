@@ -238,9 +238,10 @@ def enviar_resumo_scan_leve(
     encerrados: [{symbol, direccao, score}]   — E2→E1
     degradados: [{symbol, direccao, score}]   — E3→E2
     concluidos: [{symbol, direccao, ganho_pct, horas, condicao}]  — E4→E5
-    novos_e2_s2b: [{symbol, direccao, score, sinais, gatilho}] — E1→E2 apanhados
-                  pelo gatilho S2b (breakout já confirmado), fora do calendário
-                  pesado. Ver signals.preco_ja_em_breakout().
+    novos_e2_s2b: [{symbol, direccao, score, preco_var_pct, vol_dir_pct,
+                    contexto, gatilho}] — sinais gerados pelo gatilho S2b
+                  (breakout já confirmado), fora do calendário pesado.
+                  Ver signals.preco_ja_em_breakout().
     """
     hora_str = f"{hora_lisboa:02d}:00"
     btc      = _btc_str(btc_acima_ema21)
@@ -433,6 +434,22 @@ def enviar_momento(
     # Todos os outros acumulados no scanner
     log.debug(f"[{symbol}] {tipo} — acumulado para resumo")
     return True
+
+
+# =============================================================================
+# ANÁLISE AD-HOC — /analise_token SYMBOL (comando Telegram)
+# =============================================================================
+
+def enviar_analise_token(texto: str) -> bool:
+    """
+    Envia o resultado de uma análise ad-hoc de token (comando /analise_token).
+    O texto já vem completamente formatado por scanner.analise_token() —
+    esta função só existe para manter a consistência de nunca chamar
+    _enviar() directamente fora deste módulo.
+    """
+    ok = _enviar(texto)
+    log.info("Telegram → ANALISE_TOKEN")
+    return ok
 
 
 def enviar_update_horario(agora_utc: str, estado_json: dict, btc_volatil: bool) -> bool:
