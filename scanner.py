@@ -264,7 +264,7 @@ def construir_dados_mexc(symbol, ticker, candles_1h, oi_24h_anterior):
     oi_atual = float(ticker.get("holdVol", 0))
     high_24h = float(ticker.get("upper24Price", preco * 1.02))
     low_24h  = float(ticker.get("lower24Price", preco * 0.98))
-    preco_change_pct = float(ticker.get("priceChangeRate", 0))
+    preco_change_pct = float(ticker.get("riseFallRate", 0))
 
     atr_pct      = calcular_atr_pct(candles_1h)
     vol_media_7d = calcular_volume_media_7d(candles_1h)
@@ -631,7 +631,7 @@ def scan_leve() -> None:
     # Manual CFI v2.0 — extensão 03/07/2026. Ver docstring de
     # signals.preco_ja_em_breakout() para o problema que resolve.
     #
-    # Passo 1 (grátis): filtra pelo priceChangeRate já presente no ticker —
+    # Passo 1 (grátis): filtra pelo riseFallRate já presente no ticker —
     # sem qualquer chamada extra à API, aplicado aos ~500 tokens em E1 de uma vez.
     # Passo 2 (com custo): só os sobreviventes do passo 1 pagam o fetch de candles.
     e1_tokens = {
@@ -643,7 +643,7 @@ def scan_leve() -> None:
         ticker = tickers.get(symbol)
         if not ticker:
             continue
-        preco_change = float(ticker.get("priceChangeRate", 0))
+        preco_change = float(ticker.get("riseFallRate", 0))
         passa_preco, direccao_provavel = preco_ja_em_breakout(preco_change)
         if passa_preco:
             candidatos_s2b.append((symbol, campos, ticker, direccao_provavel))
@@ -698,7 +698,7 @@ def scan_leve() -> None:
             "symbol":         symbol,
             "direccao":       direccao_provavel,
             "score":          contexto["contexto_score"],
-            "preco_var_pct":  float(ticker.get("priceChangeRate", 0)) * 100,
+            "preco_var_pct":  float(ticker.get("riseFallRate", 0)) * 100,
             "vol_dir_pct":    vol_dir_pct * 100,
             "contexto":       contexto,
             "gatilho":        "S2b",
@@ -737,7 +737,7 @@ def scan_leve() -> None:
         mexc_d = DadosMEXC(
             ticker=symbol,
             preco_actual=float(ticker.get("lastPrice", 0)),
-            preco_change_24h_pct=float(ticker.get("priceChangeRate", 0)),
+            preco_change_24h_pct=float(ticker.get("riseFallRate", 0)),
             volume_24h=float(ticker.get("volume24", 0)),
             volume_media_7d=campos.get("volume_media_7d", 0),
             high_24h=float(ticker.get("upper24Price", 0)),
@@ -1138,8 +1138,11 @@ def analise_token() -> None:
 
     ja_no_universo = symbol in estado_json
     estado_actual  = campos_existentes.get("estado", 1) if ja_no_universo else None
+    estado_str = f"Estado {estado_actual}" if ja_no_universo else "fora do universo activo do CFI"
 
-    # ── Veredicto sintetizado ────────────────────────────────────────────────
+    # ── Veredicto sintetizado — regras simples, sem dependências externas ────
+    # (versão temporária; a versão com opinião gerada pelo Claude fica para
+    # quando opiniao_claude.py for publicado — ver nota 03/07/2026)
     if sl.score >= 4 and sl.score >= ss.score + 2:
         veredicto = f"🟢 Sinais LONG a alinhar-se ({sl.score}/6) — vale vigiar de perto."
     elif ss.score >= 4 and ss.score >= sl.score + 2:
@@ -1167,15 +1170,13 @@ def analise_token() -> None:
         f"<b>S1-S6 LONG:</b> {sl.score}/6  ({sl.resumo()})",
         f"<b>S1-S6 SHORT:</b> {ss.score}/6  ({ss.resumo()})",
         "",
+        f"No teu universo: {estado_str}." if ja_no_universo else
+        "Não está no universo activo do CFI (fora dos critérios de volume/listagem).",
+        "",
+        veredicto,
+        "",
+        "<i>Leitura técnica, não é conselho de investimento.</i>",
     ]
-    if ja_no_universo:
-        linhas.append(f"No teu universo: Estado {estado_actual}.")
-    else:
-        linhas.append("Não está no universo activo do CFI (fora dos critérios de volume/listagem).")
-    linhas.append("")
-    linhas.append(veredicto)
-    linhas.append("")
-    linhas.append("<i>Leitura técnica, não é conselho de investimento.</i>")
 
     enviar_analise_token("\n".join(linhas))
     log.info(f"[{symbol}] Análise ad-hoc enviada — LONG {sl.score}/6 SHORT {ss.score}/6")
