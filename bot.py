@@ -138,6 +138,70 @@ def _carregar_estado() -> dict:
         return {}
 
 
+def _carregar_s2b_outcomes() -> list[dict]:
+    """Lê s2b_outcomes.json do GitHub. Retorna [] se ainda não existir ou em caso de erro."""
+    import base64
+    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/s2b_outcomes.json"
+    req = urllib.request.Request(
+        url,
+        headers={
+            "Authorization": f"token {GITHUB_TOKEN}",
+            "Accept":        "application/vnd.github.v3+json",
+            "User-Agent":    "andreya-bot",
+        },
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=15) as r:
+            resp = json.loads(r.read())
+            conteudo = base64.b64decode(resp["content"]).decode()
+            return json.loads(conteudo)
+    except urllib.error.HTTPError as e:
+        if e.code == 404:
+            return []  # ainda não houve nenhum sinal S2b registado
+        log.error(f"Falha ao carregar s2b_outcomes.json: {e}")
+        return []
+    except Exception as e:
+        log.error(f"Falha ao carregar s2b_outcomes.json: {e}")
+        return []
+
+
+def _formatar_s2b_stats(outcomes: list[dict]) -> str:
+    if not outcomes:
+        return "📊 <b>S2b — Taxa de Sucesso</b>\n\nAinda não há nenhum sinal S2b registado."
+
+    fechados = [o for o in outcomes if o.get("resultado") is not None]
+    abertos  = [o for o in outcomes if o.get("resultado") is None]
+
+    linhas = [
+        "📊 <b>S2b — Taxa de Sucesso</b>",
+        "",
+        f"Total de sinais: <b>{len(outcomes)}</b>  ({len(fechados)} fechados, {len(abertos)} ainda a decorrer)",
+    ]
+
+    if fechados:
+        ganhos  = sum(1 for o in fechados if o["resultado"] == "GANHO")
+        perdas  = sum(1 for o in fechados if o["resultado"] == "PERDA")
+        neutros = sum(1 for o in fechados if o["resultado"] == "NEUTRO")
+        taxa    = ganhos / len(fechados) * 100
+        linhas.append(f"Taxa de sucesso (24h): <b>{taxa:.0f}%</b>  ({ganhos} ganhos, {perdas} perdas, {neutros} neutros)")
+
+        linhas.append("")
+        linhas.append("<b>Por score de contexto</b> (S3+S5+S6, 0-3):")
+        for score in (3, 2, 1, 0):
+            subset = [o for o in fechados if o.get("contexto_score") == score]
+            if subset:
+                g = sum(1 for o in subset if o["resultado"] == "GANHO")
+                linhas.append(f"  {score}/3 → {g}/{len(subset)} ganhos ({g/len(subset)*100:.0f}%)")
+    else:
+        linhas.append("\nAinda nenhum sinal chegou aos 24h para ter resultado fechado.")
+
+    if abertos:
+        linhas.append("")
+        linhas.append(f"<i>{len(abertos)} sinal(is) ainda a decorrer — resultado nas próximas 24h.</i>")
+
+    return "\n".join(linhas)
+
+
 # =============================================================================
 # FORMATADORES — importados inline para não depender de módulos do scanner
 # =============================================================================
@@ -316,6 +380,11 @@ def processar_comando(chat_id: str, texto: str) -> None:
         else:
             enviar_mensagem(chat_id, texto_resp)
 
+    # ── /s2b_stats — taxa de sucesso do gatilho S2b ────────────────────────────
+    elif comando == "/s2b_stats":
+        outcomes = _carregar_s2b_outcomes()
+        enviar_mensagem(chat_id, _formatar_s2b_stats(outcomes))
+
     # ── /token SYMBOL — info detalhada ────────────────────────────────────────
     elif comando == "/token":
         if len(partes) < 2:
@@ -347,6 +416,7 @@ def processar_comando(chat_id: str, texto: str) -> None:
             "/analise_token SYMBOL — análise de token\n"
             "/supervisao — lista tokens em radar\n"
             "/token SYMBOL — info detalhada de token\n"
+            "/s2b_stats — taxa de sucesso do gatilho S2b\n"
             "/status — estado geral do sistema"
         )
 
