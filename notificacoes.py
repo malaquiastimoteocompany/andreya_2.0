@@ -228,6 +228,7 @@ def enviar_resumo_scan_leve(
     concluidos: list[dict],
     estado_json: dict,
     btc_acima_ema21: bool,
+    novos_e2_s2b: Optional[list[dict]] = None,
 ) -> bool:
     """
     Mensagem 1 — eventos (só se houve algo)
@@ -237,14 +238,26 @@ def enviar_resumo_scan_leve(
     encerrados: [{symbol, direccao, score}]   — E2→E1
     degradados: [{symbol, direccao, score}]   — E3→E2
     concluidos: [{symbol, direccao, ganho_pct, horas, condicao}]  — E4→E5
+    novos_e2_s2b: [{symbol, direccao, score, sinais, gatilho}] — E1→E2 apanhados
+                  pelo gatilho S2b (breakout já confirmado), fora do calendário
+                  pesado. Ver signals.preco_ja_em_breakout().
     """
     hora_str = f"{hora_lisboa:02d}:00"
     btc      = _btc_str(btc_acima_ema21)
     ok       = True
+    novos_e2_s2b = novos_e2_s2b or []
 
     # ── Mensagem 1 — Eventos ─────────────────────────────────────────────────
-    if encerrados or degradados or concluidos:
+    if encerrados or degradados or concluidos or novos_e2_s2b:
         linhas = [f"⚡ <b>Eventos — Scan Leve {hora_str} Lisboa</b>"]
+
+        if novos_e2_s2b:
+            linhas.append("\n🆕 <b>NOVOS E2 — gatilho S2b (breakout já confirmado)</b>")
+            for item in novos_e2_s2b:
+                linhas.append(
+                    f"• <b>{item['symbol']}</b> {item.get('direccao','—')} "
+                    f"{item.get('score',0)}/6 — {_linha_sinais(item.get('sinais'))}"
+                )
 
         if concluidos:
             linhas.append("\n✅ <b>CONCLUÍDOS (E4→E5)</b>")
