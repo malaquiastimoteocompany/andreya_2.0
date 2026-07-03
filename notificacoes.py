@@ -252,11 +252,16 @@ def enviar_resumo_scan_leve(
         linhas = [f"⚡ <b>Eventos — Scan Leve {hora_str} Lisboa</b>"]
 
         if novos_e2_s2b:
-            linhas.append("\n🆕 <b>NOVOS E2 — gatilho S2b (breakout já confirmado)</b>")
+            linhas.append("\n🆕 <b>NOVOS SINAIS — gatilho S2b (breakout já confirmado)</b>")
             for item in novos_e2_s2b:
+                ctx = item.get("contexto", {})
                 linhas.append(
                     f"• <b>{item['symbol']}</b> {item.get('direccao','—')} "
-                    f"{item.get('score',0)}/6 — {_linha_sinais(item.get('sinais'))}"
+                    f"— preço {item.get('preco_var_pct',0):+.1f}% / vol.dir {item.get('vol_dir_pct',0):.0f}% "
+                    f"| contexto {ctx.get('contexto_score','?')}/3 "
+                    f"(S3 funding {'✓' if ctx.get('s3_funding_neutro') else '✗'}, "
+                    f"S5 estrutura {'✓' if ctx.get('s5_estrutura_ema') else '✗'}, "
+                    f"S6 L/S {'✓' if ctx.get('s6_ls_confirma') else '✗'})"
                 )
 
         if concluidos:
