@@ -1547,5 +1547,14 @@
       "30": 10.58,
       "60": 10.611
     }
+  },
+  {
+    "symbol": "TST_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.01152,
+    "contexto_score": 2,
+    "timestamp_entrada": "2026-07-04T11:00:56.826529+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
