@@ -4176,5 +4176,33 @@
       "60": 0.02117
     },
     "completo": false
+  },
+  {
+    "symbol": "NAORIS_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 0.04291,
+    "contexto_score": 0,
+    "sinais_lancamento": {
+      "s1_ok": false,
+      "s1_valor": 2.4289219892285487,
+      "s2_ok": false,
+      "s2_oi_pct": 0.0007500590502137133,
+      "s2_preco_pct": -0.0631,
+      "s2_vol_dir_pct": 0.341709258152725,
+      "s3_ok": false,
+      "s3_funding": 0.000128,
+      "s4_ok": false,
+      "s4_range_pct": 0.06673653424323674,
+      "s5_ok": false,
+      "s5_ema9": 0.04472483918233757,
+      "s5_ema21": 0.04435993547798683,
+      "s5_estrutura_ok": true,
+      "s6_ok": false,
+      "s6_ls_ratio": 1.5,
+      "s6_preco_pct": -0.0631
+    },
+    "timestamp_entrada": "2026-07-04T19:01:02.201812+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
