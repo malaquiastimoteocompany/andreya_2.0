@@ -4582,5 +4582,33 @@
       "60": 0.08092
     },
     "completo": false
+  },
+  {
+    "symbol": "SIREN_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.03934,
+    "contexto_score": 1,
+    "sinais_lancamento": {
+      "s1_ok": false,
+      "s1_valor": 0.6733710160856706,
+      "s2_ok": false,
+      "s2_oi_pct": 0.04651157077278931,
+      "s2_preco_pct": 0.1116,
+      "s2_vol_dir_pct": 0.6756350438947833,
+      "s3_ok": false,
+      "s3_funding": 0.001692,
+      "s4_ok": false,
+      "s4_range_pct": 0.18054721977052088,
+      "s5_ok": true,
+      "s5_ema9": 0.03699612695760582,
+      "s5_ema21": 0.03599504966016056,
+      "s5_estrutura_ok": true,
+      "s6_ok": false,
+      "s6_ls_ratio": 1.5,
+      "s6_preco_pct": 0.1116
+    },
+    "timestamp_entrada": "2026-07-04T20:01:01.814107+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
