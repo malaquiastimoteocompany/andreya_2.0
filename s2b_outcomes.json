@@ -4638,5 +4638,33 @@
     "timestamp_entrada": "2026-07-04T20:01:01.814107+00:00",
     "precos": {},
     "completo": false
+  },
+  {
+    "symbol": "SKYAI_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.06582,
+    "contexto_score": 0,
+    "sinais_lancamento": {
+      "s1_ok": false,
+      "s1_valor": 1.675989349016255,
+      "s2_ok": false,
+      "s2_oi_pct": 0.10350066308477988,
+      "s2_preco_pct": 0.0735,
+      "s2_vol_dir_pct": 0.35978794531265373,
+      "s3_ok": false,
+      "s3_funding": 0.000291,
+      "s4_ok": false,
+      "s4_range_pct": 0.11300397877984085,
+      "s5_ok": false,
+      "s5_ema9": 0.06495988022656846,
+      "s5_ema21": 0.06775553652307018,
+      "s5_estrutura_ok": false,
+      "s6_ok": false,
+      "s6_ls_ratio": 1.5,
+      "s6_preco_pct": 0.0735
+    },
+    "timestamp_entrada": "2026-07-04T20:01:01.814107+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
