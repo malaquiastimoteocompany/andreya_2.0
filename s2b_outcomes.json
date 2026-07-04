@@ -4610,5 +4610,33 @@
     "timestamp_entrada": "2026-07-04T20:01:01.814107+00:00",
     "precos": {},
     "completo": false
+  },
+  {
+    "symbol": "EIGEN_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.2373,
+    "contexto_score": 1,
+    "sinais_lancamento": {
+      "s1_ok": false,
+      "s1_valor": 1.1416726461010607,
+      "s2_ok": false,
+      "s2_oi_pct": 0.08581442810608343,
+      "s2_preco_pct": 0.0679,
+      "s2_vol_dir_pct": 0.642082267768661,
+      "s3_ok": true,
+      "s3_funding": 5e-05,
+      "s4_ok": false,
+      "s4_range_pct": 0.1553508353221958,
+      "s5_ok": false,
+      "s5_ema9": 0.22855708765249966,
+      "s5_ema21": 0.22200611523019892,
+      "s5_estrutura_ok": false,
+      "s6_ok": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": 0.0679
+    },
+    "timestamp_entrada": "2026-07-04T20:01:01.814107+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
