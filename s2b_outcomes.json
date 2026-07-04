@@ -6017,5 +6017,33 @@
     "timestamp_entrada": "2026-07-04T23:01:02.917564+00:00",
     "precos": {},
     "completo": false
+  },
+  {
+    "symbol": "DYM_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 0.01661,
+    "contexto_score": 1,
+    "sinais_lancamento": {
+      "s1_ok": false,
+      "s1_valor": 1.7455257083232332,
+      "s2_ok": false,
+      "s2_oi_pct": -0.0701032184377855,
+      "s2_preco_pct": -0.0807,
+      "s2_vol_dir_pct": 0.2945434168755301,
+      "s3_ok": true,
+      "s3_funding": 5e-05,
+      "s4_ok": false,
+      "s4_range_pct": 0.0937508069722402,
+      "s5_ok": false,
+      "s5_ema9": 0.016819363862171564,
+      "s5_ema21": 0.016653281833221206,
+      "s5_estrutura_ok": true,
+      "s6_ok": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": -0.0807
+    },
+    "timestamp_entrada": "2026-07-04T23:01:02.917564+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
