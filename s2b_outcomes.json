@@ -97,5 +97,16 @@
     "preco_4h": null,
     "preco_24h": null,
     "resultado": null
+  },
+  {
+    "symbol": "ZKP_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 0.05524,
+    "contexto_score": 0,
+    "timestamp_entrada": "2026-07-04T01:00:51.453482+00:00",
+    "preco_1h": null,
+    "preco_4h": null,
+    "preco_24h": null,
+    "resultado": null
   }
 ]
