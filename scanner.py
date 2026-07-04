@@ -44,6 +44,7 @@ from signals import (
     calcular_sinais_scan_pesado, calcular_sinais_scan_leve,
     verificar_funding_flag,
     preco_ja_em_breakout, volume_confirma_breakout, contexto_informativo_s2b,
+    snapshot_sinais_s2b,
     calcular_rsi,
     _ema,
 )
@@ -188,8 +189,16 @@ def guardar_s2b_outcomes(outcomes: list[dict], sha: Optional[str], mensagem: str
 def registar_sinal_s2b(
     symbol: str, direccao: str, preco_entrada: float,
     contexto_score: int, timestamp_utc: str,
+    sinais_lancamento: Optional[dict] = None,
 ) -> None:
-    """Chamado no momento exacto em que um sinal S2b é confirmado."""
+    """
+    Chamado no momento exacto em que um sinal S2b é confirmado.
+
+    sinais_lancamento: snapshot dos 6 sinais clássicos (S1-S6) nesse
+    instante — ver signals.snapshot_sinais_s2b(). None para compatibilidade
+    com chamadas antigas; sinais registados sem isto ficam sem esse dado
+    (não é reconstruível a posteriori, ver nota em actualizar_checkpoints_s2b).
+    """
     try:
         outcomes, sha = carregar_s2b_outcomes()
         outcomes.append({
@@ -197,6 +206,7 @@ def registar_sinal_s2b(
             "direccao":          direccao,
             "preco_entrada":     preco_entrada,
             "contexto_score":    contexto_score,
+            "sinais_lancamento": sinais_lancamento,  # snapshot S1-S6 no momento do sinal, ou None
             "timestamp_entrada": timestamp_utc,
             "precos":            {},     # {"30": preco, "60": preco, ..., "1440": preco}
             "completo":          False,  # True quando chega aos S2B_JANELA_TOTAL_MIN
@@ -904,6 +914,7 @@ def scan_leve() -> None:
             preco_entrada=float(ticker.get("lastPrice", mexc_d.preco_actual)),
             contexto_score=contexto["contexto_score"],
             timestamp_utc=agora_utc,
+            sinais_lancamento=snapshot_sinais_s2b(mexc_d, cg_d, direccao_provavel),
         )
 
         campos_extra = {
