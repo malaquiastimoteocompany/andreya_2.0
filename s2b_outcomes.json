@@ -3833,5 +3833,33 @@
     "timestamp_entrada": "2026-07-04T18:00:58.770240+00:00",
     "precos": {},
     "completo": false
+  },
+  {
+    "symbol": "JCT_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 0.003316,
+    "contexto_score": 2,
+    "sinais_lancamento": {
+      "s1_ok": true,
+      "s1_valor": 1.035806945530218,
+      "s2_ok": false,
+      "s2_oi_pct": 0.025325508480535833,
+      "s2_preco_pct": -0.1687,
+      "s2_vol_dir_pct": 0.776390565878025,
+      "s3_ok": true,
+      "s3_funding": 9.3e-05,
+      "s4_ok": false,
+      "s4_range_pct": 0.07035443037974677,
+      "s5_ok": true,
+      "s5_ema9": 0.0037891144870975065,
+      "s5_ema21": 0.004011075315836375,
+      "s5_estrutura_ok": true,
+      "s6_ok": false,
+      "s6_ls_ratio": 1.5,
+      "s6_preco_pct": -0.1687
+    },
+    "timestamp_entrada": "2026-07-04T18:00:58.770240+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
