@@ -4260,5 +4260,33 @@
     "timestamp_entrada": "2026-07-04T19:01:02.201812+00:00",
     "precos": {},
     "completo": false
+  },
+  {
+    "symbol": "TA_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 0.08059,
+    "contexto_score": 1,
+    "sinais_lancamento": {
+      "s1_ok": true,
+      "s1_valor": 1.2965279488302008,
+      "s2_ok": false,
+      "s2_oi_pct": 0.03625958088714938,
+      "s2_preco_pct": -0.0824,
+      "s2_vol_dir_pct": 0.5584587664807932,
+      "s3_ok": true,
+      "s3_funding": 5e-05,
+      "s4_ok": false,
+      "s4_range_pct": 0.0811758516375114,
+      "s5_ok": false,
+      "s5_ema9": 0.08530163204241271,
+      "s5_ema21": 0.08611261654395112,
+      "s5_estrutura_ok": false,
+      "s6_ok": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": -0.0824
+    },
+    "timestamp_entrada": "2026-07-04T19:01:02.201812+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
