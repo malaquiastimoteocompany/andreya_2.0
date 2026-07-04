@@ -3861,5 +3861,33 @@
     "timestamp_entrada": "2026-07-04T18:00:58.770240+00:00",
     "precos": {},
     "completo": false
+  },
+  {
+    "symbol": "CAP_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.02106,
+    "contexto_score": 2,
+    "sinais_lancamento": {
+      "s1_ok": false,
+      "s1_valor": 0.651165656095351,
+      "s2_ok": false,
+      "s2_oi_pct": 0.004702952870677511,
+      "s2_preco_pct": 0.0701,
+      "s2_vol_dir_pct": 0.4967360224895697,
+      "s3_ok": true,
+      "s3_funding": 5e-05,
+      "s4_ok": false,
+      "s4_range_pct": 0.18549668874172176,
+      "s5_ok": true,
+      "s5_ema9": 0.019863222943756476,
+      "s5_ema21": 0.01964202711327851,
+      "s5_estrutura_ok": true,
+      "s6_ok": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": 0.0701
+    },
+    "timestamp_entrada": "2026-07-04T18:00:58.770240+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
