@@ -5458,5 +5458,33 @@
     "timestamp_entrada": "2026-07-04T22:01:00.965351+00:00",
     "precos": {},
     "completo": false
+  },
+  {
+    "symbol": "SLX_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 0.2885,
+    "contexto_score": 1,
+    "sinais_lancamento": {
+      "s1_ok": true,
+      "s1_valor": 0.8082460737800404,
+      "s2_ok": false,
+      "s2_oi_pct": 0.21981135941827037,
+      "s2_preco_pct": -0.169,
+      "s2_vol_dir_pct": 0.6736883686276197,
+      "s3_ok": false,
+      "s3_funding": -0.007632,
+      "s4_ok": true,
+      "s4_range_pct": 0.032888732888732855,
+      "s5_ok": true,
+      "s5_ema9": 0.31576091840813375,
+      "s5_ema21": 0.3427579101289803,
+      "s5_estrutura_ok": true,
+      "s6_ok": false,
+      "s6_ls_ratio": 0.5,
+      "s6_preco_pct": -0.169
+    },
+    "timestamp_entrada": "2026-07-04T22:01:00.965351+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
