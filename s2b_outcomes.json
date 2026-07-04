@@ -207,5 +207,16 @@
     "preco_4h": null,
     "preco_24h": null,
     "resultado": null
+  },
+  {
+    "symbol": "MEME_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.0006571,
+    "contexto_score": 2,
+    "timestamp_entrada": "2026-07-04T04:00:52.275887+00:00",
+    "preco_1h": null,
+    "preco_4h": null,
+    "preco_24h": null,
+    "resultado": null
   }
 ]
