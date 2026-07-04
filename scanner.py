@@ -37,7 +37,7 @@ from config import (
     SIZING_VINHA_ESTADO2, SIZING_VINHA_ESTADO3, SIZING_SALTO_DIRECTO,
     MOMENTO2_JANELA_ENTRADA_H,
     CONCLUSAO_CHECKPOINTS_H,
-    S2B_OUTCOMES_PATH, S2B_RESULTADO_THRESHOLD_PCT,
+    S2B_OUTCOMES_PATH, S2B_CHECKPOINT_MIN, S2B_JANELA_TOTAL_MIN,
 )
 from signals import (
     DadosMEXC, DadosCoinglass, SinaisHerdados,
@@ -146,18 +146,24 @@ def guardar_estado(estado: dict[str, dict], sha: str, mensagem: str) -> str:
 # =============================================================================
 # S2B — TRACKING AUTOMÁTICO DE RESULTADOS
 #
-# Resposta a "como é que vamos saber se funciona?" (03/07/2026): cada sinal
-# S2b fica registado com o preço de entrada; o próprio scan leve, correndo
-# como já corre, verifica automaticamente o preço aos checkpoints de 1h/4h/
-# 24h e classifica GANHO/PERDA/NEUTRO sozinho. Ninguém precisa de anotar
-# nada à mão — é o mesmo princípio do monitor_alertas.py no CSA.
+# Resposta a "como é que vamos saber se funciona?" (03/07/2026), revista em
+# 04/07/2026: guarda-se o preço de 30 em 30 minutos (S2B_CHECKPOINT_MIN),
+# até completar 24h (S2B_JANELA_TOTAL_MIN), sempre a partir de velas Min30
+# históricas da MEXC — não do "lastPrice" ao vivo no momento em que o scan
+# corre. Isto dá dados consistentes (mesma fonte para todos os pontos,
+# passados ou recentes) e não obriga a correr o scan mais vezes: cada
+# chamada de velas já traz de volta todos os pontos em falta até agora.
+#
+# Não há classificação automática de sucesso/insucesso — só se acumulam os
+# dados em bruto. A estatística de onde e quando aparece sucesso, cruzada
+# com outros indicadores, faz-se à parte quando houver volume suficiente.
 # =============================================================================
 
 def carregar_s2b_outcomes() -> tuple[list[dict], Optional[str]]:
     """
-    Carrega o histórico de sinais S2b e os seus resultados. Se o ficheiro
-    ainda não existir no repo (primeira vez), devolve lista vazia e sha=None
-    — guardar_s2b_outcomes() sabe criar o ficheiro nesse caso.
+    Carrega o histórico de sinais S2b. Se o ficheiro ainda não existir no
+    repo (primeira vez), devolve lista vazia e sha=None — guardar_s2b_
+    outcomes() sabe criar o ficheiro nesse caso.
     """
     try:
         resp     = _github_request("GET", S2B_OUTCOMES_PATH)
@@ -192,10 +198,8 @@ def registar_sinal_s2b(
             "preco_entrada":     preco_entrada,
             "contexto_score":    contexto_score,
             "timestamp_entrada": timestamp_utc,
-            "preco_1h":  None,
-            "preco_4h":  None,
-            "preco_24h": None,
-            "resultado": None,   # "GANHO" | "PERDA" | "NEUTRO" | None (ainda aberto)
+            "precos":            {},     # {"30": preco, "60": preco, ..., "1440": preco}
+            "completo":          False,  # True quando chega aos S2B_JANELA_TOTAL_MIN
         })
         guardar_s2b_outcomes(outcomes, sha, f"S2b: registar sinal {symbol} {direccao}")
         log.info(f"[{symbol}] S2b outcome registado (entrada={preco_entrada:.6g})")
@@ -205,22 +209,64 @@ def registar_sinal_s2b(
         log.error(f"[{symbol}] Falha a registar outcome S2b: {e}")
 
 
-def _classificar_resultado_s2b(direccao: str, preco_entrada: float, preco_24h: float) -> str:
-    var           = (preco_24h - preco_entrada) / preco_entrada * 100
-    var_direccao  = var if direccao == "LONG" else -var
-    if var_direccao >= S2B_RESULTADO_THRESHOLD_PCT:
-        return "GANHO"
-    if var_direccao <= -S2B_RESULTADO_THRESHOLD_PCT:
-        return "PERDA"
-    return "NEUTRO"
+def _preco_historico_mais_proximo(velas: list[dict], alvo_epoch: int) -> Optional[float]:
+    """
+    Devolve o close da vela Min30 mais próxima de alvo_epoch, desde que
+    dentro de uma tolerância de 1 vela (30 min). None se não houver
+    cobertura suficiente (ex.: símbolo muito recente ou falha da API).
+    """
+    if not velas:
+        return None
+    vela = min(velas, key=lambda c: abs(c["timestamp"] - alvo_epoch))
+    if abs(vela["timestamp"] - alvo_epoch) <= S2B_CHECKPOINT_MIN * 60:
+        return vela["close"]
+    return None
+
+
+def _preencher_precos_registo(registo: dict, velas: list[dict], agora: datetime) -> bool:
+    """
+    Preenche em registo["precos"] todos os checkpoints de S2B_CHECKPOINT_MIN
+    em S2B_CHECKPOINT_MIN minutos que já passaram e ainda não têm valor,
+    usando as velas Min30 fornecidas. Marca "completo" ao atingir
+    S2B_JANELA_TOTAL_MIN. Devolve True se alterou algo.
+    """
+    try:
+        entrada = datetime.fromisoformat(registo["timestamp_entrada"])
+    except Exception:
+        return False
+
+    entrada_epoch    = int(entrada.timestamp())
+    minutos_passados = int((agora - entrada).total_seconds() // 60)
+    minutos_passados = min(minutos_passados, S2B_JANELA_TOTAL_MIN)
+
+    precos   = registo.setdefault("precos", {})
+    alterado = False
+
+    for minuto in range(S2B_CHECKPOINT_MIN, minutos_passados + 1, S2B_CHECKPOINT_MIN):
+        chave = str(minuto)
+        if chave in precos:
+            continue
+        preco = _preco_historico_mais_proximo(velas, entrada_epoch + minuto * 60)
+        if preco is not None:
+            precos[chave] = preco
+            alterado = True
+
+    if minutos_passados >= S2B_JANELA_TOTAL_MIN and not registo.get("completo"):
+        registo["completo"] = True
+        alterado = True
+        log.info(f"[{registo['symbol']}] S2b — janela de 24h completa ({len(precos)} pontos guardados)")
+
+    return alterado
 
 
 def actualizar_checkpoints_s2b(tickers: Optional[dict] = None) -> None:
     """
-    Corre a cada scan leve (barato: reaproveita os tickers já obtidos pelo
-    scan, não faz chamada extra). Para cada sinal ainda "aberto", preenche o
-    checkpoint de preço correspondente assim que passa tempo suficiente.
-    Ao preencher o checkpoint de 24h, classifica o resultado final.
+    Corre a cada scan leve. Para cada sinal ainda aberto — incluindo os do
+    schema antigo (preco_1h/preco_4h/preco_24h/resultado), migrados na
+    primeira passagem — vai buscar as velas Min30 da MEXC e preenche todos
+    os checkpoints em falta. "tickers" já não é usado (mantido no parâmetro
+    só para não obrigar a mexer no ponto de chamada) — os preços vêm sempre
+    de velas históricas, não do lastPrice ao vivo.
     """
     try:
         outcomes, sha = carregar_s2b_outcomes()
@@ -230,79 +276,57 @@ def actualizar_checkpoints_s2b(tickers: Optional[dict] = None) -> None:
     if not outcomes:
         return
 
-    abertos = [o for o in outcomes if o.get("resultado") is None]
+    abertos = [o for o in outcomes if not o.get("completo", False)]
     if not abertos:
         return
 
-    if tickers is None:
-        tickers = fetch_todos_tickers()
-    agora     = datetime.now(TZ_UTC)
-    alterado  = False
+    agora    = datetime.now(TZ_UTC)
+    alterado = False
 
     for registo in abertos:
-        symbol = registo["symbol"]
-        ticker = tickers.get(symbol) if tickers else None
-        if not ticker:
-            continue  # pode ter sido deslistado; fica em aberto, tenta-se no próximo scan
-        preco_actual = float(ticker.get("lastPrice", 0))
-        if not preco_actual:
+        symbol = registo.get("symbol")
+        if not symbol:
             continue
+
+        # ── Migração de registos do schema antigo ───────────────────────
+        # Descarta-se a classificação GANHO/PERDA/NEUTRO antiga — os preços
+        # em si são reconstruídos de raiz a partir das velas, mais precisos
+        # e consistentes do que o lastPrice pontual que existia antes.
+        if "precos" not in registo:
+            registo["precos"] = {}
+            for chave_antiga in ("preco_1h", "preco_4h", "preco_24h", "resultado"):
+                registo.pop(chave_antiga, None)
+            alterado = True
 
         try:
-            entrada = datetime.fromisoformat(registo["timestamp_entrada"])
-        except Exception:
+            velas = fetch_candles(symbol, "Min30", 60)  # cobre >24h com folga
+        except Exception as e:
+            log.error(f"[{symbol}] Falha a obter velas Min30 p/ S2b: {e}")
             continue
-        horas_passadas = (agora - entrada).total_seconds() / 3600
+        if not velas:
+            continue  # símbolo pode ter sido deslistado; tenta-se no próximo scan
 
-        if registo["preco_1h"] is None and horas_passadas >= 1:
-            registo["preco_1h"] = preco_actual
+        if _preencher_precos_registo(registo, velas, agora):
             alterado = True
-        if registo["preco_4h"] is None and horas_passadas >= 4:
-            registo["preco_4h"] = preco_actual
-            alterado = True
-        if registo["preco_24h"] is None and horas_passadas >= 24:
-            registo["preco_24h"] = preco_actual
-            registo["resultado"] = _classificar_resultado_s2b(
-                registo["direccao"], registo["preco_entrada"], preco_actual
-            )
-            alterado = True
-            log.info(f"[{symbol}] S2b resultado fechado: {registo['resultado']}")
 
     if alterado:
-        guardar_s2b_outcomes(outcomes, sha, "S2b: actualizar checkpoints")
+        guardar_s2b_outcomes(outcomes, sha, "S2b: actualizar preços (velas Min30)")
 
 
 def calcular_taxa_sucesso_s2b() -> dict:
-    """Estatísticas agregadas — usado pelo comando /s2b_stats do bot.py."""
+    """
+    Contagens simples — usado pelo comando /s2b_stats do bot.py. Sem
+    julgamento de sucesso/insucesso: isso faz-se à parte, fora do bot,
+    quando houver dados e indicadores suficientes para começar a afunilar.
+    """
     outcomes, _ = carregar_s2b_outcomes()
-    fechados = [o for o in outcomes if o.get("resultado") is not None]
-    abertos  = [o for o in outcomes if o.get("resultado") is None]
-
-    resultado = {
-        "total":        len(outcomes),
-        "fechados":     len(fechados),
-        "abertos":      len(abertos),
-        "taxa_sucesso": None,
-        "ganhos":       0,
-        "perdas":       0,
-        "neutros":      0,
-        "por_contexto": {},
+    completos = [o for o in outcomes if o.get("completo")]
+    abertos   = [o for o in outcomes if not o.get("completo")]
+    return {
+        "total":     len(outcomes),
+        "completos": len(completos),
+        "abertos":   len(abertos),
     }
-    if not fechados:
-        return resultado
-
-    resultado["ganhos"]  = sum(1 for o in fechados if o["resultado"] == "GANHO")
-    resultado["perdas"]  = sum(1 for o in fechados if o["resultado"] == "PERDA")
-    resultado["neutros"] = sum(1 for o in fechados if o["resultado"] == "NEUTRO")
-    resultado["taxa_sucesso"] = resultado["ganhos"] / len(fechados) * 100
-
-    for score in (0, 1, 2, 3):
-        subset = [o for o in fechados if o.get("contexto_score") == score]
-        if subset:
-            g = sum(1 for o in subset if o["resultado"] == "GANHO")
-            resultado["por_contexto"][score] = {"n": len(subset), "taxa": g / len(subset) * 100}
-
-    return resultado
 
 
 def estado_para_token(campos: dict, ticker: str) -> EstadoToken:
