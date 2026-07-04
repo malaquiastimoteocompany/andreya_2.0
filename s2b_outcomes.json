@@ -4232,5 +4232,33 @@
     "timestamp_entrada": "2026-07-04T19:01:02.201812+00:00",
     "precos": {},
     "completo": false
+  },
+  {
+    "symbol": "ETHFI_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.4403,
+    "contexto_score": 2,
+    "sinais_lancamento": {
+      "s1_ok": false,
+      "s1_valor": 2.627055543231436,
+      "s2_ok": false,
+      "s2_oi_pct": -0.14391976412099894,
+      "s2_preco_pct": 0.0681,
+      "s2_vol_dir_pct": 0.736778778673252,
+      "s3_ok": true,
+      "s3_funding": 5e-05,
+      "s4_ok": false,
+      "s4_range_pct": 0.23211522633744877,
+      "s5_ok": true,
+      "s5_ema9": 0.4218875208461368,
+      "s5_ema21": 0.401842052704608,
+      "s5_estrutura_ok": true,
+      "s6_ok": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": 0.0681
+    },
+    "timestamp_entrada": "2026-07-04T19:01:02.201812+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
