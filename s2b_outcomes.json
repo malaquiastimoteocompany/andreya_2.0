@@ -119,5 +119,16 @@
     "preco_4h": null,
     "preco_24h": null,
     "resultado": null
+  },
+  {
+    "symbol": "EPIC_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.57,
+    "contexto_score": 2,
+    "timestamp_entrada": "2026-07-04T01:00:51.453482+00:00",
+    "preco_1h": null,
+    "preco_4h": null,
+    "preco_24h": null,
+    "resultado": null
   }
 ]
