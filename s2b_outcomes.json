@@ -3777,5 +3777,33 @@
     "timestamp_entrada": "2026-07-04T18:00:58.770240+00:00",
     "precos": {},
     "completo": false
+  },
+  {
+    "symbol": "UTYA_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.02948,
+    "contexto_score": 1,
+    "sinais_lancamento": {
+      "s1_ok": false,
+      "s1_valor": 0.8497409474211816,
+      "s2_ok": false,
+      "s2_oi_pct": -0.054995670995670994,
+      "s2_preco_pct": 0.0882,
+      "s2_vol_dir_pct": 0.5920013285101479,
+      "s3_ok": false,
+      "s3_funding": -0.000109,
+      "s4_ok": false,
+      "s4_range_pct": 0.5365150740929994,
+      "s5_ok": true,
+      "s5_ema9": 0.02748538697201139,
+      "s5_ema21": 0.02526718904570388,
+      "s5_estrutura_ok": true,
+      "s6_ok": false,
+      "s6_ls_ratio": 0.5,
+      "s6_preco_pct": 0.0882
+    },
+    "timestamp_entrada": "2026-07-04T18:00:58.770240+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
