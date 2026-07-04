@@ -5290,5 +5290,33 @@
       "120": 0.7126
     },
     "completo": false
+  },
+  {
+    "symbol": "HEI_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.1296,
+    "contexto_score": 1,
+    "sinais_lancamento": {
+      "s1_ok": false,
+      "s1_valor": 1.7820305085517816,
+      "s2_ok": false,
+      "s2_oi_pct": -0.00012314434392402473,
+      "s2_preco_pct": 0.1172,
+      "s2_vol_dir_pct": 0.6467441439815819,
+      "s3_ok": true,
+      "s3_funding": 5e-05,
+      "s4_ok": false,
+      "s4_range_pct": 0.3049555774925963,
+      "s5_ok": false,
+      "s5_ema9": 0.12705101163752952,
+      "s5_ema21": 0.1213700931029389,
+      "s5_estrutura_ok": false,
+      "s6_ok": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": 0.1172
+    },
+    "timestamp_entrada": "2026-07-04T22:01:00.965351+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
