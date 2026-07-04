@@ -193,9 +193,13 @@ S2B_VOLUME_DIRECCAO_MIN_PCT = 0.60  # >60% do volume da janela curta na direcç�
 
 # Tracking automático de resultados — para responder "isto está a funcionar?"
 # com dados, não com impressão. Ver scanner.registar_sinal_s2b/actualizar_
-# checkpoints_s2b/calcular_taxa_sucesso_s2b. Decisão 03/07/2026.
-S2B_OUTCOMES_PATH          = "s2b_outcomes.json"  # raiz do repo, mesmo padrão do state.json
-S2B_RESULTADO_THRESHOLD_PCT = 3.0   # ±3% na direcção do sinal ao checkpoint de 24h = GANHO/PERDA
+# checkpoints_s2b/calcular_taxa_sucesso_s2b. Decisão 03/07/2026, revista
+# 04/07/2026: sem classificação automática GANHO/PERDA embutida — guarda-se
+# preço de 30 em 30 min via velas MEXC (histórico, não ticker ao vivo), e a
+# análise de sucesso/timing faz-se à parte, quando houver mais indicadores.
+S2B_OUTCOMES_PATH     = "s2b_outcomes.json"  # raiz do repo, mesmo padrão do state.json
+S2B_CHECKPOINT_MIN    = 30    # granularidade de cada ponto guardado, em minutos
+S2B_JANELA_TOTAL_MIN  = 1440  # duração total do tracking por sinal (24h), em minutos
 
 # S3 — Funding neutro (igual LONG e SHORT)
 S3_FUNDING_MIN = -0.0001   # -0.01%
