@@ -2529,5 +2529,14 @@
       "60": 13.55
     },
     "completo": false
+  },
+  {
+    "symbol": "ETHFI_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.4109,
+    "contexto_score": 2,
+    "timestamp_entrada": "2026-07-04T14:00:59.082137+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
