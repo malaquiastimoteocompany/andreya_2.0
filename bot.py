@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3 
 # =============================================================================
 # bot.py — Bot Telegram Andreya (Railway)
 # Dispatcher de comandos + reencaminhamento para GitHub Actions
