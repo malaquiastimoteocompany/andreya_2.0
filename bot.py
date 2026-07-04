@@ -167,37 +167,25 @@ def _carregar_s2b_outcomes() -> list[dict]:
 
 def _formatar_s2b_stats(outcomes: list[dict]) -> str:
     if not outcomes:
-        return "📊 <b>S2b — Taxa de Sucesso</b>\n\nAinda não há nenhum sinal S2b registado."
+        return "📊 <b>S2b — Dados Recolhidos</b>\n\nAinda não há nenhum sinal S2b registado."
 
-    fechados = [o for o in outcomes if o.get("resultado") is not None]
-    abertos  = [o for o in outcomes if o.get("resultado") is None]
+    completos = [o for o in outcomes if o.get("completo")]
+    abertos   = [o for o in outcomes if not o.get("completo")]
 
     linhas = [
-        "📊 <b>S2b — Taxa de Sucesso</b>",
+        "📊 <b>S2b — Dados Recolhidos</b>",
         "",
-        f"Total de sinais: <b>{len(outcomes)}</b>  ({len(fechados)} fechados, {len(abertos)} ainda a decorrer)",
+        f"Total de sinais: <b>{len(outcomes)}</b>",
+        f"Com as 24h completas: <b>{len(completos)}</b>",
+        f"Ainda a decorrer: <b>{len(abertos)}</b>",
     ]
 
-    if fechados:
-        ganhos  = sum(1 for o in fechados if o["resultado"] == "GANHO")
-        perdas  = sum(1 for o in fechados if o["resultado"] == "PERDA")
-        neutros = sum(1 for o in fechados if o["resultado"] == "NEUTRO")
-        taxa    = ganhos / len(fechados) * 100
-        linhas.append(f"Taxa de sucesso (24h): <b>{taxa:.0f}%</b>  ({ganhos} ganhos, {perdas} perdas, {neutros} neutros)")
-
-        linhas.append("")
-        linhas.append("<b>Por score de contexto</b> (S3+S5+S6, 0-3):")
-        for score in (3, 2, 1, 0):
-            subset = [o for o in fechados if o.get("contexto_score") == score]
-            if subset:
-                g = sum(1 for o in subset if o["resultado"] == "GANHO")
-                linhas.append(f"  {score}/3 → {g}/{len(subset)} ganhos ({g/len(subset)*100:.0f}%)")
-    else:
-        linhas.append("\nAinda nenhum sinal chegou aos 24h para ter resultado fechado.")
-
     if abertos:
-        linhas.append("")
-        linhas.append(f"<i>{len(abertos)} sinal(is) ainda a decorrer — resultado nas próximas 24h.</i>")
+        media_pontos = sum(len(o.get("precos", {})) for o in abertos) / len(abertos)
+        linhas.append(f"  — em média {media_pontos:.0f}/48 pontos (30 em 30 min) já guardados")
+
+    linhas.append("")
+    linhas.append("<i>Estatística de sucesso/timing por indicador faz-se à parte, quando houver mais dados.</i>")
 
     return "\n".join(linhas)
 
@@ -380,7 +368,7 @@ def processar_comando(chat_id: str, texto: str) -> None:
         else:
             enviar_mensagem(chat_id, texto_resp)
 
-    # ── /s2b_stats — taxa de sucesso do gatilho S2b ────────────────────────────
+    # ── /s2b_stats — dados recolhidos pelo gatilho S2b ──────────────────────────
     elif comando == "/s2b_stats":
         outcomes = _carregar_s2b_outcomes()
         enviar_mensagem(chat_id, _formatar_s2b_stats(outcomes))
@@ -416,7 +404,7 @@ def processar_comando(chat_id: str, texto: str) -> None:
             "/analise_token SYMBOL — análise de token\n"
             "/supervisao — lista tokens em radar\n"
             "/token SYMBOL — info detalhada de token\n"
-            "/s2b_stats — taxa de sucesso do gatilho S2b\n"
+            "/s2b_stats — dados recolhidos pelo gatilho S2b\n"
             "/status — estado geral do sistema"
         )
 
