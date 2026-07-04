@@ -570,5 +570,16 @@
     "preco_4h": null,
     "preco_24h": null,
     "resultado": null
+  },
+  {
+    "symbol": "BEL_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.11105,
+    "contexto_score": 1,
+    "timestamp_entrada": "2026-07-04T08:00:53.217167+00:00",
+    "preco_1h": null,
+    "preco_4h": null,
+    "preco_24h": null,
+    "resultado": null
   }
 ]
