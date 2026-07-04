@@ -471,5 +471,16 @@
     "preco_4h": null,
     "preco_24h": null,
     "resultado": null
+  },
+  {
+    "symbol": "VELVET_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.5571,
+    "contexto_score": 2,
+    "timestamp_entrada": "2026-07-04T07:00:54.256086+00:00",
+    "preco_1h": null,
+    "preco_4h": null,
+    "preco_24h": null,
+    "resultado": null
   }
 ]
