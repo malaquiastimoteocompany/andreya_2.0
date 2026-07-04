@@ -255,6 +255,42 @@ def contexto_informativo_s2b(
     }
 
 
+def snapshot_sinais_s2b(
+    mexc: DadosMEXC,
+    coinglass: DadosCoinglass,
+    direccao: str,
+) -> dict:
+    """
+    Regista os valores dos 6 sinais clássicos (S1-S6) no momento exacto em
+    que um S2b dispara — não para decidir nada (o S2b, preço+volume, já É
+    o sinal), mas para depois cruzar as condições de entrada com o
+    sucesso/insucesso real de cada caso, em vez de só guardar o agregado
+    0-3 de contexto_informativo_s2b(). Pedido de Malaquias, 04/07/2026.
+
+    Reaproveita as mesmas funções _s1.._s6 do pipeline clássico — só para
+    logging, nenhum destes sinais bloqueia o alerta do S2b.
+    """
+    if direccao == "LONG":
+        s1_ok, s1_valor = _s1_long(mexc)
+    else:
+        s1_ok, s1_valor = _s1_short(mexc)
+
+    s2_ok, s2_oi, s2_preco, s2_vol      = _s2(mexc, coinglass, direccao)
+    s3_ok, s3_funding                   = _s3(coinglass)
+    s4_ok, s4_range                     = _s4(mexc)
+    s5_ok, s5_ema9, s5_ema21, s5_estrut = _s5(mexc, direccao)
+    s6_ok, s6_ls, s6_preco              = _s6(mexc, coinglass, direccao)
+
+    return {
+        "s1_ok": s1_ok, "s1_valor": s1_valor,
+        "s2_ok": s2_ok, "s2_oi_pct": s2_oi, "s2_preco_pct": s2_preco, "s2_vol_dir_pct": s2_vol,
+        "s3_ok": s3_ok, "s3_funding": s3_funding,
+        "s4_ok": s4_ok, "s4_range_pct": s4_range,
+        "s5_ok": s5_ok, "s5_ema9": s5_ema9, "s5_ema21": s5_ema21, "s5_estrutura_ok": s5_estrut,
+        "s6_ok": s6_ok, "s6_ls_ratio": s6_ls, "s6_preco_pct": s6_preco,
+    }
+
+
 def calcular_rsi(closes: list[float], periodo: int = 14) -> Optional[float]:
     """
     RSI clássico (Wilder), sobre uma lista de closes em ordem cronológica.
