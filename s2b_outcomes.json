@@ -174,5 +174,16 @@
     "preco_4h": null,
     "preco_24h": null,
     "resultado": null
+  },
+  {
+    "symbol": "ALLO_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 0.3415,
+    "contexto_score": 2,
+    "timestamp_entrada": "2026-07-04T03:00:50.224235+00:00",
+    "preco_1h": null,
+    "preco_4h": null,
+    "preco_24h": null,
+    "resultado": null
   }
 ]
