@@ -6101,5 +6101,33 @@
     "timestamp_entrada": "2026-07-04T23:01:02.917564+00:00",
     "precos": {},
     "completo": false
+  },
+  {
+    "symbol": "MAGMA_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.5664,
+    "contexto_score": 1,
+    "sinais_lancamento": {
+      "s1_ok": false,
+      "s1_valor": 1.5925617013245106,
+      "s2_ok": false,
+      "s2_oi_pct": -0.1318048193055572,
+      "s2_preco_pct": 0.0896,
+      "s2_vol_dir_pct": 0.3291778468101675,
+      "s3_ok": true,
+      "s3_funding": 5e-05,
+      "s4_ok": false,
+      "s4_range_pct": 0.14469585892609466,
+      "s5_ok": false,
+      "s5_ema9": 0.5680030595993603,
+      "s5_ema21": 0.6026414576235951,
+      "s5_estrutura_ok": true,
+      "s6_ok": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": 0.0896
+    },
+    "timestamp_entrada": "2026-07-04T23:01:02.917564+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
