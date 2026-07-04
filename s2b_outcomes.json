@@ -658,5 +658,16 @@
     "preco_4h": null,
     "preco_24h": null,
     "resultado": null
+  },
+  {
+    "symbol": "SYN_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 0.42182,
+    "contexto_score": 2,
+    "timestamp_entrada": "2026-07-04T10:00:55.075079+00:00",
+    "preco_1h": null,
+    "preco_4h": null,
+    "preco_24h": null,
+    "resultado": null
   }
 ]
