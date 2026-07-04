@@ -5933,5 +5933,33 @@
       "60": 0.07802
     },
     "completo": false
+  },
+  {
+    "symbol": "UB_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 0.08971,
+    "contexto_score": 1,
+    "sinais_lancamento": {
+      "s1_ok": false,
+      "s1_valor": 0.3443972197559143,
+      "s2_ok": false,
+      "s2_oi_pct": -0.05202017443236649,
+      "s2_preco_pct": -0.0902,
+      "s2_vol_dir_pct": 0.6415852560105314,
+      "s3_ok": true,
+      "s3_funding": 5e-05,
+      "s4_ok": true,
+      "s4_range_pct": 0.02698316498316493,
+      "s5_ok": false,
+      "s5_ema9": 0.09550237738260871,
+      "s5_ema21": 0.09698510167679503,
+      "s5_estrutura_ok": false,
+      "s6_ok": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": -0.0902
+    },
+    "timestamp_entrada": "2026-07-04T23:01:02.917564+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
