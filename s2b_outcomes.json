@@ -7907,5 +7907,33 @@
       "60": 0.002316
     },
     "completo": false
+  },
+  {
+    "symbol": "XPL_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 0.10432,
+    "contexto_score": 1,
+    "sinais_lancamento": {
+      "s1_ok": true,
+      "s1_valor": 0.9498361163068229,
+      "s2_ok": false,
+      "s2_oi_pct": 0.020272563083838964,
+      "s2_preco_pct": -0.0724,
+      "s2_vol_dir_pct": 0.6345988022556567,
+      "s3_ok": true,
+      "s3_funding": 5e-05,
+      "s4_ok": true,
+      "s4_range_pct": 0.03770626097132818,
+      "s5_ok": false,
+      "s5_ema9": 0.10686693948737581,
+      "s5_ema21": 0.10785801631315829,
+      "s5_estrutura_ok": false,
+      "s6_ok": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": -0.0724
+    },
+    "timestamp_entrada": "2026-07-05T03:01:01.262018+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
