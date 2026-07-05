@@ -7448,5 +7448,33 @@
     "timestamp_entrada": "2026-07-05T02:00:57.942187+00:00",
     "precos": {},
     "completo": false
+  },
+  {
+    "symbol": "MEGA_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 0.05179,
+    "contexto_score": 1,
+    "sinais_lancamento": {
+      "s1_ok": true,
+      "s1_valor": 1.3113926345540392,
+      "s2_ok": false,
+      "s2_oi_pct": 0.05824964560515935,
+      "s2_preco_pct": -0.0703,
+      "s2_vol_dir_pct": 0.549077999263006,
+      "s3_ok": true,
+      "s3_funding": 5e-05,
+      "s4_ok": true,
+      "s4_range_pct": 0.0265410027205598,
+      "s5_ok": false,
+      "s5_ema9": 0.05284508033532366,
+      "s5_ema21": 0.05319825859433411,
+      "s5_estrutura_ok": false,
+      "s6_ok": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": -0.0703
+    },
+    "timestamp_entrada": "2026-07-05T02:00:57.942187+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
