@@ -7476,5 +7476,33 @@
     "timestamp_entrada": "2026-07-05T02:00:57.942187+00:00",
     "precos": {},
     "completo": false
+  },
+  {
+    "symbol": "SPX_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 0.3958,
+    "contexto_score": 2,
+    "sinais_lancamento": {
+      "s1_ok": true,
+      "s1_valor": 1.090501795717725,
+      "s2_ok": false,
+      "s2_oi_pct": 0.03660113428048519,
+      "s2_preco_pct": -0.0636,
+      "s2_vol_dir_pct": 0.5794348598713365,
+      "s3_ok": true,
+      "s3_funding": 5e-05,
+      "s4_ok": true,
+      "s4_range_pct": 0.034638646847770446,
+      "s5_ok": true,
+      "s5_ema9": 0.40359205570562257,
+      "s5_ema21": 0.40728595583878074,
+      "s5_estrutura_ok": true,
+      "s6_ok": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": -0.0636
+    },
+    "timestamp_entrada": "2026-07-05T02:00:57.942187+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
