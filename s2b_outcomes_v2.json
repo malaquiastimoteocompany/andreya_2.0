@@ -1,0 +1,30 @@
+[
+  {
+    "symbol": "SPACE_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 0.006127,
+    "volume_entrada": 519168.0,
+    "var_preco_gatilho": -4.085785848465873,
+    "var_volume_gatilho": 84.21535695699484,
+    "sinais_lancamento": {
+      "preco": 0.006127,
+      "volume": 519168.0,
+      "s1_valor": 1.368893201367471,
+      "s2_oi_pct": 0.0,
+      "s2_preco_pct": -0.0043,
+      "s2_vol_dir_pct": 0.8008889826584015,
+      "s3_funding": 5e-05,
+      "s4_range_pct": 0.07284659557013945,
+      "s5_ema9": 0.006165653941783167,
+      "s5_ema21": 0.006193531492520226,
+      "s5_estrutura": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": -0.0043,
+      "atr_pct": 1.5178717153582506,
+      "rsi14": 38.501810354886466
+    },
+    "timestamp_entrada": "2026-07-05T16:45:30.060564+00:00",
+    "checkpoints": {},
+    "completo": false
+  }
+]
