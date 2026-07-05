@@ -39,7 +39,8 @@
     "oi_30m_anterior": 121313639.0,
     "precos_horarios": [
       1764.14,
-      1764.21
+      1764.21,
+      1769.84
     ]
   },
   "XAU_USDT": {
@@ -82,7 +83,8 @@
     "oi_30m_anterior": 28020907.0,
     "precos_horarios": [
       4179.92,
-      4179.31
+      4179.31,
+      4179.62
     ]
   },
   "HEI_USDT": {
@@ -125,7 +127,8 @@
     "oi_30m_anterior": 4749894.0,
     "precos_horarios": [
       0.1218,
-      0.1208
+      0.1208,
+      0.1228
     ]
   },
   "MUSTOCK_USDT": {
@@ -168,7 +171,8 @@
     "oi_30m_anterior": 724092.0,
     "precos_horarios": [
       1037.85,
-      1037.2
+      1037.2,
+      1035.92
     ]
   },
   "BEAT_USDT": {
@@ -211,7 +215,8 @@
     "oi_30m_anterior": 1033982.0,
     "precos_horarios": [
       2.676,
-      2.848
+      2.848,
+      2.78
     ]
   },
   "SYN_USDT": {
@@ -254,7 +259,8 @@
     "oi_30m_anterior": 14993325.0,
     "precos_horarios": [
       0.33521,
-      0.3216
+      0.3216,
+      0.33655
     ]
   },
   "RESOLV_USDT": {
@@ -297,19 +303,20 @@
     "oi_30m_anterior": 3077022.0,
     "precos_horarios": [
       0.02166,
-      0.02219
+      0.02219,
+      0.02152
     ]
   },
   "BTW_USDT": {
     "ticker": "BTW_USDT",
     "estado": 2,
     "direccao": "LONG",
-    "score_actual": 1,
-    "score_anterior": 0,
-    "scans_consecutivos": 1,
+    "score_actual": 4,
+    "score_anterior": 1,
+    "scans_consecutivos": 2,
     "contador_estado2": 0,
     "timestamp_entrada_estado": "2026-07-05T07:01:00.756709+00:00",
-    "ultimo_scan": "2026-07-05T07:01:00.756709+00:00",
+    "ultimo_scan": "2026-07-05T08:00:59.591622+00:00",
     "salto_directo": false,
     "grace_period": true,
     "grace_period_dias_restantes": 1,
@@ -333,7 +340,7 @@
       "s6_short": false
     },
     "categoria": "Infrastructure",
-    "oi_atual": 741826.0,
+    "oi_atual": 742424.0,
     "oi_inicio_dia": 715317.0,
     "volume_media_7d": 643359.0,
     "atr_1h_pct": 0.03414523776732841,
@@ -379,7 +386,8 @@
     "oi_30m_anterior": 255994.0,
     "precos_horarios": [
       0.6568,
-      0.6511
+      0.6511,
+      0.6548
     ]
   },
   "SPCXSTOCK_USDT": {
@@ -422,7 +430,8 @@
     "oi_30m_anterior": 12916407.0,
     "precos_horarios": [
       160.63,
-      160.62
+      160.62,
+      160.8
     ]
   },
   "SOXL_USDT": {
@@ -465,7 +474,8 @@
     "oi_30m_anterior": 965448.0,
     "precos_horarios": [
       198.64,
-      199.54
+      199.54,
+      199.24
     ]
   },
   "MRVLSTOCK_USDT": {
@@ -508,7 +518,8 @@
     "oi_30m_anterior": 555469.0,
     "precos_horarios": [
       258.12,
-      258.42
+      258.42,
+      257.8
     ]
   },
   "SNDKSTOCK_USDT": {
@@ -551,7 +562,8 @@
     "oi_30m_anterior": 3304702.0,
     "precos_horarios": [
       1833.79,
-      1835.8
+      1835.8,
+      1837.0
     ]
   },
   "INTCSTOCK_USDT": {
@@ -594,7 +606,8 @@
     "oi_30m_anterior": 3882017.0,
     "precos_horarios": [
       124.22,
-      124.21
+      124.21,
+      124.18
     ]
   },
   "SKHYNIXSTOCK_USDT": {
@@ -637,7 +650,8 @@
     "oi_30m_anterior": 5628344.0,
     "precos_horarios": [
       1616.07,
-      1615.62
+      1615.62,
+      1616.23
     ]
   },
   "SILVER_USDT": {
@@ -680,7 +694,8 @@
     "oi_30m_anterior": 81366855.0,
     "precos_horarios": [
       62.64,
-      62.67
+      62.67,
+      62.66
     ]
   },
   "DRAM_USDT": {
@@ -723,7 +738,8 @@
     "oi_30m_anterior": 1672453.0,
     "precos_horarios": [
       65.5,
-      65.58
+      65.58,
+      65.61
     ]
   },
   "ADA_USDT": {
@@ -766,7 +782,8 @@
     "oi_30m_anterior": 92626073.0,
     "precos_horarios": [
       0.1889,
-      0.19
+      0.19,
+      0.1928
     ]
   },
   "SOL_USDT": {
@@ -809,7 +826,8 @@
     "oi_30m_anterior": 24276997.0,
     "precos_horarios": [
       80.41,
-      80.57
+      80.57,
+      80.73
     ]
   },
   "HYPE_USDT": {
@@ -852,7 +870,8 @@
     "oi_30m_anterior": 6761343.0,
     "precos_horarios": [
       68.409,
-      68.625
+      68.625,
+      68.738
     ]
   },
   "XRP_USDT": {
@@ -895,7 +914,8 @@
     "oi_30m_anterior": 61848576.0,
     "precos_horarios": [
       1.1354,
-      1.1379
+      1.1379,
+      1.1402
     ]
   },
   "SUI_USDT": {
@@ -938,7 +958,8 @@
     "oi_30m_anterior": 37607945.0,
     "precos_horarios": [
       0.7423,
-      0.7441
+      0.7441,
+      0.7449
     ]
   },
   "ZEC_USDT": {
@@ -981,7 +1002,8 @@
     "oi_30m_anterior": 6760650.0,
     "precos_horarios": [
       455.59,
-      457.29
+      457.29,
+      459.16
     ]
   },
   "ESPORTS_USDT": {
@@ -1024,19 +1046,20 @@
     "oi_30m_anterior": 6747341.0,
     "precos_horarios": [
       0.02287,
-      0.02274
+      0.02274,
+      0.02268
     ]
   },
   "ARX_USDT": {
     "ticker": "ARX_USDT",
-    "estado": 1,
-    "direccao": "",
-    "score_actual": 0,
+    "estado": 2,
+    "direccao": "LONG",
+    "score_actual": 2,
     "score_anterior": 0,
     "scans_consecutivos": 1,
     "contador_estado2": 0,
-    "timestamp_entrada_estado": "2026-07-05T05:01:21.229360+00:00",
-    "ultimo_scan": "2026-07-05T05:01:21.229360+00:00",
+    "timestamp_entrada_estado": "2026-07-05T08:00:59.591622+00:00",
+    "ultimo_scan": "2026-07-05T08:00:59.591622+00:00",
     "salto_directo": false,
     "grace_period": false,
     "grace_period_dias_restantes": null,
@@ -1060,15 +1083,11 @@
       "s6_short": true
     },
     "categoria": "Infrastructure",
-    "oi_atual": 3330716.0,
+    "oi_atual": 3155588.0,
     "oi_inicio_dia": 3330716.0,
-    "volume_media_7d": 4360927.857142857,
-    "atr_1h_pct": 0.01929587000677048,
-    "oi_30m_anterior": 3330716.0,
-    "precos_horarios": [
-      0.2114,
-      0.2195
-    ]
+    "volume_media_7d": 4402888.142857143,
+    "atr_1h_pct": 0.022523643603782974,
+    "oi_30m_anterior": 3155588.0
   },
   "WLD_USDT": {
     "ticker": "WLD_USDT",
@@ -1110,7 +1129,8 @@
     "oi_30m_anterior": 41753019.0,
     "precos_horarios": [
       0.4112,
-      0.4135
+      0.4135,
+      0.4172
     ]
   },
   "TAO_USDT": {
@@ -1153,7 +1173,8 @@
     "oi_30m_anterior": 15858150.0,
     "precos_horarios": [
       212.53,
-      213.26
+      213.26,
+      213.69
     ]
   },
   "XAUT_USDT": {
@@ -1196,7 +1217,8 @@
     "oi_30m_anterior": 39033406.0,
     "precos_horarios": [
       4164.9,
-      4165.4
+      4165.4,
+      4165.0
     ]
   },
   "BLESS_USDT": {
@@ -1239,7 +1261,8 @@
     "oi_30m_anterior": 47550798.0,
     "precos_horarios": [
       0.009108,
-      0.008909
+      0.008909,
+      0.00892
     ]
   },
   "DOGE_USDT": {
@@ -1282,7 +1305,8 @@
     "oi_30m_anterior": 5172990.0,
     "precos_horarios": [
       0.07574,
-      0.07586
+      0.07586,
+      0.07618
     ]
   },
   "H_USDT": {
@@ -1325,7 +1349,8 @@
     "oi_30m_anterior": 76726897.0,
     "precos_horarios": [
       0.0745,
-      0.0725
+      0.0725,
+      0.07183
     ]
   },
   "USOIL_USDT": {
@@ -1368,6 +1393,7 @@
     "oi_30m_anterior": 80624963.0,
     "precos_horarios": [
       69.04,
+      69.06,
       69.06
     ]
   },
@@ -1411,7 +1437,8 @@
     "oi_30m_anterior": 14513429.0,
     "precos_horarios": [
       7.864,
-      7.889
+      7.889,
+      7.919
     ]
   },
   "NEAR_USDT": {
@@ -1454,7 +1481,8 @@
     "oi_30m_anterior": 10616232.0,
     "precos_horarios": [
       1.952,
-      1.951
+      1.951,
+      1.957
     ]
   },
   "AVAX_USDT": {
@@ -1497,7 +1525,8 @@
     "oi_30m_anterior": 12629047.0,
     "precos_horarios": [
       6.768,
-      6.794
+      6.794,
+      6.821
     ]
   },
   "PEPE_USDT": {
@@ -1540,7 +1569,8 @@
     "oi_30m_anterior": 1233559.0,
     "precos_horarios": [
       2.6599e-06,
-      2.667e-06
+      2.667e-06,
+      2.6812e-06
     ]
   },
   "BICO_USDT": {
@@ -1583,7 +1613,8 @@
     "oi_30m_anterior": 64818101.0,
     "precos_horarios": [
       0.01529,
-      0.01541
+      0.01541,
+      0.01545
     ]
   },
   "ONDO_USDT": {
@@ -1626,19 +1657,20 @@
     "oi_30m_anterior": 3390522.0,
     "precos_horarios": [
       0.3276,
-      0.3283
+      0.3283,
+      0.3298
     ]
   },
   "VELVET_USDT": {
     "ticker": "VELVET_USDT",
-    "estado": 1,
-    "direccao": "",
-    "score_actual": 0,
+    "estado": 2,
+    "direccao": "SHORT",
+    "score_actual": 1,
     "score_anterior": 0,
     "scans_consecutivos": 1,
     "contador_estado2": 0,
-    "timestamp_entrada_estado": "2026-07-05T05:01:21.229360+00:00",
-    "ultimo_scan": "2026-07-05T05:01:21.229360+00:00",
+    "timestamp_entrada_estado": "2026-07-05T08:00:59.591622+00:00",
+    "ultimo_scan": "2026-07-05T08:00:59.591622+00:00",
     "salto_directo": false,
     "grace_period": false,
     "grace_period_dias_restantes": null,
@@ -1662,15 +1694,11 @@
       "s6_short": false
     },
     "categoria": "Infrastructure",
-    "oi_atual": 511833.0,
+    "oi_atual": 456099.0,
     "oi_inicio_dia": 511833.0,
-    "volume_media_7d": 5967809.857142857,
-    "atr_1h_pct": 0.0517683897130537,
-    "oi_30m_anterior": 511833.0,
-    "precos_horarios": [
-      0.5325,
-      0.5075
-    ]
+    "volume_media_7d": 5836208.0,
+    "atr_1h_pct": 0.06440941257695183,
+    "oi_30m_anterior": 456099.0
   },
   "G_USDT": {
     "ticker": "G_USDT",
@@ -1712,7 +1740,8 @@
     "oi_30m_anterior": 440939.0,
     "precos_horarios": [
       0.003313,
-      0.003318
+      0.003318,
+      0.003458
     ]
   },
   "SIREN_USDT": {
@@ -1755,7 +1784,8 @@
     "oi_30m_anterior": 3215190.0,
     "precos_horarios": [
       0.03488,
-      0.0351
+      0.0351,
+      0.03521
     ]
   },
   "BNB_USDT": {
@@ -1798,7 +1828,8 @@
     "oi_30m_anterior": 5609003.0,
     "precos_horarios": [
       571.6,
-      572.5
+      572.5,
+      576.3
     ]
   },
   "BEL_USDT": {
@@ -1841,7 +1872,8 @@
     "oi_30m_anterior": 1052927.0,
     "precos_horarios": [
       0.09782,
-      0.09997
+      0.09997,
+      0.10069
     ]
   },
   "ENA_USDT": {
@@ -1884,7 +1916,8 @@
     "oi_30m_anterior": 13016496.0,
     "precos_horarios": [
       0.07708,
-      0.07759
+      0.07759,
+      0.07822
     ]
   },
   "DOT_USDT": {
@@ -1927,7 +1960,8 @@
     "oi_30m_anterior": 111718035.0,
     "precos_horarios": [
       0.864,
-      0.869
+      0.869,
+      0.871
     ]
   },
   "XLM_USDT": {
@@ -1970,7 +2004,8 @@
     "oi_30m_anterior": 7523481.0,
     "precos_horarios": [
       0.20067,
-      0.19934
+      0.19934,
+      0.19932
     ]
   },
   "JTO_USDT": {
@@ -2013,7 +2048,8 @@
     "oi_30m_anterior": 2371749.0,
     "precos_horarios": [
       0.7397,
-      0.7396
+      0.7396,
+      0.734
     ]
   },
   "LTC_USDT": {
@@ -2056,7 +2092,8 @@
     "oi_30m_anterior": 23905945.0,
     "precos_horarios": [
       44.1,
-      44.26
+      44.26,
+      44.39
     ]
   },
   "POPCAT_USDT": {
@@ -2099,7 +2136,8 @@
     "oi_30m_anterior": 1079182.0,
     "precos_horarios": [
       0.05013,
-      0.051
+      0.051,
+      0.05088
     ]
   },
   "FET_USDT": {
@@ -2142,7 +2180,8 @@
     "oi_30m_anterior": 4208645.0,
     "precos_horarios": [
       0.1766,
-      0.1769
+      0.1769,
+      0.1776
     ]
   },
   "LIGHT_USDT": {
@@ -2185,7 +2224,8 @@
     "oi_30m_anterior": 5057355.0,
     "precos_horarios": [
       0.1183,
-      0.1183
+      0.1183,
+      0.1184
     ]
   },
   "ALLO_USDT": {
@@ -2228,7 +2268,8 @@
     "oi_30m_anterior": 4789844.0,
     "precos_horarios": [
       0.35719,
-      0.36058
+      0.36058,
+      0.3509
     ]
   },
   "INJ_USDT": {
@@ -2271,7 +2312,8 @@
     "oi_30m_anterior": 1791401.0,
     "precos_horarios": [
       4.685,
-      4.694
+      4.694,
+      4.729
     ]
   },
   "BASED_USDT": {
@@ -2314,7 +2356,8 @@
     "oi_30m_anterior": 3379695.0,
     "precos_horarios": [
       0.08861,
-      0.09065
+      0.09065,
+      0.08993
     ]
   },
   "SPX500_USDT": {
@@ -2357,7 +2400,8 @@
     "oi_30m_anterior": 76018100.0,
     "precos_horarios": [
       7498.8,
-      7494.8
+      7494.8,
+      7498.4
     ]
   },
   "ASTER_USDT": {
@@ -2400,7 +2444,8 @@
     "oi_30m_anterior": 19187358.0,
     "precos_horarios": [
       0.6385,
-      0.6399
+      0.6399,
+      0.64
     ]
   },
   "KORU_USDT": {
@@ -2443,7 +2488,8 @@
     "oi_30m_anterior": 6830907.0,
     "precos_horarios": [
       624.73,
-      624.08
+      624.08,
+      623.54
     ]
   },
   "ARB_USDT": {
@@ -2486,7 +2532,8 @@
     "oi_30m_anterior": 48974838.0,
     "precos_horarios": [
       0.07813,
-      0.07809
+      0.07809,
+      0.07893
     ]
   },
   "PIPPIN_USDT": {
@@ -2494,11 +2541,11 @@
     "estado": 2,
     "direccao": "SHORT",
     "score_actual": 3,
-    "score_anterior": 4,
-    "scans_consecutivos": 10,
+    "score_anterior": 3,
+    "scans_consecutivos": 11,
     "contador_estado2": 0,
     "timestamp_entrada_estado": "2026-07-04T22:01:00.965351+00:00",
-    "ultimo_scan": "2026-07-05T07:01:00.756709+00:00",
+    "ultimo_scan": "2026-07-05T08:00:59.591622+00:00",
     "salto_directo": false,
     "grace_period": false,
     "grace_period_dias_restantes": null,
@@ -2522,7 +2569,7 @@
       "s6_short": false
     },
     "categoria": "Infrastructure",
-    "oi_atual": 9949183.0,
+    "oi_atual": 10325954.0,
     "oi_inicio_dia": 10318225.0,
     "volume_media_7d": 21937656.57142857,
     "atr_1h_pct": 0.023672615936076488,
@@ -2568,7 +2615,8 @@
     "oi_30m_anterior": 871665.0,
     "precos_horarios": [
       0.03623,
-      0.03572
+      0.03572,
+      0.03685
     ]
   },
   "APT_USDT": {
@@ -2611,7 +2659,8 @@
     "oi_30m_anterior": 121166443.0,
     "precos_horarios": [
       0.6136,
-      0.6171
+      0.6171,
+      0.6217
     ]
   },
   "AAVE_USDT": {
@@ -2654,7 +2703,8 @@
     "oi_30m_anterior": 11932724.0,
     "precos_horarios": [
       87.21,
-      87.51
+      87.51,
+      87.88
     ]
   },
   "UKOIL_USDT": {
@@ -2697,7 +2747,8 @@
     "oi_30m_anterior": 39783994.0,
     "precos_horarios": [
       72.17,
-      72.22
+      72.22,
+      72.24
     ]
   },
   "NVIDIA_USDT": {
@@ -2740,7 +2791,8 @@
     "oi_30m_anterior": 2758981.0,
     "precos_horarios": [
       197.22,
-      197.45
+      197.45,
+      197.49
     ]
   },
   "UNI_USDT": {
@@ -2783,7 +2835,8 @@
     "oi_30m_anterior": 20702022.0,
     "precos_horarios": [
       3.174,
-      3.187
+      3.187,
+      3.204
     ]
   },
   "DYDX_USDT": {
@@ -2826,7 +2879,8 @@
     "oi_30m_anterior": 12915794.0,
     "precos_horarios": [
       0.1282,
-      0.1276
+      0.1276,
+      0.1284
     ]
   },
   "LAYER_USDT": {
@@ -2869,7 +2923,8 @@
     "oi_30m_anterior": 2082897.0,
     "precos_horarios": [
       0.066,
-      0.06604
+      0.06604,
+      0.06624
     ]
   },
   "NAS100_USDT": {
@@ -2912,7 +2967,8 @@
     "oi_30m_anterior": 82195155.0,
     "precos_horarios": [
       29663.0,
-      29658.0
+      29658.0,
+      29670.0
     ]
   },
   "BP_USDT": {
@@ -2955,7 +3011,8 @@
     "oi_30m_anterior": 4212978.0,
     "precos_horarios": [
       0.464,
-      0.4606
+      0.4606,
+      0.4584
     ]
   },
   "FARTCOIN_USDT": {
@@ -2998,7 +3055,8 @@
     "oi_30m_anterior": 5050425.0,
     "precos_horarios": [
       0.15703,
-      0.15853
+      0.15853,
+      0.15896
     ]
   },
   "BCH_USDT": {
@@ -3041,7 +3099,8 @@
     "oi_30m_anterior": 8643891.0,
     "precos_horarios": [
       238.49,
-      239.97
+      239.97,
+      241.26
     ]
   },
   "GRASS_USDT": {
@@ -3084,7 +3143,8 @@
     "oi_30m_anterior": 1573261.0,
     "precos_horarios": [
       0.5232,
-      0.5227
+      0.5227,
+      0.5274
     ]
   },
   "GRAM_USDT": {
@@ -3127,7 +3187,8 @@
     "oi_30m_anterior": 2685645.0,
     "precos_horarios": [
       1.7644,
-      1.7616
+      1.7616,
+      1.7753
     ]
   },
   "ICP_USDT": {
@@ -3170,7 +3231,8 @@
     "oi_30m_anterior": 245809221.0,
     "precos_horarios": [
       2.208,
-      2.212
+      2.212,
+      2.223
     ]
   },
   "RIVER_USDT": {
@@ -3213,7 +3275,8 @@
     "oi_30m_anterior": 4903311.0,
     "precos_horarios": [
       3.946,
-      3.956
+      3.956,
+      3.982
     ]
   },
   "MYX_USDT": {
@@ -3256,7 +3319,8 @@
     "oi_30m_anterior": 2575907.0,
     "precos_horarios": [
       0.0814,
-      0.0811
+      0.0811,
+      0.0814
     ]
   },
   "RAVE_USDT": {
@@ -3299,7 +3363,8 @@
     "oi_30m_anterior": 921366.0,
     "precos_horarios": [
       0.2843,
-      0.2773
+      0.2773,
+      0.2805
     ]
   },
   "MMT_USDT": {
@@ -3342,7 +3407,8 @@
     "oi_30m_anterior": 1129560.0,
     "precos_horarios": [
       0.1496,
-      0.149
+      0.149,
+      0.1486
     ]
   },
   "TIA_USDT": {
@@ -3385,7 +3451,8 @@
     "oi_30m_anterior": 13572174.0,
     "precos_horarios": [
       0.3868,
-      0.3928
+      0.3928,
+      0.3932
     ]
   },
   "BSB_USDT": {
@@ -3428,7 +3495,8 @@
     "oi_30m_anterior": 8972086.0,
     "precos_horarios": [
       0.1934,
-      0.1913
+      0.1913,
+      0.1949
     ]
   },
   "LYN_USDT": {
@@ -3471,7 +3539,8 @@
     "oi_30m_anterior": 58238878.0,
     "precos_horarios": [
       0.03435,
-      0.03439
+      0.03439,
+      0.03445
     ]
   },
   "EIGEN_USDT": {
@@ -3514,7 +3583,8 @@
     "oi_30m_anterior": 13188624.0,
     "precos_horarios": [
       0.2304,
-      0.2293
+      0.2293,
+      0.2311
     ]
   },
   "RENDER_USDT": {
@@ -3557,7 +3627,8 @@
     "oi_30m_anterior": 2328522.0,
     "precos_horarios": [
       1.59,
-      1.595
+      1.595,
+      1.605
     ]
   },
   "VVV_USDT": {
@@ -3600,7 +3671,8 @@
     "oi_30m_anterior": 3409804.0,
     "precos_horarios": [
       11.598,
-      11.689
+      11.689,
+      11.521
     ]
   },
   "ALGO_USDT": {
@@ -3643,7 +3715,8 @@
     "oi_30m_anterior": 30355119.0,
     "precos_horarios": [
       0.0891,
-      0.0894
+      0.0894,
+      0.0897
     ]
   },
   "DASH_USDT": {
@@ -3686,7 +3759,8 @@
     "oi_30m_anterior": 8171776.0,
     "precos_horarios": [
       35.16,
-      35.13
+      35.13,
+      35.39
     ]
   },
   "XPL_USDT": {
@@ -3729,7 +3803,8 @@
     "oi_30m_anterior": 65868445.0,
     "precos_horarios": [
       0.10597,
-      0.10628
+      0.10628,
+      0.10588
     ]
   },
   "HBAR_USDT": {
@@ -3772,7 +3847,8 @@
     "oi_30m_anterior": 94960842.0,
     "precos_horarios": [
       0.07489,
-      0.07456
+      0.07456,
+      0.07509
     ]
   },
   "LRC_USDT": {
@@ -3815,7 +3891,8 @@
     "oi_30m_anterior": 8019993.0,
     "precos_horarios": [
       0.01243,
-      0.01242
+      0.01242,
+      0.0124
     ]
   },
   "PUMPFUN_USDT": {
@@ -3858,7 +3935,8 @@
     "oi_30m_anterior": 36381054.0,
     "precos_horarios": [
       0.001521,
-      0.001517
+      0.001517,
+      0.001524
     ]
   },
   "TRX_USDT": {
@@ -3901,7 +3979,8 @@
     "oi_30m_anterior": 2239581.0,
     "precos_horarios": [
       0.32467,
-      0.32496
+      0.32496,
+      0.32489
     ]
   },
   "TNSR_USDT": {
@@ -3944,7 +4023,8 @@
     "oi_30m_anterior": 9914292.0,
     "precos_horarios": [
       0.0342,
-      0.03427
+      0.03427,
+      0.03429
     ]
   },
   "OPN_USDT": {
@@ -3987,6 +4067,7 @@
     "oi_30m_anterior": 10779855.0,
     "precos_horarios": [
       0.06613,
+      0.06622,
       0.06622
     ]
   },
@@ -4030,7 +4111,8 @@
     "oi_30m_anterior": 48691219.0,
     "precos_horarios": [
       0.006543,
-      0.006564
+      0.006564,
+      0.006609
     ]
   },
   "SHIB_USDT": {
@@ -4073,7 +4155,8 @@
     "oi_30m_anterior": 620507886.0,
     "precos_horarios": [
       4.304e-06,
-      4.319e-06
+      4.319e-06,
+      4.341e-06
     ]
   },
   "JUP_USDT": {
@@ -4116,7 +4199,8 @@
     "oi_30m_anterior": 664431.0,
     "precos_horarios": [
       0.2362,
-      0.2389
+      0.2389,
+      0.2391
     ]
   },
   "NAORIS_USDT": {
@@ -4159,7 +4243,8 @@
     "oi_30m_anterior": 5032800.0,
     "precos_horarios": [
       0.03944,
-      0.03918
+      0.03918,
+      0.03933
     ]
   },
   "SEI_USDT": {
@@ -4202,7 +4287,8 @@
     "oi_30m_anterior": 7664035.0,
     "precos_horarios": [
       0.04876,
-      0.04885
+      0.04885,
+      0.04887
     ]
   },
   "SAHARA_USDT": {
@@ -4245,7 +4331,8 @@
     "oi_30m_anterior": 6099353.0,
     "precos_horarios": [
       0.01066,
-      0.01065
+      0.01065,
+      0.01068
     ]
   },
   "OP_USDT": {
@@ -4254,10 +4341,10 @@
     "direccao": "LONG",
     "score_actual": 4,
     "score_anterior": 4,
-    "scans_consecutivos": 11,
+    "scans_consecutivos": 12,
     "contador_estado2": 2,
     "timestamp_entrada_estado": "2026-07-04T21:01:27.480731+00:00",
-    "ultimo_scan": "2026-07-05T07:01:00.756709+00:00",
+    "ultimo_scan": "2026-07-05T08:00:59.591622+00:00",
     "salto_directo": false,
     "grace_period": false,
     "grace_period_dias_restantes": null,
@@ -4281,7 +4368,7 @@
       "s6_short": false
     },
     "categoria": "Layer 2",
-    "oi_atual": 26249793.0,
+    "oi_atual": 27081024.0,
     "oi_inicio_dia": 25548557.0,
     "volume_media_7d": 32711024.42857143,
     "atr_1h_pct": 0.012793176972281455,
@@ -4327,7 +4414,8 @@
     "oi_30m_anterior": 21853408.0,
     "precos_horarios": [
       1.552,
-      1.555
+      1.555,
+      1.557
     ]
   },
   "XMR_USDT": {
@@ -4370,7 +4458,8 @@
     "oi_30m_anterior": 1049835.0,
     "precos_horarios": [
       331.41,
-      331.09
+      331.09,
+      329.48
     ]
   },
   "PI_USDT": {
@@ -4379,10 +4468,10 @@
     "direccao": "SHORT",
     "score_actual": 4,
     "score_anterior": 4,
-    "scans_consecutivos": 11,
+    "scans_consecutivos": 12,
     "contador_estado2": 2,
     "timestamp_entrada_estado": "2026-07-04T21:01:27.480731+00:00",
-    "ultimo_scan": "2026-07-05T07:01:00.756709+00:00",
+    "ultimo_scan": "2026-07-05T08:00:59.591622+00:00",
     "salto_directo": false,
     "grace_period": false,
     "grace_period_dias_restantes": null,
@@ -4406,7 +4495,7 @@
       "s6_short": false
     },
     "categoria": "Infrastructure",
-    "oi_atual": 31295995.0,
+    "oi_atual": 31149680.0,
     "oi_inicio_dia": 30822920.0,
     "volume_media_7d": 17268680.85714286,
     "atr_1h_pct": 0.008186476690413698,
@@ -4452,7 +4541,8 @@
     "oi_30m_anterior": 26463723.0,
     "precos_horarios": [
       1.738,
-      1.719
+      1.719,
+      1.714
     ]
   },
   "WIF_USDT": {
@@ -4495,7 +4585,8 @@
     "oi_30m_anterior": 4843142.0,
     "precos_horarios": [
       0.172,
-      0.1734
+      0.1734,
+      0.1741
     ]
   },
   "PAXG_USDT": {
@@ -4538,7 +4629,8 @@
     "oi_30m_anterior": 2777118.0,
     "precos_horarios": [
       4168.91,
-      4169.51
+      4169.51,
+      4170.27
     ]
   },
   "CHZ_USDT": {
@@ -4581,7 +4673,8 @@
     "oi_30m_anterior": 110675271.0,
     "precos_horarios": [
       0.0182,
-      0.01822
+      0.01822,
+      0.01836
     ]
   },
   "BRETT_USDT": {
@@ -4624,7 +4717,8 @@
     "oi_30m_anterior": 11002246.0,
     "precos_horarios": [
       0.005415,
-      0.005444
+      0.005444,
+      0.00551
     ]
   },
   "POWER_USDT": {
@@ -4667,7 +4761,8 @@
     "oi_30m_anterior": 30222531.0,
     "precos_horarios": [
       0.06816,
-      0.06742
+      0.06742,
+      0.06805
     ]
   },
   "CRV_USDT": {
@@ -4710,7 +4805,8 @@
     "oi_30m_anterior": 101602521.0,
     "precos_horarios": [
       0.2087,
-      0.2096
+      0.2096,
+      0.2095
     ]
   },
   "ZEREBRO_USDT": {
@@ -4753,7 +4849,8 @@
     "oi_30m_anterior": 7369553.0,
     "precos_horarios": [
       0.035533,
-      0.03536
+      0.03536,
+      0.035384
     ]
   },
   "LIT_USDT": {
@@ -4796,7 +4893,8 @@
     "oi_30m_anterior": 22200301.0,
     "precos_horarios": [
       2.2246,
-      2.2105
+      2.2105,
+      2.272
     ]
   },
   "ORDI_USDT": {
@@ -4839,7 +4937,8 @@
     "oi_30m_anterior": 10602583.0,
     "precos_horarios": [
       3.308,
-      3.315
+      3.315,
+      3.327
     ]
   },
   "EVAA_USDT": {
@@ -4882,7 +4981,8 @@
     "oi_30m_anterior": 4378374.0,
     "precos_horarios": [
       0.9471,
-      0.9494
+      0.9494,
+      0.9477
     ]
   },
   "LDO_USDT": {
@@ -4925,7 +5025,8 @@
     "oi_30m_anterior": 9245755.0,
     "precos_horarios": [
       0.2683,
-      0.2692
+      0.2692,
+      0.2709
     ]
   },
   "O_USDT": {
@@ -4968,7 +5069,8 @@
     "oi_30m_anterior": 9552249.0,
     "precos_horarios": [
       0.6172,
-      0.5856
+      0.5856,
+      0.5901
     ]
   },
   "ES_USDT": {
@@ -5011,7 +5113,8 @@
     "oi_30m_anterior": 2367261.0,
     "precos_horarios": [
       0.00622,
-      0.0061
+      0.0061,
+      0.00618
     ]
   },
   "TST_USDT": {
@@ -5054,7 +5157,8 @@
     "oi_30m_anterior": 1221891.0,
     "precos_horarios": [
       0.01093,
-      0.01093
+      0.01093,
+      0.01103
     ]
   },
   "MEGA_USDT": {
@@ -5097,7 +5201,8 @@
     "oi_30m_anterior": 9931020.0,
     "precos_horarios": [
       0.05311,
-      0.05345
+      0.05345,
+      0.05303
     ]
   },
   "ETC_USDT": {
@@ -5140,7 +5245,8 @@
     "oi_30m_anterior": 3093179.0,
     "precos_horarios": [
       7.07,
-      7.048
+      7.048,
+      7.106
     ]
   },
   "AVAAI_USDT": {
@@ -5183,7 +5289,8 @@
     "oi_30m_anterior": 859719.0,
     "precos_horarios": [
       0.005386,
-      0.005421
+      0.005421,
+      0.00543
     ]
   },
   "ETHFI_USDT": {
@@ -5226,7 +5333,8 @@
     "oi_30m_anterior": 5797106.0,
     "precos_horarios": [
       0.4157,
-      0.4186
+      0.4186,
+      0.4319
     ]
   },
   "LUMIA_USDT": {
@@ -5269,7 +5377,8 @@
     "oi_30m_anterior": 4668021.0,
     "precos_horarios": [
       0.13119,
-      0.13082
+      0.13082,
+      0.13202
     ]
   },
   "UAI_USDT": {
@@ -5312,7 +5421,8 @@
     "oi_30m_anterior": 3888495.0,
     "precos_horarios": [
       0.3077,
-      0.2985
+      0.2985,
+      0.2962
     ]
   },
   "ZRO_USDT": {
@@ -5355,7 +5465,8 @@
     "oi_30m_anterior": 2460503.0,
     "precos_horarios": [
       0.9039,
-      0.9127
+      0.9127,
+      0.9247
     ]
   },
   "W_USDT": {
@@ -5398,7 +5509,8 @@
     "oi_30m_anterior": 102617882.0,
     "precos_horarios": [
       0.01007,
-      0.01006
+      0.01006,
+      0.0101
     ]
   },
   "FILECOIN_USDT": {
@@ -5441,7 +5553,8 @@
     "oi_30m_anterior": 719097911.0,
     "precos_horarios": [
       0.782,
-      0.784
+      0.784,
+      0.787
     ]
   },
   "FLOKI_USDT": {
@@ -5484,7 +5597,8 @@
     "oi_30m_anterior": 694075.0,
     "precos_horarios": [
       2.337e-05,
-      2.358e-05
+      2.358e-05,
+      2.367e-05
     ]
   },
   "EDU_USDT": {
@@ -5527,7 +5641,8 @@
     "oi_30m_anterior": 159503652.0,
     "precos_horarios": [
       0.0303,
-      0.0304
+      0.0304,
+      0.03054
     ]
   },
   "NOT_USDT": {
@@ -5570,7 +5685,8 @@
     "oi_30m_anterior": 1225062.0,
     "precos_horarios": [
       0.0004196,
-      0.0004171
+      0.0004171,
+      0.0004184
     ]
   },
   "RUNE_USDT": {
@@ -5613,7 +5729,8 @@
     "oi_30m_anterior": 6464373.0,
     "precos_horarios": [
       0.4114,
-      0.4111
+      0.4111,
+      0.4131
     ]
   },
   "SPX_USDT": {
@@ -5656,7 +5773,8 @@
     "oi_30m_anterior": 6966062.0,
     "precos_horarios": [
       0.3975,
-      0.4008
+      0.4008,
+      0.402
     ]
   },
   "MSTRSTOCK_USDT": {
@@ -5699,7 +5817,8 @@
     "oi_30m_anterior": 3159119.0,
     "precos_horarios": [
       106.31,
-      106.42
+      106.42,
+      107.0
     ]
   },
   "FIDA_USDT": {
@@ -5742,7 +5861,8 @@
     "oi_30m_anterior": 867576.0,
     "precos_horarios": [
       0.02193,
-      0.02189
+      0.02189,
+      0.02193
     ]
   },
   "HOME_USDT": {
@@ -5785,7 +5905,8 @@
     "oi_30m_anterior": 1806436.0,
     "precos_horarios": [
       0.01629,
-      0.0164
+      0.0164,
+      0.01655
     ]
   },
   "PORTAL_USDT": {
@@ -5828,7 +5949,8 @@
     "oi_30m_anterior": 34755807.0,
     "precos_horarios": [
       0.0125,
-      0.01257
+      0.01257,
+      0.0126
     ]
   },
   "JASMY_USDT": {
@@ -5871,7 +5993,8 @@
     "oi_30m_anterior": 123897688.0,
     "precos_horarios": [
       0.004672,
-      0.004661
+      0.004661,
+      0.004629
     ]
   },
   "LUNC_USDT": {
@@ -5914,7 +6037,8 @@
     "oi_30m_anterior": 5154345.0,
     "precos_horarios": [
       6.217e-05,
-      6.173e-05
+      6.173e-05,
+      6.198e-05
     ]
   },
   "WLFI_USDT": {
@@ -5957,7 +6081,8 @@
     "oi_30m_anterior": 43953983.0,
     "precos_horarios": [
       0.05745,
-      0.05765
+      0.05765,
+      0.05831
     ]
   },
   "AXS_USDT": {
@@ -6000,6 +6125,7 @@
     "oi_30m_anterior": 1707311.0,
     "precos_horarios": [
       1.025,
+      1.026,
       1.026
     ]
   },
@@ -6043,7 +6169,8 @@
     "oi_30m_anterior": 35553543.0,
     "precos_horarios": [
       0.012072,
-      0.012059
+      0.012059,
+      0.012142
     ]
   },
   "SAND_USDT": {
@@ -6086,7 +6213,8 @@
     "oi_30m_anterior": 15476442.0,
     "precos_horarios": [
       0.04985,
-      0.04998
+      0.04998,
+      0.05012
     ]
   },
   "ON_USDT": {
@@ -6129,7 +6257,8 @@
     "oi_30m_anterior": 63004434.0,
     "precos_horarios": [
       0.08632,
-      0.08671
+      0.08671,
+      0.08627
     ]
   },
   "S_USDT": {
@@ -6172,7 +6301,8 @@
     "oi_30m_anterior": 50608489.0,
     "precos_horarios": [
       0.02636,
-      0.0267
+      0.0267,
+      0.02694
     ]
   },
   "BULLA_USDT": {
@@ -6215,7 +6345,8 @@
     "oi_30m_anterior": 3201603.0,
     "precos_horarios": [
       0.006411,
-      0.006453
+      0.006453,
+      0.006481
     ]
   },
   "APE_USDT": {
@@ -6258,7 +6389,8 @@
     "oi_30m_anterior": 12332703.0,
     "precos_horarios": [
       0.1439,
-      0.1439
+      0.1439,
+      0.1438
     ]
   },
   "TESLA_USDT": {
@@ -6301,7 +6433,8 @@
     "oi_30m_anterior": 1469334.0,
     "precos_horarios": [
       400.31,
-      400.42
+      400.42,
+      400.6
     ]
   },
   "MERL_USDT": {
@@ -6344,7 +6477,8 @@
     "oi_30m_anterior": 68217936.0,
     "precos_horarios": [
       0.01937,
-      0.0194
+      0.0194,
+      0.01949
     ]
   },
   "SAGA_USDT": {
@@ -6387,7 +6521,8 @@
     "oi_30m_anterior": 40014559.0,
     "precos_horarios": [
       0.01379,
-      0.01383
+      0.01383,
+      0.01389
     ]
   },
   "EDEN_USDT": {
@@ -6430,7 +6565,8 @@
     "oi_30m_anterior": 8952451.0,
     "precos_horarios": [
       0.04353,
-      0.04358
+      0.04358,
+      0.04377
     ]
   },
   "GALA_USDT": {
@@ -6473,7 +6609,8 @@
     "oi_30m_anterior": 68812596.0,
     "precos_horarios": [
       0.002291,
-      0.002299
+      0.002299,
+      0.002281
     ]
   },
   "TRADOOR_USDT": {
@@ -6516,7 +6653,8 @@
     "oi_30m_anterior": 7271850.0,
     "precos_horarios": [
       0.3996,
-      0.4007
+      0.4007,
+      0.4
     ]
   },
   "COAI_USDT": {
@@ -6559,7 +6697,8 @@
     "oi_30m_anterior": 13235669.0,
     "precos_horarios": [
       0.2884,
-      0.2888
+      0.2888,
+      0.29
     ]
   },
   "PLAY_USDT": {
@@ -6602,7 +6741,8 @@
     "oi_30m_anterior": 12038169.0,
     "precos_horarios": [
       0.03696,
-      0.03571
+      0.03571,
+      0.0348
     ]
   },
   "PYTH_USDT": {
@@ -6645,7 +6785,8 @@
     "oi_30m_anterior": 3583080.0,
     "precos_horarios": [
       0.03808,
-      0.0384
+      0.0384,
+      0.03881
     ]
   },
   "COPPER_USDT": {
@@ -6688,7 +6829,8 @@
     "oi_30m_anterior": 4661553.0,
     "precos_horarios": [
       6.254,
-      6.25
+      6.25,
+      6.258
     ]
   },
   "RIF_USDT": {
@@ -6731,7 +6873,8 @@
     "oi_30m_anterior": 3313698.0,
     "precos_horarios": [
       0.10718,
-      0.10948
+      0.10948,
+      0.11174
     ]
   },
   "ICNT_USDT": {
@@ -6774,7 +6917,8 @@
     "oi_30m_anterior": 528627.0,
     "precos_horarios": [
       0.1798,
-      0.1792
+      0.1792,
+      0.1791
     ]
   },
   "TOWNS_USDT": {
@@ -6817,7 +6961,8 @@
     "oi_30m_anterior": 8006064.0,
     "precos_horarios": [
       0.002088,
-      0.002076
+      0.002076,
+      0.002137
     ]
   },
   "US_USDT": {
@@ -6860,7 +7005,8 @@
     "oi_30m_anterior": 36807282.0,
     "precos_horarios": [
       0.017217,
-      0.017136
+      0.017136,
+      0.017079
     ]
   },
   "FHE_USDT": {
@@ -6903,7 +7049,8 @@
     "oi_30m_anterior": 2721183.0,
     "precos_horarios": [
       0.01908,
-      0.01905
+      0.01905,
+      0.01903
     ]
   },
   "THETA_USDT": {
@@ -6946,7 +7093,8 @@
     "oi_30m_anterior": 3315315.0,
     "precos_horarios": [
       0.1396,
-      0.1398
+      0.1398,
+      0.1397
     ]
   },
   "HMSTR_USDT": {
@@ -6989,7 +7137,8 @@
     "oi_30m_anterior": 30047605.0,
     "precos_horarios": [
       0.0002965,
-      0.0003035
+      0.0003035,
+      0.000299
     ]
   },
   "BIO_USDT": {
@@ -7032,7 +7181,8 @@
     "oi_30m_anterior": 8124385.0,
     "precos_horarios": [
       0.02994,
-      0.03005
+      0.03005,
+      0.03013
     ]
   },
   "MITO_USDT": {
@@ -7075,7 +7225,8 @@
     "oi_30m_anterior": 554944.0,
     "precos_horarios": [
       0.02395,
-      0.02402
+      0.02402,
+      0.02434
     ]
   },
   "ALICE_USDT": {
@@ -7118,7 +7269,8 @@
     "oi_30m_anterior": 20041365.0,
     "precos_horarios": [
       0.1278,
-      0.1286
+      0.1286,
+      0.1292
     ]
   },
   "MEME_USDT": {
@@ -7127,10 +7279,10 @@
     "direccao": "SHORT",
     "score_actual": 3,
     "score_anterior": 3,
-    "scans_consecutivos": 3,
+    "scans_consecutivos": 4,
     "contador_estado2": 2,
     "timestamp_entrada_estado": "2026-07-05T05:01:21.229360+00:00",
-    "ultimo_scan": "2026-07-05T07:01:00.756709+00:00",
+    "ultimo_scan": "2026-07-05T08:00:59.591622+00:00",
     "salto_directo": false,
     "grace_period": false,
     "grace_period_dias_restantes": null,
@@ -7154,7 +7306,7 @@
       "s6_short": false
     },
     "categoria": "Memes",
-    "oi_atual": 3542546.0,
+    "oi_atual": 3563670.0,
     "oi_inicio_dia": 3722343.0,
     "volume_media_7d": 6114569.857142857,
     "atr_1h_pct": 0.010501021266370293,
@@ -7200,7 +7352,8 @@
     "oi_30m_anterior": 1182650.0,
     "precos_horarios": [
       0.016,
-      0.01612
+      0.01612,
+      0.01619
     ]
   },
   "ENJ_USDT": {
@@ -7243,7 +7396,8 @@
     "oi_30m_anterior": 15124787.0,
     "precos_horarios": [
       0.02947,
-      0.02963
+      0.02963,
+      0.02969
     ]
   },
   "POL_USDT": {
@@ -7286,7 +7440,8 @@
     "oi_30m_anterior": 2479943.0,
     "precos_horarios": [
       0.07277,
-      0.07284
+      0.07284,
+      0.07295
     ]
   },
   "MET_USDT": {
@@ -7329,7 +7484,8 @@
     "oi_30m_anterior": 1558824.0,
     "precos_horarios": [
       0.1733,
-      0.1744
+      0.1744,
+      0.1732
     ]
   },
   "KAVA_USDT": {
@@ -7372,7 +7528,8 @@
     "oi_30m_anterior": 24909944.0,
     "precos_horarios": [
       0.04512,
-      0.04517
+      0.04517,
+      0.04529
     ]
   },
   "AIA_USDT": {
@@ -7415,7 +7572,8 @@
     "oi_30m_anterior": 4439556.0,
     "precos_horarios": [
       0.05297,
-      0.05312
+      0.05312,
+      0.05315
     ]
   },
   "SNX_USDT": {
@@ -7458,7 +7616,8 @@
     "oi_30m_anterior": 19458430.0,
     "precos_horarios": [
       0.2264,
-      0.2273
+      0.2273,
+      0.2277
     ]
   },
   "ZEN_USDT": {
@@ -7501,7 +7660,8 @@
     "oi_30m_anterior": 3499023.0,
     "precos_horarios": [
       4.24,
-      4.246
+      4.246,
+      4.261
     ]
   },
   "GUN_USDT": {
@@ -7544,7 +7704,8 @@
     "oi_30m_anterior": 96707057.0,
     "precos_horarios": [
       0.004398,
-      0.004448
+      0.004448,
+      0.004414
     ]
   },
   "IO_USDT": {
@@ -7587,7 +7748,8 @@
     "oi_30m_anterior": 2384032.0,
     "precos_horarios": [
       0.1704,
-      0.1713
+      0.1713,
+      0.1736
     ]
   },
   "ZBT_USDT": {
@@ -7630,7 +7792,8 @@
     "oi_30m_anterior": 2607808.0,
     "precos_horarios": [
       0.137,
-      0.136
+      0.136,
+      0.134
     ]
   },
   "AVNT_USDT": {
@@ -7673,7 +7836,8 @@
     "oi_30m_anterior": 4614931.0,
     "precos_horarios": [
       0.0959,
-      0.096
+      0.096,
+      0.0969
     ]
   },
   "KIOXIASTOCK_USDT": {
@@ -7716,7 +7880,8 @@
     "oi_30m_anterior": 1529606.0,
     "precos_horarios": [
       533.1,
-      532.76
+      532.76,
+      534.99
     ]
   },
   "AKT_USDT": {
@@ -7759,7 +7924,8 @@
     "oi_30m_anterior": 9491318.0,
     "precos_horarios": [
       0.62,
-      0.6204
+      0.6204,
+      0.6239
     ]
   },
   "EUR_USDT": {
@@ -7802,7 +7968,8 @@
     "oi_30m_anterior": 3485057.0,
     "precos_horarios": [
       1.1439,
-      1.1439
+      1.1439,
+      1.144
     ]
   },
   "VET_USDT": {
@@ -7845,7 +8012,8 @@
     "oi_30m_anterior": 371347161.0,
     "precos_horarios": [
       0.004707,
-      0.004725
+      0.004725,
+      0.004729
     ]
   },
   "AR_USDT": {
@@ -7888,7 +8056,8 @@
     "oi_30m_anterior": 3610625.0,
     "precos_horarios": [
       2.007,
-      2.025
+      2.025,
+      2.033
     ]
   },
   "NKESTOCK_USDT": {
@@ -7931,7 +8100,8 @@
     "oi_30m_anterior": 907008.0,
     "precos_horarios": [
       43.932,
-      43.942
+      43.942,
+      43.907
     ]
   },
   "SUPRA_USDT": {
@@ -7974,7 +8144,8 @@
     "oi_30m_anterior": 434235852.0,
     "precos_horarios": [
       0.0002244,
-      0.0002216
+      0.0002216,
+      0.0002215
     ]
   },
   "CRO_USDT": {
@@ -8017,7 +8188,8 @@
     "oi_30m_anterior": 6432030.0,
     "precos_horarios": [
       0.05997,
-      0.05994
+      0.05994,
+      0.05989
     ]
   },
   "VELODROME_USDT": {
@@ -8060,6 +8232,7 @@
     "oi_30m_anterior": 893887.0,
     "precos_horarios": [
       0.02423,
+      0.02447,
       0.02447
     ]
   },
@@ -8103,7 +8276,8 @@
     "oi_30m_anterior": 7382845.0,
     "precos_horarios": [
       0.134,
-      0.1344
+      0.1344,
+      0.1346
     ]
   },
   "QNT_USDT": {
@@ -8146,7 +8320,8 @@
     "oi_30m_anterior": 2814051.0,
     "precos_horarios": [
       67.35,
-      67.57
+      67.57,
+      67.56
     ]
   },
   "OPENLEDGER_USDT": {
@@ -8189,7 +8364,8 @@
     "oi_30m_anterior": 1280650.0,
     "precos_horarios": [
       0.1625,
-      0.1632
+      0.1632,
+      0.1634
     ]
   },
   "HNT_USDT": {
@@ -8232,7 +8408,8 @@
     "oi_30m_anterior": 19584932.0,
     "precos_horarios": [
       0.2396,
-      0.2405
+      0.2405,
+      0.2401
     ]
   },
   "DODO_USDT": {
@@ -8275,7 +8452,8 @@
     "oi_30m_anterior": 549261.0,
     "precos_horarios": [
       0.01792,
-      0.01818
+      0.01818,
+      0.01829
     ]
   },
   "RARE_USDT": {
@@ -8318,7 +8496,8 @@
     "oi_30m_anterior": 823581.0,
     "precos_horarios": [
       0.01242,
-      0.01243
+      0.01243,
+      0.01246
     ]
   },
   "ROAM_USDT": {
@@ -8361,7 +8540,8 @@
     "oi_30m_anterior": 35611887.0,
     "precos_horarios": [
       0.008575,
-      0.008543
+      0.008543,
+      0.008571
     ]
   },
   "ROSE_USDT": {
@@ -8404,7 +8584,8 @@
     "oi_30m_anterior": 103799147.0,
     "precos_horarios": [
       0.005939,
-      0.005936
+      0.005936,
+      0.005962
     ]
   },
   "ALUMINUM_USDT": {
@@ -8447,7 +8628,8 @@
     "oi_30m_anterior": 51734.0,
     "precos_horarios": [
       3088.17,
-      3087.9
+      3087.9,
+      3089.89
     ]
   },
   "BERA_USDT": {
@@ -8490,7 +8672,8 @@
     "oi_30m_anterior": 13950172.0,
     "precos_horarios": [
       0.2086,
-      0.2085
+      0.2085,
+      0.2088
     ]
   },
   "CRCLSTOCK_USDT": {
@@ -8533,7 +8716,8 @@
     "oi_30m_anterior": 1792197.0,
     "precos_horarios": [
       67.93,
-      68.04
+      68.04,
+      68.42
     ]
   },
   "ROBO_USDT": {
@@ -8576,7 +8760,8 @@
     "oi_30m_anterior": 1615752.0,
     "precos_horarios": [
       0.01477,
-      0.01483
+      0.01483,
+      0.01478
     ]
   },
   "CORE_USDT": {
@@ -8619,7 +8804,8 @@
     "oi_30m_anterior": 9543355.0,
     "precos_horarios": [
       0.0253,
-      0.02537
+      0.02537,
+      0.02562
     ]
   },
   "NFP_USDT": {
@@ -8701,7 +8887,8 @@
     "oi_30m_anterior": 23206976.0,
     "precos_horarios": [
       0.003576,
-      0.003587
+      0.003587,
+      0.003588
     ]
   },
   "NOM_USDT": {
@@ -8744,7 +8931,8 @@
     "oi_30m_anterior": 21275354.0,
     "precos_horarios": [
       0.001854,
-      0.001911
+      0.001911,
+      0.001896
     ]
   },
   "IOTA_USDT": {
@@ -8787,7 +8975,8 @@
     "oi_30m_anterior": 3259812.0,
     "precos_horarios": [
       0.03805,
-      0.03818
+      0.03818,
+      0.03838
     ]
   },
   "EGLD_USDT": {
@@ -8830,7 +9019,8 @@
     "oi_30m_anterior": 2623909.0,
     "precos_horarios": [
       2.683,
-      2.676
+      2.676,
+      2.692
     ]
   },
   "MONAD_USDT": {
@@ -8873,7 +9063,8 @@
     "oi_30m_anterior": 4954316.0,
     "precos_horarios": [
       0.02028,
-      0.02034
+      0.02034,
+      0.02044
     ]
   },
   "SPORTFUN_USDT": {
@@ -8916,7 +9107,8 @@
     "oi_30m_anterior": 384578.0,
     "precos_horarios": [
       0.02527,
-      0.0251
+      0.0251,
+      0.02519
     ]
   },
   "STRK_USDT": {
@@ -8959,7 +9151,8 @@
     "oi_30m_anterior": 36593987.0,
     "precos_horarios": [
       0.03051,
-      0.03058
+      0.03058,
+      0.03083
     ]
   },
   "MANA_USDT": {
@@ -9002,7 +9195,8 @@
     "oi_30m_anterior": 16931933.0,
     "precos_horarios": [
       0.07,
-      0.0703
+      0.0703,
+      0.0711
     ]
   },
   "ZAMA_USDT": {
@@ -9045,7 +9239,8 @@
     "oi_30m_anterior": 1023224.0,
     "precos_horarios": [
       0.03203,
-      0.03195
+      0.03195,
+      0.03177
     ]
   },
   "COMP_USDT": {
@@ -9088,7 +9283,8 @@
     "oi_30m_anterior": 2149880.0,
     "precos_horarios": [
       16.74,
-      16.8
+      16.8,
+      16.86
     ]
   },
   "NIL_USDT": {
@@ -9131,7 +9327,8 @@
     "oi_30m_anterior": 10491756.0,
     "precos_horarios": [
       0.03726,
-      0.0372
+      0.0372,
+      0.03738
     ]
   },
   "CFX_USDT": {
@@ -9174,7 +9371,8 @@
     "oi_30m_anterior": 54894899.0,
     "precos_horarios": [
       0.04443,
-      0.04467
+      0.04467,
+      0.04474
     ]
   },
   "HIGH_USDT": {
@@ -9217,7 +9415,8 @@
     "oi_30m_anterior": 84176367.0,
     "precos_horarios": [
       0.0361,
-      0.03643
+      0.03643,
+      0.03663
     ]
   },
   "SWARMS_USDT": {
@@ -9260,7 +9459,8 @@
     "oi_30m_anterior": 1303410.0,
     "precos_horarios": [
       0.00669,
-      0.006745
+      0.006745,
+      0.006779
     ]
   },
   "BLUR_USDT": {
@@ -9303,7 +9503,8 @@
     "oi_30m_anterior": 968253.0,
     "precos_horarios": [
       0.01512,
-      0.01515
+      0.01515,
+      0.01517
     ]
   },
   "DOGS_USDT": {
@@ -9346,7 +9547,8 @@
     "oi_30m_anterior": 194652575.0,
     "precos_horarios": [
       4.363e-05,
-      4.462e-05
+      4.462e-05,
+      4.478e-05
     ]
   },
   "FORM_USDT": {
@@ -9389,7 +9591,8 @@
     "oi_30m_anterior": 781971.0,
     "precos_horarios": [
       0.2225,
-      0.2213
+      0.2213,
+      0.2218
     ]
   },
   "GRT_USDT": {
@@ -9432,7 +9635,8 @@
     "oi_30m_anterior": 71131183.0,
     "precos_horarios": [
       0.0185,
-      0.01853
+      0.01853,
+      0.01855
     ]
   },
   "XAI_USDT": {
@@ -9475,7 +9679,8 @@
     "oi_30m_anterior": 4697200.0,
     "precos_horarios": [
       0.007316,
-      0.007275
+      0.007275,
+      0.007345
     ]
   },
   "LA_USDT": {
@@ -9518,7 +9723,8 @@
     "oi_30m_anterior": 8201744.0,
     "precos_horarios": [
       0.062,
-      0.0619
+      0.0619,
+      0.0621
     ]
   },
   "MOVE_USDT": {
@@ -9561,7 +9767,8 @@
     "oi_30m_anterior": 42506953.0,
     "precos_horarios": [
       0.01195,
-      0.01196
+      0.01196,
+      0.01199
     ]
   },
   "XTZ_USDT": {
@@ -9604,7 +9811,8 @@
     "oi_30m_anterior": 14555359.0,
     "precos_horarios": [
       0.249,
-      0.2487
+      0.2487,
+      0.2475
     ]
   },
   "ACE_USDT": {
@@ -9647,7 +9855,8 @@
     "oi_30m_anterior": 73166755.0,
     "precos_horarios": [
       0.07712,
-      0.07719
+      0.07719,
+      0.07739
     ]
   },
   "PNUT_USDT": {
@@ -9690,7 +9899,8 @@
     "oi_30m_anterior": 1096708.0,
     "precos_horarios": [
       0.04421,
-      0.04438
+      0.04438,
+      0.045
     ]
   },
   "AIGENSYN_USDT": {
@@ -9733,7 +9943,8 @@
     "oi_30m_anterior": 1508588.0,
     "precos_horarios": [
       0.02788,
-      0.02816
+      0.02816,
+      0.02822
     ]
   },
   "DYM_USDT": {
@@ -9776,7 +9987,8 @@
     "oi_30m_anterior": 18263011.0,
     "precos_horarios": [
       0.01649,
-      0.01653
+      0.01653,
+      0.01681
     ]
   },
   "ACT_USDT": {
@@ -9819,7 +10031,8 @@
     "oi_30m_anterior": 4010367.0,
     "precos_horarios": [
       0.00913,
-      0.00921
+      0.00921,
+      0.00923
     ]
   },
   "TAC_USDT": {
@@ -9862,7 +10075,8 @@
     "oi_30m_anterior": 17320333.0,
     "precos_horarios": [
       0.030679,
-      0.030118
+      0.030118,
+      0.030094
     ]
   },
   "IOTX_USDT": {
@@ -9905,7 +10119,8 @@
     "oi_30m_anterior": 33608652.0,
     "precos_horarios": [
       0.002908,
-      0.002897
+      0.002897,
+      0.00291
     ]
   },
   "RAY_USDT": {
@@ -9948,7 +10163,8 @@
     "oi_30m_anterior": 51369390.0,
     "precos_horarios": [
       0.706,
-      0.7073
+      0.7073,
+      0.7082
     ]
   },
   "PLUME_USDT": {
@@ -9991,7 +10207,8 @@
     "oi_30m_anterior": 3013375.0,
     "precos_horarios": [
       0.01054,
-      0.01045
+      0.01045,
+      0.0105
     ]
   },
   "ENS_USDT": {
@@ -10034,7 +10251,8 @@
     "oi_30m_anterior": 3009689.0,
     "precos_horarios": [
       4.243,
-      4.263
+      4.263,
+      4.304
     ]
   },
   "BAT_USDT": {
@@ -10077,7 +10295,8 @@
     "oi_30m_anterior": 4971885.0,
     "precos_horarios": [
       0.0852,
-      0.0853
+      0.0853,
+      0.0859
     ]
   },
   "AIXBT_USDT": {
@@ -10120,7 +10339,8 @@
     "oi_30m_anterior": 768075.0,
     "precos_horarios": [
       0.01926,
-      0.01938
+      0.01938,
+      0.01948
     ]
   },
   "NEO_USDT": {
@@ -10163,7 +10383,8 @@
     "oi_30m_anterior": 4747624.0,
     "precos_horarios": [
       1.964,
-      1.971
+      1.971,
+      1.978
     ]
   },
   "GOAT_USDT": {
@@ -10206,7 +10427,8 @@
     "oi_30m_anterior": 1686715.0,
     "precos_horarios": [
       0.01369,
-      0.01376
+      0.01376,
+      0.01384
     ]
   },
   "TAKE_USDT": {
@@ -10249,7 +10471,8 @@
     "oi_30m_anterior": 588845.0,
     "precos_horarios": [
       0.01954,
-      0.01978
+      0.01978,
+      0.01993
     ]
   },
   "MANTA_USDT": {
@@ -10292,7 +10515,8 @@
     "oi_30m_anterior": 82886796.0,
     "precos_horarios": [
       0.06101,
-      0.06093
+      0.06093,
+      0.06182
     ]
   },
   "ZIL_USDT": {
@@ -10335,7 +10559,8 @@
     "oi_30m_anterior": 17551703.0,
     "precos_horarios": [
       0.003102,
-      0.003097
+      0.003097,
+      0.003109
     ]
   },
   "ACH_USDT": {
@@ -10378,7 +10603,8 @@
     "oi_30m_anterior": 638740360.0,
     "precos_horarios": [
       0.004446,
-      0.004469
+      0.004469,
+      0.004493
     ]
   },
   "MINA_USDT": {
@@ -10421,7 +10647,8 @@
     "oi_30m_anterior": 6046547.0,
     "precos_horarios": [
       0.04615,
-      0.04623
+      0.04623,
+      0.04604
     ]
   },
   "PHA_USDT": {
@@ -10464,7 +10691,8 @@
     "oi_30m_anterior": 1170325.0,
     "precos_horarios": [
       0.02596,
-      0.02612
+      0.02612,
+      0.02628
     ]
   },
   "THE_USDT": {
@@ -10507,7 +10735,8 @@
     "oi_30m_anterior": 2508528.0,
     "precos_horarios": [
       0.06075,
-      0.06175
+      0.06175,
+      0.06345
     ]
   },
   "LUNANEW_USDT": {
@@ -10550,7 +10779,8 @@
     "oi_30m_anterior": 6455281.0,
     "precos_horarios": [
       0.0491,
-      0.04915
+      0.04915,
+      0.04926
     ]
   },
   "BARD_USDT": {
@@ -10593,7 +10823,8 @@
     "oi_30m_anterior": 901533.0,
     "precos_horarios": [
       0.1312,
-      0.1317
+      0.1317,
+      0.1324
     ]
   },
   "US30_USDT": {
@@ -10636,7 +10867,8 @@
     "oi_30m_anterior": 8241644.0,
     "precos_horarios": [
       53187.69,
-      53179.17
+      53179.17,
+      53179.07
     ]
   },
   "MELANIA_USDT": {
@@ -10679,7 +10911,8 @@
     "oi_30m_anterior": 49088638.0,
     "precos_horarios": [
       0.08198,
-      0.08251
+      0.08251,
+      0.08361
     ]
   },
   "LINEA_USDT": {
@@ -10722,7 +10955,8 @@
     "oi_30m_anterior": 21770100.0,
     "precos_horarios": [
       0.002463,
-      0.002458
+      0.002458,
+      0.002463
     ]
   },
   "KAIA_USDT": {
@@ -10765,7 +10999,8 @@
     "oi_30m_anterior": 1071364.0,
     "precos_horarios": [
       0.03522,
-      0.03529
+      0.03529,
+      0.03556
     ]
   },
   "HUMA_USDT": {
@@ -10808,7 +11043,8 @@
     "oi_30m_anterior": 885564.0,
     "precos_horarios": [
       0.02258,
-      0.0227
+      0.0227,
+      0.02262
     ]
   },
   "NGAS_USDT": {
@@ -10851,7 +11087,8 @@
     "oi_30m_anterior": 5278623.0,
     "precos_horarios": [
       3.228,
-      3.226
+      3.226,
+      3.229
     ]
   },
   "CLANKER_USDT": {
@@ -10894,7 +11131,8 @@
     "oi_30m_anterior": 424558.0,
     "precos_horarios": [
       16.41,
-      16.37
+      16.37,
+      16.3
     ]
   },
   "PEAQ_USDT": {
@@ -10937,7 +11175,8 @@
     "oi_30m_anterior": 1174318.0,
     "precos_horarios": [
       0.02211,
-      0.022
+      0.022,
+      0.02212
     ]
   },
   "BABY_USDT": {
@@ -10980,7 +11219,8 @@
     "oi_30m_anterior": 2085883.0,
     "precos_horarios": [
       0.01363,
-      0.01369
+      0.01369,
+      0.01368
     ]
   },
   "TAIKO_USDT": {
@@ -11023,7 +11263,8 @@
     "oi_30m_anterior": 9610194.0,
     "precos_horarios": [
       0.1034,
-      0.103
+      0.103,
+      0.1037
     ]
   },
   "METASTOCK_USDT": {
@@ -11066,7 +11307,8 @@
     "oi_30m_anterior": 6157892.0,
     "precos_horarios": [
       590.43,
-      590.42
+      590.42,
+      590.19
     ]
   },
   "MIRA_USDT": {
@@ -11109,7 +11351,8 @@
     "oi_30m_anterior": 20408724.0,
     "precos_horarios": [
       0.05124,
-      0.05152
+      0.05152,
+      0.05112
     ]
   },
   "ONT_USDT": {
@@ -11152,7 +11395,8 @@
     "oi_30m_anterior": 48060526.0,
     "precos_horarios": [
       0.04502,
-      0.04514
+      0.04514,
+      0.04538
     ]
   },
   "STORJ_USDT": {
@@ -11195,7 +11439,8 @@
     "oi_30m_anterior": 3097990.0,
     "precos_horarios": [
       0.0782,
-      0.078
+      0.078,
+      0.0786
     ]
   },
   "SATS_USDT": {
@@ -11238,7 +11483,8 @@
     "oi_30m_anterior": 1272146.0,
     "precos_horarios": [
       9.44e-09,
-      9.47e-09
+      9.47e-09,
+      9.53e-09
     ]
   },
   "KOMA_USDT": {
@@ -11281,7 +11527,8 @@
     "oi_30m_anterior": 780436.0,
     "precos_horarios": [
       0.007937,
-      0.008004
+      0.008004,
+      0.008054
     ]
   },
   "SENT_USDT": {
@@ -11324,7 +11571,8 @@
     "oi_30m_anterior": 741407.0,
     "precos_horarios": [
       0.0151,
-      0.01516
+      0.01516,
+      0.01522
     ]
   },
   "VANRY_USDT": {
@@ -11367,7 +11615,8 @@
     "oi_30m_anterior": 8076783.0,
     "precos_horarios": [
       0.005033,
-      0.00473
+      0.00473,
+      0.004665
     ]
   },
   "API3_USDT": {
@@ -11410,7 +11659,8 @@
     "oi_30m_anterior": 692874.0,
     "precos_horarios": [
       0.2287,
-      0.2292
+      0.2292,
+      0.2302
     ]
   },
   "RSR_USDT": {
@@ -11453,19 +11703,20 @@
     "oi_30m_anterior": 364857319.0,
     "precos_horarios": [
       0.001189,
-      0.001193
+      0.001193,
+      0.001198
     ]
   },
   "TLM_USDT": {
     "ticker": "TLM_USDT",
     "estado": 2,
     "direccao": "LONG",
-    "score_actual": 1,
-    "score_anterior": 0,
-    "scans_consecutivos": 1,
+    "score_actual": 2,
+    "score_anterior": 1,
+    "scans_consecutivos": 2,
     "contador_estado2": 0,
     "timestamp_entrada_estado": "2026-07-05T07:01:00.756709+00:00",
-    "ultimo_scan": "2026-07-05T07:01:00.756709+00:00",
+    "ultimo_scan": "2026-07-05T08:00:59.591622+00:00",
     "salto_directo": false,
     "grace_period": false,
     "grace_period_dias_restantes": null,
@@ -11489,7 +11740,7 @@
       "s6_short": false
     },
     "categoria": "Infrastructure",
-    "oi_atual": 572474918.0,
+    "oi_atual": 547816608.0,
     "oi_inicio_dia": 567232614.0,
     "volume_media_7d": 8548467896.428572,
     "atr_1h_pct": 0.067924828794394,
@@ -11535,7 +11786,8 @@
     "oi_30m_anterior": 1563190.0,
     "precos_horarios": [
       0.01017,
-      0.01045
+      0.01045,
+      0.01025
     ]
   },
   "BB_USDT": {
@@ -11578,7 +11830,8 @@
     "oi_30m_anterior": 1028253.0,
     "precos_horarios": [
       0.0199,
-      0.01994
+      0.01994,
+      0.01996
     ]
   },
   "2Z_USDT": {
@@ -11621,7 +11874,8 @@
     "oi_30m_anterior": 78273864.0,
     "precos_horarios": [
       0.07016,
-      0.06979
+      0.06979,
+      0.06982
     ]
   },
   "APR_USDT": {
@@ -11664,7 +11918,8 @@
     "oi_30m_anterior": 486967.0,
     "precos_horarios": [
       0.2058,
-      0.2037
+      0.2037,
+      0.201
     ]
   },
   "ZKSYNC_USDT": {
@@ -11707,7 +11962,8 @@
     "oi_30m_anterior": 5737518.0,
     "precos_horarios": [
       0.01054,
-      0.01063
+      0.01063,
+      0.01066
     ]
   },
   "ZORA_USDT": {
@@ -11750,7 +12006,8 @@
     "oi_30m_anterior": 18176406.0,
     "precos_horarios": [
       0.007096,
-      0.0071
+      0.0071,
+      0.007211
     ]
   },
   "CSPR_USDT": {
@@ -11793,6 +12050,7 @@
     "oi_30m_anterior": 37475064.0,
     "precos_horarios": [
       0.001981,
+      0.00197,
       0.00197
     ]
   },
@@ -11836,7 +12094,8 @@
     "oi_30m_anterior": 18688206.0,
     "precos_horarios": [
       0.00977,
-      0.00989
+      0.00989,
+      0.00985
     ]
   },
   "NFLXSTOCK_USDT": {
@@ -11879,7 +12138,8 @@
     "oi_30m_anterior": 2597205.0,
     "precos_horarios": [
       78.0,
-      78.03
+      78.03,
+      77.99
     ]
   },
   "SCR_USDT": {
@@ -11922,7 +12182,8 @@
     "oi_30m_anterior": 2118857.0,
     "precos_horarios": [
       0.02874,
-      0.02876
+      0.02876,
+      0.02874
     ]
   },
   "RED_USDT": {
@@ -11965,7 +12226,8 @@
     "oi_30m_anterior": 1585501.0,
     "precos_horarios": [
       0.0992,
-      0.0998
+      0.0998,
+      0.0999
     ]
   },
   "REZ_USDT": {
@@ -12008,7 +12270,8 @@
     "oi_30m_anterior": 67111806.0,
     "precos_horarios": [
       0.003056,
-      0.003071
+      0.003071,
+      0.003082
     ]
   },
   "SPK_USDT": {
@@ -12051,7 +12314,8 @@
     "oi_30m_anterior": 1106869.0,
     "precos_horarios": [
       0.01812,
-      0.01815
+      0.01815,
+      0.01825
     ]
   },
   "ONE_USDT": {
@@ -12094,7 +12358,8 @@
     "oi_30m_anterior": 126775473.0,
     "precos_horarios": [
       0.00126,
-      0.001265
+      0.001265,
+      0.001266
     ]
   },
   "OG_USDT": {
@@ -12137,7 +12402,8 @@
     "oi_30m_anterior": 1060224.0,
     "precos_horarios": [
       2.498,
-      2.493
+      2.493,
+      2.506
     ]
   },
   "KERNEL_USDT": {
@@ -12180,7 +12446,8 @@
     "oi_30m_anterior": 98479375.0,
     "precos_horarios": [
       0.04048,
-      0.04057
+      0.04057,
+      0.04066
     ]
   },
   "SOMI_USDT": {
@@ -12223,7 +12490,8 @@
     "oi_30m_anterior": 1209417.0,
     "precos_horarios": [
       0.1045,
-      0.105
+      0.105,
+      0.1045
     ]
   },
   "INIT_USDT": {
@@ -12266,6 +12534,7 @@
     "oi_30m_anterior": 2772465.0,
     "precos_horarios": [
       0.057,
+      0.0571,
       0.0571
     ]
   },
@@ -12309,7 +12578,8 @@
     "oi_30m_anterior": 1333450.0,
     "precos_horarios": [
       0.05186,
-      0.05273
+      0.05273,
+      0.0525
     ]
   },
   "KAT_USDT": {
@@ -12352,7 +12622,8 @@
     "oi_30m_anterior": 1287795.0,
     "precos_horarios": [
       0.005072,
-      0.005062
+      0.005062,
+      0.00508
     ]
   },
   "ILV_USDT": {
@@ -12395,7 +12666,8 @@
     "oi_30m_anterior": 84514890.0,
     "precos_horarios": [
       3.156,
-      3.163
+      3.163,
+      3.169
     ]
   },
   "ME_USDT": {
@@ -12438,7 +12710,8 @@
     "oi_30m_anterior": 30568652.0,
     "precos_horarios": [
       0.06317,
-      0.06308
+      0.06308,
+      0.06294
     ]
   },
   "0G_USDT": {
@@ -12481,7 +12754,8 @@
     "oi_30m_anterior": 14479083.0,
     "precos_horarios": [
       0.2056,
-      0.2053
+      0.2053,
+      0.2079
     ]
   },
   "KNC_USDT": {
@@ -12524,7 +12798,8 @@
     "oi_30m_anterior": 10891683.0,
     "precos_horarios": [
       0.1119,
-      0.112
+      0.112,
+      0.1127
     ]
   },
   "SUSHI_USDT": {
@@ -12567,7 +12842,8 @@
     "oi_30m_anterior": 13432234.0,
     "precos_horarios": [
       0.1602,
-      0.1608
+      0.1608,
+      0.161
     ]
   },
   "YGG_USDT": {
@@ -12610,7 +12886,8 @@
     "oi_30m_anterior": 5496724.0,
     "precos_horarios": [
       0.02264,
-      0.02272
+      0.02272,
+      0.02284
     ]
   },
   "GMT_USDT": {
@@ -12653,7 +12930,8 @@
     "oi_30m_anterior": 5851639.0,
     "precos_horarios": [
       0.00787,
-      0.00788
+      0.00788,
+      0.00792
     ]
   },
   "GPS_USDT": {
@@ -12696,7 +12974,8 @@
     "oi_30m_anterior": 22971771.0,
     "precos_horarios": [
       0.009413,
-      0.009473
+      0.009473,
+      0.009437
     ]
   },
   "CTR_USDT": {
@@ -12739,7 +13018,8 @@
     "oi_30m_anterior": 858798.0,
     "precos_horarios": [
       0.01075,
-      0.01073
+      0.01073,
+      0.0108
     ]
   },
   "KSM_USDT": {
@@ -12782,7 +13062,8 @@
     "oi_30m_anterior": 8355758.0,
     "precos_horarios": [
       3.223,
-      3.237
+      3.237,
+      3.245
     ]
   },
   "LPT_USDT": {
@@ -12825,7 +13106,8 @@
     "oi_30m_anterior": 645866.0,
     "precos_horarios": [
       1.608,
-      1.617
+      1.617,
+      1.619
     ]
   },
   "WOO_USDT": {
@@ -12868,7 +13150,8 @@
     "oi_30m_anterior": 14626543.0,
     "precos_horarios": [
       0.01178,
-      0.01183
+      0.01183,
+      0.0119
     ]
   },
   "PIXEL_USDT": {
@@ -12911,7 +13194,8 @@
     "oi_30m_anterior": 73076477.0,
     "precos_horarios": [
       0.005342,
-      0.005438
+      0.005438,
+      0.005372
     ]
   },
   "SHELL_USDT": {
@@ -12954,6 +13238,7 @@
     "oi_30m_anterior": 2502931.0,
     "precos_horarios": [
       0.0238,
+      0.0234,
       0.0234
     ]
   },
@@ -12997,7 +13282,8 @@
     "oi_30m_anterior": 3265818.0,
     "precos_horarios": [
       0.0766,
-      0.0765
+      0.0765,
+      0.0771
     ]
   },
   "FF_USDT": {
@@ -13040,7 +13326,8 @@
     "oi_30m_anterior": 64359873.0,
     "precos_horarios": [
       0.06247,
-      0.06261
+      0.06261,
+      0.06263
     ]
   },
   "AEVO_USDT": {
@@ -13083,7 +13370,8 @@
     "oi_30m_anterior": 7105467.0,
     "precos_horarios": [
       0.01889,
-      0.01891
+      0.01891,
+      0.01908
     ]
   },
   "QTUM_USDT": {
@@ -13126,7 +13414,8 @@
     "oi_30m_anterior": 3566847.0,
     "precos_horarios": [
       0.708,
-      0.707
+      0.707,
+      0.711
     ]
   },
   "GRIFFAIN_USDT": {
@@ -13169,7 +13458,8 @@
     "oi_30m_anterior": 1809291.0,
     "precos_horarios": [
       0.00989,
-      0.00994
+      0.00994,
+      0.01001
     ]
   },
   "SIGN_USDT": {
@@ -13212,7 +13502,8 @@
     "oi_30m_anterior": 16944219.0,
     "precos_horarios": [
       0.008565,
-      0.008579
+      0.008579,
+      0.008603
     ]
   },
   "C98_USDT": {
@@ -13255,7 +13546,8 @@
     "oi_30m_anterior": 6250744.0,
     "precos_horarios": [
       0.01312,
-      0.01319
+      0.01319,
+      0.01332
     ]
   },
   "SPELL_USDT": {
@@ -13298,7 +13590,8 @@
     "oi_30m_anterior": 16517994.0,
     "precos_horarios": [
       9.13e-05,
-      9.24e-05
+      9.24e-05,
+      9.26e-05
     ]
   },
   "ALT_USDT": {
@@ -13341,7 +13634,8 @@
     "oi_30m_anterior": 2723872.0,
     "precos_horarios": [
       0.006565,
-      0.006544
+      0.006544,
+      0.006523
     ]
   },
   "BROCCOLI_USDT": {
@@ -13384,7 +13678,8 @@
     "oi_30m_anterior": 1268401.0,
     "precos_horarios": [
       0.01238,
-      0.01245
+      0.01245,
+      0.01246
     ]
   },
   "NEWT_USDT": {
@@ -13427,7 +13722,8 @@
     "oi_30m_anterior": 5308792.0,
     "precos_horarios": [
       0.05052,
-      0.05046
+      0.05046,
+      0.05081
     ]
   },
   "4_USDT": {
@@ -13470,7 +13766,8 @@
     "oi_30m_anterior": 2666452.0,
     "precos_horarios": [
       0.01005,
-      0.01019
+      0.01019,
+      0.01032
     ]
   },
   "ATH_USDT": {
@@ -13513,7 +13810,8 @@
     "oi_30m_anterior": 44856051.0,
     "precos_horarios": [
       0.004485,
-      0.004495
+      0.004495,
+      0.004493
     ]
   },
   "PROVE_USDT": {
@@ -13521,11 +13819,11 @@
     "estado": 2,
     "direccao": "SHORT",
     "score_actual": 4,
-    "score_anterior": 5,
-    "scans_consecutivos": 3,
+    "score_anterior": 4,
+    "scans_consecutivos": 4,
     "contador_estado2": 2,
     "timestamp_entrada_estado": "2026-07-05T05:01:21.229360+00:00",
-    "ultimo_scan": "2026-07-05T07:01:00.756709+00:00",
+    "ultimo_scan": "2026-07-05T08:00:59.591622+00:00",
     "salto_directo": false,
     "grace_period": false,
     "grace_period_dias_restantes": null,
@@ -13595,7 +13893,8 @@
     "oi_30m_anterior": 1542654.0,
     "precos_horarios": [
       0.03644,
-      0.0364
+      0.0364,
+      0.03648
     ]
   },
   "PEOPLE_USDT": {
@@ -13638,7 +13937,8 @@
     "oi_30m_anterior": 2988651.0,
     "precos_horarios": [
       0.005345,
-      0.005392
+      0.005392,
+      0.005421
     ]
   },
   "DOOD_USDT": {
@@ -13681,7 +13981,8 @@
     "oi_30m_anterior": 576780.0,
     "precos_horarios": [
       0.001529,
-      0.001532
+      0.001532,
+      0.001547
     ]
   },
   "EUL_USDT": {
@@ -13724,7 +14025,8 @@
     "oi_30m_anterior": 1300619.0,
     "precos_horarios": [
       1.059,
-      1.062
+      1.062,
+      1.065
     ]
   },
   "RLS_USDT": {
@@ -13733,10 +14035,10 @@
     "direccao": "SHORT",
     "score_actual": 3,
     "score_anterior": 3,
-    "scans_consecutivos": 3,
+    "scans_consecutivos": 4,
     "contador_estado2": 2,
     "timestamp_entrada_estado": "2026-07-05T05:01:21.229360+00:00",
-    "ultimo_scan": "2026-07-05T07:01:00.756709+00:00",
+    "ultimo_scan": "2026-07-05T08:00:59.591622+00:00",
     "salto_directo": false,
     "grace_period": false,
     "grace_period_dias_restantes": null,
@@ -13760,7 +14062,7 @@
       "s6_short": false
     },
     "categoria": "Infrastructure",
-    "oi_atual": 2814573.0,
+    "oi_atual": 2770363.0,
     "oi_inicio_dia": 2760182.0,
     "volume_media_7d": 4930470.142857143,
     "atr_1h_pct": 0.01306542294914391,
@@ -13806,7 +14108,8 @@
     "oi_30m_anterior": 5281904.0,
     "precos_horarios": [
       0.0711,
-      0.0714
+      0.0714,
+      0.0718
     ]
   },
   "SLP_USDT": {
@@ -13849,7 +14152,8 @@
     "oi_30m_anterior": 323813922.0,
     "precos_horarios": [
       0.0005236,
-      0.0005297
+      0.0005297,
+      0.0005264
     ]
   },
   "CGPT_USDT": {
@@ -13892,7 +14196,8 @@
     "oi_30m_anterior": 763563.0,
     "precos_horarios": [
       0.01965,
-      0.01959
+      0.01959,
+      0.01967
     ]
   },
   "PTB_USDT": {
@@ -13935,7 +14240,8 @@
     "oi_30m_anterior": 12962759.0,
     "precos_horarios": [
       0.0005285,
-      0.0005282
+      0.0005282,
+      0.0005333
     ]
   },
   "ZKC_USDT": {
@@ -13978,7 +14284,8 @@
     "oi_30m_anterior": 1970786.0,
     "precos_horarios": [
       0.04616,
-      0.0462
+      0.0462,
+      0.0461
     ]
   },
   "BAND_USDT": {
@@ -14021,19 +14328,20 @@
     "oi_30m_anterior": 7748941.0,
     "precos_horarios": [
       0.1599,
-      0.1603
+      0.1603,
+      0.1604
     ]
   },
   "HOT_USDT": {
     "ticker": "HOT_USDT",
     "estado": 2,
     "direccao": "LONG",
-    "score_actual": 1,
-    "score_anterior": 0,
-    "scans_consecutivos": 1,
+    "score_actual": 2,
+    "score_anterior": 1,
+    "scans_consecutivos": 2,
     "contador_estado2": 0,
     "timestamp_entrada_estado": "2026-07-05T07:01:00.756709+00:00",
-    "ultimo_scan": "2026-07-05T07:01:00.756709+00:00",
+    "ultimo_scan": "2026-07-05T08:00:59.591622+00:00",
     "salto_directo": false,
     "grace_period": false,
     "grace_period_dias_restantes": null,
@@ -14057,7 +14365,7 @@
       "s6_short": true
     },
     "categoria": "Infrastructure",
-    "oi_atual": 755042788.0,
+    "oi_atual": 1633238574.0,
     "oi_inicio_dia": 711106671.0,
     "volume_media_7d": 1514458368.5714285,
     "atr_1h_pct": 0.06585320067580254,
@@ -14103,7 +14411,8 @@
     "oi_30m_anterior": 637358.0,
     "precos_horarios": [
       0.01031,
-      0.01042
+      0.01042,
+      0.01052
     ]
   },
   "MAV_USDT": {
@@ -14146,7 +14455,8 @@
     "oi_30m_anterior": 1470988.0,
     "precos_horarios": [
       0.00976,
-      0.00976
+      0.00976,
+      0.00979
     ]
   },
   "MAVIA_USDT": {
@@ -14189,7 +14499,8 @@
     "oi_30m_anterior": 3978103.0,
     "precos_horarios": [
       0.03319,
-      0.03353
+      0.03353,
+      0.03321
     ]
   },
   "USUAL_USDT": {
@@ -14232,7 +14543,8 @@
     "oi_30m_anterior": 17838338.0,
     "precos_horarios": [
       0.00929,
-      0.00931
+      0.00931,
+      0.00933
     ]
   },
   "SOPH_USDT": {
@@ -14275,7 +14587,8 @@
     "oi_30m_anterior": 3025192.0,
     "precos_horarios": [
       0.005044,
-      0.005057
+      0.005057,
+      0.005064
     ]
   },
   "RECALL_USDT": {
@@ -14318,7 +14631,8 @@
     "oi_30m_anterior": 2378290.0,
     "precos_horarios": [
       0.03328,
-      0.03342
+      0.03342,
+      0.03358
     ]
   },
   "YFI_USDT": {
@@ -14361,7 +14675,8 @@
     "oi_30m_anterior": 1423679.0,
     "precos_horarios": [
       1802.0,
-      1805.0
+      1805.0,
+      1809.0
     ]
   },
   "WAVES_USDT": {
@@ -14404,7 +14719,8 @@
     "oi_30m_anterior": 3927867.0,
     "precos_horarios": [
       0.2681,
-      0.2678
+      0.2678,
+      0.2687
     ]
   },
   "BOBA_USDT": {
@@ -14447,7 +14763,8 @@
     "oi_30m_anterior": 29377920.0,
     "precos_horarios": [
       0.02034,
-      0.02032
+      0.02032,
+      0.02045
     ]
   },
   "CAT_USDT": {
@@ -14490,7 +14807,8 @@
     "oi_30m_anterior": 443031.0,
     "precos_horarios": [
       1.376e-06,
-      1.376e-06
+      1.376e-06,
+      1.383e-06
     ]
   },
   "IOST_USDT": {
@@ -14533,7 +14851,8 @@
     "oi_30m_anterior": 2263097.0,
     "precos_horarios": [
       0.000723,
-      0.000723
+      0.000723,
+      0.000726
     ]
   },
   "COTI_USDT": {
@@ -14576,7 +14895,8 @@
     "oi_30m_anterior": 22365964.0,
     "precos_horarios": [
       0.00872,
-      0.00865
+      0.00865,
+      0.00866
     ]
   },
   "LMTSTOCK_USDT": {
@@ -14619,7 +14939,8 @@
     "oi_30m_anterior": 4813116.0,
     "precos_horarios": [
       544.17,
-      544.16
+      544.16,
+      544.15
     ]
   },
   "ASTR_USDT": {
@@ -14662,7 +14983,8 @@
     "oi_30m_anterior": 6205511.0,
     "precos_horarios": [
       0.00519,
-      0.005196
+      0.005196,
+      0.005229
     ]
   },
   "LQTY_USDT": {
@@ -14705,7 +15027,8 @@
     "oi_30m_anterior": 468009.0,
     "precos_horarios": [
       0.1887,
-      0.1886
+      0.1886,
+      0.1893
     ]
   },
   "ANIME_USDT": {
@@ -14748,7 +15071,8 @@
     "oi_30m_anterior": 23678915.0,
     "precos_horarios": [
       0.002766,
-      0.002778
+      0.002778,
+      0.002789
     ]
   },
   "SXT_USDT": {
@@ -14791,7 +15115,8 @@
     "oi_30m_anterior": 30704777.0,
     "precos_horarios": [
       0.007287,
-      0.007334
+      0.007334,
+      0.007346
     ]
   },
   "NICKEL_USDT": {
@@ -14834,7 +15159,8 @@
     "oi_30m_anterior": 70306.0,
     "precos_horarios": [
       16395.39,
-      16391.44
+      16391.44,
+      16391.56
     ]
   },
   "OFC_USDT": {
@@ -14877,7 +15203,8 @@
     "oi_30m_anterior": 1075866.0,
     "precos_horarios": [
       0.01736,
-      0.01738
+      0.01738,
+      0.01731
     ]
   },
   "HAEDAL_USDT": {
@@ -14920,7 +15247,8 @@
     "oi_30m_anterior": 578189.0,
     "precos_horarios": [
       0.01745,
-      0.01731
+      0.01731,
+      0.01743
     ]
   },
   "BSV_USDT": {
@@ -14963,7 +15291,8 @@
     "oi_30m_anterior": 4111123.0,
     "precos_horarios": [
       14.32,
-      14.4
+      14.4,
+      14.63
     ]
   },
   "ZRX_USDT": {
@@ -15006,7 +15335,8 @@
     "oi_30m_anterior": 6455638.0,
     "precos_horarios": [
       0.0908,
-      0.0912
+      0.0912,
+      0.0904
     ]
   },
   "ARPA_USDT": {
@@ -15049,7 +15379,8 @@
     "oi_30m_anterior": 23152704.0,
     "precos_horarios": [
       0.00968,
-      0.00928
+      0.00928,
+      0.00922
     ]
   },
   "RVN_USDT": {
@@ -15092,7 +15423,8 @@
     "oi_30m_anterior": 75276861.0,
     "precos_horarios": [
       0.003815,
-      0.003827
+      0.003827,
+      0.003851
     ]
   },
   "AVA_USDT": {
@@ -15135,7 +15467,8 @@
     "oi_30m_anterior": 515258.0,
     "precos_horarios": [
       0.1813,
-      0.1803
+      0.1803,
+      0.1818
     ]
   },
   "DSYNC_USDT": {
@@ -15178,7 +15511,8 @@
     "oi_30m_anterior": 349503.0,
     "precos_horarios": [
       0.00543,
-      0.00552
+      0.00552,
+      0.0055
     ]
   },
   "SOONNETWORK_USDT": {
@@ -15221,7 +15555,8 @@
     "oi_30m_anterior": 1220221.0,
     "precos_horarios": [
       0.1695,
-      0.1694
+      0.1694,
+      0.1703
     ]
   },
   "FLOW_USDT": {
@@ -15264,7 +15599,8 @@
     "oi_30m_anterior": 256602195.0,
     "precos_horarios": [
       0.02836,
-      0.02836
+      0.02836,
+      0.02839
     ]
   },
   "CHR_USDT": {
@@ -15307,7 +15643,8 @@
     "oi_30m_anterior": 572853.0,
     "precos_horarios": [
       0.01511,
-      0.01523
+      0.01523,
+      0.01522
     ]
   },
   "SCRT_USDT": {
@@ -15350,7 +15687,8 @@
     "oi_30m_anterior": 2331189.0,
     "precos_horarios": [
       0.051,
-      0.0505
+      0.0505,
+      0.05135
     ]
   },
   "RON_USDT": {
@@ -15393,7 +15731,8 @@
     "oi_30m_anterior": 5292312.0,
     "precos_horarios": [
       0.06067,
-      0.0609
+      0.0609,
+      0.06081
     ]
   },
   "FLOCK_USDT": {
@@ -15436,7 +15775,8 @@
     "oi_30m_anterior": 1430962.0,
     "precos_horarios": [
       0.0349,
-      0.03523
+      0.03523,
+      0.03496
     ]
   },
   "SOLV_USDT": {
@@ -15479,7 +15819,8 @@
     "oi_30m_anterior": 4124257.0,
     "precos_horarios": [
       0.002954,
-      0.002962
+      0.002962,
+      0.002957
     ]
   },
   "LMWR_USDT": {
@@ -15522,7 +15863,8 @@
     "oi_30m_anterior": 180625.0,
     "precos_horarios": [
       0.01204,
-      0.01209
+      0.01209,
+      0.01207
     ]
   },
   "GIGA_USDT": {
@@ -15565,7 +15907,8 @@
     "oi_30m_anterior": 67189204.0,
     "precos_horarios": [
       0.002535,
-      0.002534
+      0.002534,
+      0.002549
     ]
   },
   "F_USDT": {
@@ -15608,7 +15951,8 @@
     "oi_30m_anterior": 3010487.0,
     "precos_horarios": [
       0.003509,
-      0.003518
+      0.003518,
+      0.003527
     ]
   },
   "VINE_USDT": {
@@ -15617,10 +15961,10 @@
     "direccao": "SHORT",
     "score_actual": 3,
     "score_anterior": 3,
-    "scans_consecutivos": 5,
+    "scans_consecutivos": 6,
     "contador_estado2": 0,
     "timestamp_entrada_estado": "2026-07-05T03:01:01.262018+00:00",
-    "ultimo_scan": "2026-07-05T07:01:00.756709+00:00",
+    "ultimo_scan": "2026-07-05T08:00:59.591622+00:00",
     "salto_directo": false,
     "grace_period": false,
     "grace_period_dias_restantes": null,
@@ -15690,7 +16034,8 @@
     "oi_30m_anterior": 856402.0,
     "precos_horarios": [
       0.169,
-      0.1711
+      0.1711,
+      0.174
     ]
   },
   "CELR_USDT": {
@@ -15733,7 +16078,8 @@
     "oi_30m_anterior": 18173529.0,
     "precos_horarios": [
       0.001879,
-      0.001887
+      0.001887,
+      0.001889
     ]
   },
   "MASK_USDT": {
@@ -15776,7 +16122,8 @@
     "oi_30m_anterior": 3537844.0,
     "precos_horarios": [
       0.4227,
-      0.4266
+      0.4266,
+      0.4255
     ]
   },
   "SANTOS_USDT": {
@@ -15819,7 +16166,8 @@
     "oi_30m_anterior": 10060205.0,
     "precos_horarios": [
       0.5567,
-      0.5588
+      0.5588,
+      0.5595
     ]
   },
   "PUFFER_USDT": {
@@ -15862,7 +16210,8 @@
     "oi_30m_anterior": 430234.0,
     "precos_horarios": [
       0.01413,
-      0.01411
+      0.01411,
+      0.01422
     ]
   },
   "BROCCOLIF3B_USDT": {
@@ -15905,7 +16254,8 @@
     "oi_30m_anterior": 3584285.0,
     "precos_horarios": [
       0.006867,
-      0.006876
+      0.006876,
+      0.006872
     ]
   },
   "AT_USDT": {
@@ -15914,10 +16264,10 @@
     "direccao": "SHORT",
     "score_actual": 3,
     "score_anterior": 3,
-    "scans_consecutivos": 4,
+    "scans_consecutivos": 5,
     "contador_estado2": 0,
     "timestamp_entrada_estado": "2026-07-05T04:01:01.326729+00:00",
-    "ultimo_scan": "2026-07-05T07:01:00.756709+00:00",
+    "ultimo_scan": "2026-07-05T08:00:59.591622+00:00",
     "salto_directo": false,
     "grace_period": false,
     "grace_period_dias_restantes": null,
@@ -15941,7 +16291,7 @@
       "s6_short": false
     },
     "categoria": "Infrastructure",
-    "oi_atual": 2246319.0,
+    "oi_atual": 2244811.0,
     "oi_inicio_dia": 2309917.0,
     "volume_media_7d": 1165264.142857143,
     "atr_1h_pct": 0.015155861541403698,
@@ -15987,7 +16337,8 @@
     "oi_30m_anterior": 917888.0,
     "precos_horarios": [
       0.00918,
-      0.00917
+      0.00917,
+      0.00905
     ]
   },
   "SONIC_USDT": {
@@ -16030,7 +16381,8 @@
     "oi_30m_anterior": 3921465.0,
     "precos_horarios": [
       0.026,
-      0.02601
+      0.02601,
+      0.02613
     ]
   },
   "A_USDT": {
@@ -16073,7 +16425,8 @@
     "oi_30m_anterior": 19981269.0,
     "precos_horarios": [
       0.07327,
-      0.07296
+      0.07296,
+      0.07473
     ]
   },
   "MEZO_USDT": {
@@ -16116,7 +16469,8 @@
     "oi_30m_anterior": 42975.0,
     "precos_horarios": [
       0.01205,
-      0.01173
+      0.01173,
+      0.01174
     ]
   },
   "AXTISTOCK_USDT": {
@@ -16159,7 +16513,8 @@
     "oi_30m_anterior": 994227.0,
     "precos_horarios": [
       60.5,
-      60.64
+      60.64,
+      60.83
     ]
   },
   "AGLD_USDT": {
@@ -16202,7 +16557,8 @@
     "oi_30m_anterior": 12601112.0,
     "precos_horarios": [
       0.1539,
-      0.1523
+      0.1523,
+      0.1513
     ]
   },
   "TRUST_USDT": {
@@ -16245,7 +16601,8 @@
     "oi_30m_anterior": 1474222.0,
     "precos_horarios": [
       0.05413,
-      0.05405
+      0.05405,
+      0.05418
     ]
   },
   "AUDIO_USDT": {
@@ -16288,7 +16645,8 @@
     "oi_30m_anterior": 1771743.0,
     "precos_horarios": [
       0.01362,
-      0.01361
+      0.01361,
+      0.01345
     ]
   },
   "ANKR_USDT": {
@@ -16331,7 +16689,8 @@
     "oi_30m_anterior": 30291897.0,
     "precos_horarios": [
       0.00365,
-      0.003671
+      0.003671,
+      0.003678
     ]
   },
   "WAXP_USDT": {
@@ -16374,7 +16733,8 @@
     "oi_30m_anterior": 1365368.0,
     "precos_horarios": [
       0.004215,
-      0.004214
+      0.004214,
+      0.004221
     ]
   },
   "PROMPT_USDT": {
@@ -16417,6 +16777,7 @@
     "oi_30m_anterior": 2218227.0,
     "precos_horarios": [
       0.02267,
+      0.02278,
       0.02278
     ]
   },
@@ -16460,7 +16821,8 @@
     "oi_30m_anterior": 4034388.0,
     "precos_horarios": [
       0.06489,
-      0.06484
+      0.06484,
+      0.06507
     ]
   },
   "XEC_USDT": {
@@ -16503,7 +16865,8 @@
     "oi_30m_anterior": 14518874.0,
     "precos_horarios": [
       5.292e-06,
-      5.336e-06
+      5.336e-06,
+      5.348e-06
     ]
   },
   "UMA_USDT": {
@@ -16546,7 +16909,8 @@
     "oi_30m_anterior": 2597575.0,
     "precos_horarios": [
       0.3911,
-      0.3923
+      0.3923,
+      0.3934
     ]
   },
   "ETHW_USDT": {
@@ -16589,7 +16953,8 @@
     "oi_30m_anterior": 9840543.0,
     "precos_horarios": [
       0.2598,
-      0.2602
+      0.2602,
+      0.2631
     ]
   },
   "AXL_USDT": {
@@ -16632,7 +16997,8 @@
     "oi_30m_anterior": 1791612.0,
     "precos_horarios": [
       0.043,
-      0.04301
+      0.04301,
+      0.04323
     ]
   },
   "ACX_USDT": {
@@ -16675,7 +17041,8 @@
     "oi_30m_anterior": 2459453.0,
     "precos_horarios": [
       0.04297,
-      0.04302
+      0.04302,
+      0.04303
     ]
   },
   "UTYA_USDT": {
@@ -16718,7 +17085,8 @@
     "oi_30m_anterior": 33854.0,
     "precos_horarios": [
       0.03164,
-      0.03124
+      0.03124,
+      0.03122
     ]
   },
   "JOE_USDT": {
@@ -16761,7 +17129,8 @@
     "oi_30m_anterior": 1757197.0,
     "precos_horarios": [
       0.02955,
-      0.02971
+      0.02971,
+      0.02977
     ]
   },
   "ICX_USDT": {
@@ -16804,7 +17173,8 @@
     "oi_30m_anterior": 2220715.0,
     "precos_horarios": [
       0.02521,
-      0.02527
+      0.02527,
+      0.02535
     ]
   },
   "FLUX_USDT": {
@@ -16847,7 +17217,8 @@
     "oi_30m_anterior": 67180974.0,
     "precos_horarios": [
       0.04593,
-      0.04604
+      0.04604,
+      0.04587
     ]
   },
   "1000000MOG_USDT": {
@@ -16890,7 +17261,8 @@
     "oi_30m_anterior": 1416917.0,
     "precos_horarios": [
       0.1153,
-      0.1151
+      0.1151,
+      0.116
     ]
   },
   "OL_USDT": {
@@ -16933,7 +17305,8 @@
     "oi_30m_anterior": 40461059.0,
     "precos_horarios": [
       0.005392,
-      0.00535
+      0.00535,
+      0.00537
     ]
   },
   "GAIB_USDT": {
@@ -16976,7 +17349,8 @@
     "oi_30m_anterior": 430818.0,
     "precos_horarios": [
       0.01467,
-      0.01444
+      0.01444,
+      0.01453
     ]
   },
   "HIVE_USDT": {
@@ -17019,7 +17393,8 @@
     "oi_30m_anterior": 2181006.0,
     "precos_horarios": [
       0.05064,
-      0.05068
+      0.05068,
+      0.05089
     ]
   },
   "WHITEWHALE_USDT": {
@@ -17062,7 +17437,8 @@
     "oi_30m_anterior": 269091.0,
     "precos_horarios": [
       0.002754,
-      0.002789
+      0.002789,
+      0.002785
     ]
   },
   "MCDSTOCK_USDT": {
@@ -17105,7 +17481,8 @@
     "oi_30m_anterior": 131983.0,
     "precos_horarios": [
       279.43,
-      279.44
+      279.44,
+      279.36
     ]
   },
   "ZINC_USDT": {
@@ -17148,7 +17525,8 @@
     "oi_30m_anterior": 31904.0,
     "precos_horarios": [
       3588.43,
-      3589.04
+      3589.04,
+      3588.66
     ]
   },
   "SKL_USDT": {
@@ -17191,7 +17569,8 @@
     "oi_30m_anterior": 11075578.0,
     "precos_horarios": [
       0.0036,
-      0.003623
+      0.003623,
+      0.003643
     ]
   },
   "BMNRSTOCK_USDT": {
@@ -17234,7 +17613,8 @@
     "oi_30m_anterior": 1495682.0,
     "precos_horarios": [
       15.26,
-      15.22
+      15.22,
+      15.29
     ]
   },
   "BLAST_USDT": {
@@ -17277,7 +17657,8 @@
     "oi_30m_anterior": 2903498.0,
     "precos_horarios": [
       0.0002822,
-      0.0002822
+      0.0002822,
+      0.0002847
     ]
   },
   "DIA_USDT": {
@@ -17320,7 +17701,8 @@
     "oi_30m_anterior": 1105905.0,
     "precos_horarios": [
       0.1094,
-      0.1094
+      0.1094,
+      0.1096
     ]
   },
   "FLUID_USDT": {
@@ -17363,7 +17745,8 @@
     "oi_30m_anterior": 1225299.0,
     "precos_horarios": [
       0.963,
-      0.965
+      0.965,
+      0.969
     ]
   },
   "B3_USDT": {
@@ -17406,7 +17789,8 @@
     "oi_30m_anterior": 494142.0,
     "precos_horarios": [
       0.0005043,
-      0.0005051
+      0.0005051,
+      0.0005049
     ]
   },
   "MAMO_USDT": {
@@ -17449,6 +17833,7 @@
     "oi_30m_anterior": 63089.0,
     "precos_horarios": [
       0.00944,
+      0.00929,
       0.00929
     ]
   },
@@ -17492,7 +17877,8 @@
     "oi_30m_anterior": 27287812.0,
     "precos_horarios": [
       0.01863,
-      0.0186
+      0.0186,
+      0.01804
     ]
   },
   "FOGO_USDT": {
@@ -17535,7 +17921,8 @@
     "oi_30m_anterior": 2347771.0,
     "precos_horarios": [
       0.00943,
-      0.00943
+      0.00943,
+      0.00947
     ]
   },
   "ERA_USDT": {
@@ -17578,7 +17965,8 @@
     "oi_30m_anterior": 961309.0,
     "precos_horarios": [
       0.0862,
-      0.0864
+      0.0864,
+      0.0851
     ]
   },
   "HOLO_USDT": {
@@ -17621,7 +18009,8 @@
     "oi_30m_anterior": 2049943.0,
     "precos_horarios": [
       0.07312,
-      0.07366
+      0.07366,
+      0.0729
     ]
   },
   "LEAD_USDT": {
@@ -17664,19 +18053,20 @@
     "oi_30m_anterior": 52060.0,
     "precos_horarios": [
       1901.33,
-      1901.69
+      1901.69,
+      1901.61
     ]
   },
   "RPL_USDT": {
     "ticker": "RPL_USDT",
-    "estado": 1,
-    "direccao": "",
-    "score_actual": 0,
+    "estado": 2,
+    "direccao": "SHORT",
+    "score_actual": 1,
     "score_anterior": 0,
     "scans_consecutivos": 1,
     "contador_estado2": 0,
-    "timestamp_entrada_estado": "2026-07-05T05:01:21.229360+00:00",
-    "ultimo_scan": "2026-07-05T05:01:21.229360+00:00",
+    "timestamp_entrada_estado": "2026-07-05T08:00:59.591622+00:00",
+    "ultimo_scan": "2026-07-05T08:00:59.591622+00:00",
     "salto_directo": false,
     "grace_period": false,
     "grace_period_dias_restantes": null,
@@ -17700,15 +18090,11 @@
       "s6_short": true
     },
     "categoria": "Infrastructure",
-    "oi_atual": 1536889.0,
+    "oi_atual": 1844997.0,
     "oi_inicio_dia": 1536889.0,
-    "volume_media_7d": 5946377.571428572,
-    "atr_1h_pct": 0.09076411960132891,
-    "oi_30m_anterior": 1536889.0,
-    "precos_horarios": [
-      2.182,
-      2.173
-    ]
+    "volume_media_7d": 6444175.285714285,
+    "atr_1h_pct": 0.08963031031314062,
+    "oi_30m_anterior": 1844997.0
   },
   "LSK_USDT": {
     "ticker": "LSK_USDT",
@@ -17750,7 +18136,8 @@
     "oi_30m_anterior": 1812940.0,
     "precos_horarios": [
       0.0895,
-      0.0891
+      0.0891,
+      0.0897
     ]
   },
   "LUNRSTOCK_USDT": {
@@ -17793,7 +18180,8 @@
     "oi_30m_anterior": 481443.0,
     "precos_horarios": [
       20.74,
-      20.58
+      20.58,
+      20.17
     ]
   },
   "CTSI_USDT": {
@@ -17836,7 +18224,8 @@
     "oi_30m_anterior": 5369288.0,
     "precos_horarios": [
       0.02363,
-      0.02355
+      0.02355,
+      0.02354
     ]
   },
   "MOCA_USDT": {
@@ -17879,7 +18268,8 @@
     "oi_30m_anterior": 1235922.0,
     "precos_horarios": [
       0.00894,
-      0.00896
+      0.00896,
+      0.00905
     ]
   },
   "TREE_USDT": {
@@ -17922,7 +18312,8 @@
     "oi_30m_anterior": 318426.0,
     "precos_horarios": [
       0.04259,
-      0.04259
+      0.04259,
+      0.04292
     ]
   },
   "BMT_USDT": {
@@ -17965,7 +18356,8 @@
     "oi_30m_anterior": 236577.0,
     "precos_horarios": [
       0.01256,
-      0.01257
+      0.01257,
+      0.01262
     ]
   },
   "CVC_USDT": {
@@ -18008,7 +18400,8 @@
     "oi_30m_anterior": 6059060.0,
     "precos_horarios": [
       0.02121,
-      0.02123
+      0.02123,
+      0.02124
     ]
   },
   "VANA_USDT": {
@@ -18051,7 +18444,8 @@
     "oi_30m_anterior": 1348386.0,
     "precos_horarios": [
       1.157,
-      1.158
+      1.158,
+      1.159
     ]
   },
   "CTK_USDT": {
@@ -18094,7 +18488,8 @@
     "oi_30m_anterior": 633633.0,
     "precos_horarios": [
       0.1101,
-      0.1099
+      0.1099,
+      0.1101
     ]
   },
   "SAFE_USDT": {
@@ -18137,7 +18532,8 @@
     "oi_30m_anterior": 1929067.0,
     "precos_horarios": [
       0.0913,
-      0.092
+      0.092,
+      0.0928
     ]
   },
   "BTX_USDT": {
@@ -18180,7 +18576,8 @@
     "oi_30m_anterior": 632118.0,
     "precos_horarios": [
       0.02086,
-      0.02081
+      0.02081,
+      0.02092
     ]
   },
   "PENDLE_USDT": {
@@ -18223,7 +18620,8 @@
     "oi_30m_anterior": 5171684.0,
     "precos_horarios": [
       1.4221,
-      1.4285
+      1.4285,
+      1.4344
     ]
   },
   "SLX_USDT": {
@@ -18266,7 +18664,8 @@
     "oi_30m_anterior": 225918.0,
     "precos_horarios": [
       0.2639,
-      0.2602
+      0.2602,
+      0.2507
     ]
   },
   "SAMSUNGSTOCK_USDT": {
@@ -18309,19 +18708,20 @@
     "oi_30m_anterior": 305923.0,
     "precos_horarios": [
       208.04,
-      208.4
+      208.4,
+      209.38
     ]
   },
   "BAS_USDT": {
     "ticker": "BAS_USDT",
-    "estado": 1,
-    "direccao": "",
+    "estado": 2,
+    "direccao": "SHORT",
     "score_actual": 0,
     "score_anterior": 0,
     "scans_consecutivos": 1,
     "contador_estado2": 0,
-    "timestamp_entrada_estado": "2026-07-05T05:01:21.229360+00:00",
-    "ultimo_scan": "2026-07-05T05:01:21.229360+00:00",
+    "timestamp_entrada_estado": "2026-07-05T08:00:59.591622+00:00",
+    "ultimo_scan": "2026-07-05T08:00:59.591622+00:00",
     "salto_directo": false,
     "grace_period": false,
     "grace_period_dias_restantes": null,
@@ -18345,15 +18745,11 @@
       "s6_short": true
     },
     "categoria": "Infrastructure",
-    "oi_atual": 187591.0,
+    "oi_atual": 160980.0,
     "oi_inicio_dia": 187591.0,
-    "volume_media_7d": 1063178.0,
-    "atr_1h_pct": 0.04837477186179719,
-    "oi_30m_anterior": 187591.0,
-    "precos_horarios": [
-      0.044659,
-      0.043295
-    ]
+    "volume_media_7d": 1019091.1428571428,
+    "atr_1h_pct": 0.06110570292853089,
+    "oi_30m_anterior": 160980.0
   },
   "M_USDT": {
     "ticker": "M_USDT",
@@ -18395,7 +18791,8 @@
     "oi_30m_anterior": 3008804.0,
     "precos_horarios": [
       1.4473,
-      1.4398
+      1.4398,
+      1.4141
     ]
   },
   "NES_USDT": {
@@ -18438,7 +18835,8 @@
     "oi_30m_anterior": 2071594.0,
     "precos_horarios": [
       0.2671,
-      0.2688
+      0.2688,
+      0.2743
     ]
   },
   "SKYAI_USDT": {
@@ -18481,7 +18879,8 @@
     "oi_30m_anterior": 10094815.0,
     "precos_horarios": [
       0.05436,
-      0.05589
+      0.05589,
+      0.0572
     ]
   },
   "SQD_USDT": {
@@ -18524,7 +18923,8 @@
     "oi_30m_anterior": 7808318.0,
     "precos_horarios": [
       0.03431,
-      0.03409
+      0.03409,
+      0.03394
     ]
   },
   "MOODENG_USDT": {
@@ -18567,7 +18967,8 @@
     "oi_30m_anterior": 721386.0,
     "precos_horarios": [
       0.04164,
-      0.04202
+      0.04202,
+      0.04212
     ]
   },
   "STBL_USDT": {
@@ -18610,7 +19011,8 @@
     "oi_30m_anterior": 531527.0,
     "precos_horarios": [
       0.02582,
-      0.02574
+      0.02574,
+      0.0256
     ]
   },
   "TWT_USDT": {
@@ -18653,7 +19055,8 @@
     "oi_30m_anterior": 5339040.0,
     "precos_horarios": [
       0.3404,
-      0.3415
+      0.3415,
+      0.342
     ]
   },
   "ALCH_USDT": {
@@ -18696,7 +19099,8 @@
     "oi_30m_anterior": 5227464.0,
     "precos_horarios": [
       0.05786,
-      0.05791
+      0.05791,
+      0.05881
     ]
   },
   "SNT_USDT": {
@@ -18739,7 +19143,8 @@
     "oi_30m_anterior": 40180.0,
     "precos_horarios": [
       0.007417,
-      0.00737
+      0.00737,
+      0.007366
     ]
   },
   "OPENAI_USDT": {
@@ -18782,7 +19187,8 @@
     "oi_30m_anterior": 528900.0,
     "precos_horarios": [
       1320.0,
-      1320.5
+      1320.5,
+      1320.9
     ]
   },
   "NEX_USDT": {
@@ -18825,7 +19231,8 @@
     "oi_30m_anterior": 671889.0,
     "precos_horarios": [
       2.914e-06,
-      3.025e-06
+      3.025e-06,
+      3.061e-06
     ]
   },
   "GENIUS_USDT": {
@@ -18868,7 +19275,8 @@
     "oi_30m_anterior": 1018356.0,
     "precos_horarios": [
       0.3857,
-      0.3895
+      0.3895,
+      0.3874
     ]
   },
   "RKLBSTOCK_USDT": {
@@ -18911,7 +19319,8 @@
     "oi_30m_anterior": 409127.0,
     "precos_horarios": [
       101.66,
-      101.64
+      101.64,
+      101.66
     ]
   },
   "VIRTUAL_USDT": {
@@ -18954,19 +19363,20 @@
     "oi_30m_anterior": 662234.0,
     "precos_horarios": [
       0.5568,
-      0.5639
+      0.5639,
+      0.5683
     ]
   },
   "ZEROC0MPUTE_USDT": {
     "ticker": "ZEROC0MPUTE_USDT",
-    "estado": 1,
-    "direccao": "",
-    "score_actual": 0,
+    "estado": 2,
+    "direccao": "LONG",
+    "score_actual": 1,
     "score_anterior": 0,
     "scans_consecutivos": 1,
     "contador_estado2": 0,
-    "timestamp_entrada_estado": "2026-07-05T05:01:21.229360+00:00",
-    "ultimo_scan": "2026-07-05T05:01:21.229360+00:00",
+    "timestamp_entrada_estado": "2026-07-05T08:00:59.591622+00:00",
+    "ultimo_scan": "2026-07-05T08:00:59.591622+00:00",
     "salto_directo": false,
     "grace_period": false,
     "grace_period_dias_restantes": null,
@@ -18990,15 +19400,11 @@
       "s6_short": false
     },
     "categoria": "Infrastructure",
-    "oi_atual": 122208.0,
+    "oi_atual": 137266.0,
     "oi_inicio_dia": 122208.0,
-    "volume_media_7d": 840569.5714285715,
-    "atr_1h_pct": 0.23679783619751293,
-    "oi_30m_anterior": 122208.0,
-    "precos_horarios": [
-      0.004401,
-      0.004792
-    ]
+    "volume_media_7d": 850102.5714285715,
+    "atr_1h_pct": 0.2156181782099623,
+    "oi_30m_anterior": 137266.0
   },
   "STABLE_USDT": {
     "ticker": "STABLE_USDT",
@@ -19040,7 +19446,8 @@
     "oi_30m_anterior": 628283.0,
     "precos_horarios": [
       0.03503,
-      0.03524
+      0.03524,
+      0.03513
     ]
   },
   "SLBSTOCK_USDT": {
@@ -19083,7 +19490,8 @@
     "oi_30m_anterior": 2604013.0,
     "precos_horarios": [
       45.05,
-      45.06
+      45.06,
+      45.07
     ]
   },
   "SKY_USDT": {
@@ -19126,7 +19534,8 @@
     "oi_30m_anterior": 790155.0,
     "precos_horarios": [
       0.05531,
-      0.05535
+      0.05535,
+      0.05534
     ]
   },
   "PLTRSTOCK_USDT": {
@@ -19169,7 +19578,8 @@
     "oi_30m_anterior": 425733.0,
     "precos_horarios": [
       131.43,
-      131.61
+      131.61,
+      131.76
     ]
   },
   "ANTHROPIC_USDT": {
@@ -19212,7 +19622,8 @@
     "oi_30m_anterior": 451215.0,
     "precos_horarios": [
       1650.22,
-      1649.61
+      1649.61,
+      1651.02
     ]
   },
   "SSV_USDT": {
@@ -19255,7 +19666,8 @@
     "oi_30m_anterior": 519198.0,
     "precos_horarios": [
       2.037,
-      2.043
+      2.043,
+      2.059
     ]
   },
   "BACSTOCK_USDT": {
@@ -19298,7 +19710,8 @@
     "oi_30m_anterior": 2319299.0,
     "precos_horarios": [
       58.58,
-      58.65
+      58.65,
+      58.62
     ]
   },
   "KAITO_USDT": {
@@ -19341,7 +19754,8 @@
     "oi_30m_anterior": 397755.0,
     "precos_horarios": [
       0.6042,
-      0.6049
+      0.6049,
+      0.6089
     ]
   },
   "COLLECT_USDT": {
@@ -19384,7 +19798,8 @@
     "oi_30m_anterior": 714532.0,
     "precos_horarios": [
       0.03989,
-      0.03979
+      0.03979,
+      0.03998
     ]
   },
   "BANANA_USDT": {
@@ -19427,7 +19842,8 @@
     "oi_30m_anterior": 429300.0,
     "precos_horarios": [
       3.051,
-      3.069
+      3.069,
+      3.067
     ]
   },
   "AMDSTOCK_USDT": {
@@ -19470,7 +19886,8 @@
     "oi_30m_anterior": 657485.0,
     "precos_horarios": [
       533.65,
-      533.86
+      533.86,
+      533.66
     ]
   },
   "NBISSTOCK_USDT": {
@@ -19513,7 +19930,8 @@
     "oi_30m_anterior": 1086973.0,
     "precos_horarios": [
       226.49,
-      226.07
+      226.07,
+      227.1
     ]
   },
   "GUA_USDT": {
@@ -19556,7 +19974,8 @@
     "oi_30m_anterior": 1106166.0,
     "precos_horarios": [
       0.068,
-      0.0695
+      0.0695,
+      0.069
     ]
   },
   "POWR_USDT": {
@@ -19599,7 +20018,8 @@
     "oi_30m_anterior": 322225.0,
     "precos_horarios": [
       0.04428,
-      0.04444
+      0.04444,
+      0.04467
     ]
   },
   "JCT_USDT": {
@@ -19642,7 +20062,8 @@
     "oi_30m_anterior": 764418.0,
     "precos_horarios": [
       0.003515,
-      0.003507
+      0.003507,
+      0.003437
     ]
   },
   "VIC_USDT": {
@@ -19685,7 +20106,8 @@
     "oi_30m_anterior": 244827.0,
     "precos_horarios": [
       0.04024,
-      0.04046
+      0.04046,
+      0.04103
     ]
   },
   "KLACSTOCK_USDT": {
@@ -19728,7 +20150,8 @@
     "oi_30m_anterior": 311434.0,
     "precos_horarios": [
       253.38,
-      253.43
+      253.43,
+      253.46
     ]
   },
   "BILL_USDT": {
@@ -19771,7 +20194,8 @@
     "oi_30m_anterior": 309246.0,
     "precos_horarios": [
       0.04056,
-      0.04043
+      0.04043,
+      0.0406
     ]
   },
   "ONG_USDT": {
@@ -19814,7 +20238,8 @@
     "oi_30m_anterior": 879463.0,
     "precos_horarios": [
       0.04746,
-      0.04768
+      0.04768,
+      0.04794
     ]
   },
   "MTL_USDT": {
@@ -19857,7 +20282,8 @@
     "oi_30m_anterior": 334290.0,
     "precos_horarios": [
       0.2328,
-      0.2319
+      0.2319,
+      0.2335
     ]
   },
   "PDDSTOCK_USDT": {
@@ -19900,7 +20326,8 @@
     "oi_30m_anterior": 1081683.0,
     "precos_horarios": [
       82.76,
-      82.85
+      82.85,
+      82.73
     ]
   },
   "IN_USDT": {
@@ -19943,6 +20370,7 @@
     "oi_30m_anterior": 1004853.0,
     "precos_horarios": [
       0.05053,
+      0.05052,
       0.05052
     ]
   },
@@ -19986,7 +20414,8 @@
     "oi_30m_anterior": 359125.0,
     "precos_horarios": [
       0.06726,
-      0.06691
+      0.06691,
+      0.06681
     ]
   },
   "AIOT_USDT": {
@@ -20029,7 +20458,8 @@
     "oi_30m_anterior": 5551672.0,
     "precos_horarios": [
       0.05456,
-      0.05499
+      0.05499,
+      0.05469
     ]
   },
   "AALSTOCK_USDT": {
@@ -20072,19 +20502,20 @@
     "oi_30m_anterior": 1929143.0,
     "precos_horarios": [
       17.81,
-      17.879
+      17.879,
+      17.798
     ]
   },
   "ULTIMA_USDT": {
     "ticker": "ULTIMA_USDT",
     "estado": 2,
     "direccao": "LONG",
-    "score_actual": 1,
-    "score_anterior": 0,
-    "scans_consecutivos": 1,
+    "score_actual": 3,
+    "score_anterior": 1,
+    "scans_consecutivos": 2,
     "contador_estado2": 0,
     "timestamp_entrada_estado": "2026-07-05T07:01:00.756709+00:00",
-    "ultimo_scan": "2026-07-05T07:01:00.756709+00:00",
+    "ultimo_scan": "2026-07-05T08:00:59.591622+00:00",
     "salto_directo": false,
     "grace_period": true,
     "grace_period_dias_restantes": 3,
@@ -20108,7 +20539,7 @@
       "s6_short": false
     },
     "categoria": "Infrastructure",
-    "oi_atual": 340685.0,
+    "oi_atual": 426234.0,
     "oi_inicio_dia": 241180.0,
     "volume_media_7d": 630718.4285714285,
     "atr_1h_pct": 0.02618886852512781,
@@ -20154,6 +20585,7 @@
     "oi_30m_anterior": 58380.0,
     "precos_horarios": [
       96.38,
+      96.41,
       96.41
     ]
   },
@@ -20197,7 +20629,8 @@
     "oi_30m_anterior": 322624.0,
     "precos_horarios": [
       0.2262,
-      0.2269
+      0.2269,
+      0.2277
     ]
   },
   "LLYSTOCK_USDT": {
@@ -20240,7 +20673,8 @@
     "oi_30m_anterior": 1454910.0,
     "precos_horarios": [
       1200.73,
-      1201.03
+      1201.03,
+      1201.62
     ]
   },
   "GEVSTOCK_USDT": {
@@ -20283,19 +20717,20 @@
     "oi_30m_anterior": 372860.0,
     "precos_horarios": [
       1101.7,
-      1088.8
+      1088.8,
+      1090.2
     ]
   },
   "EPIC_USDT": {
     "ticker": "EPIC_USDT",
-    "estado": 1,
-    "direccao": "",
-    "score_actual": 0,
+    "estado": 2,
+    "direccao": "SHORT",
+    "score_actual": 2,
     "score_anterior": 0,
     "scans_consecutivos": 1,
     "contador_estado2": 0,
-    "timestamp_entrada_estado": "2026-07-05T05:01:21.229360+00:00",
-    "ultimo_scan": "2026-07-05T05:01:21.229360+00:00",
+    "timestamp_entrada_estado": "2026-07-05T08:00:59.591622+00:00",
+    "ultimo_scan": "2026-07-05T08:00:59.591622+00:00",
     "salto_directo": false,
     "grace_period": false,
     "grace_period_dias_restantes": null,
@@ -20319,15 +20754,11 @@
       "s6_short": false
     },
     "categoria": "Infrastructure",
-    "oi_atual": 354225.0,
+    "oi_atual": 277625.0,
     "oi_inicio_dia": 354225.0,
-    "volume_media_7d": 891898.0,
-    "atr_1h_pct": 0.047341547341547364,
-    "oi_30m_anterior": 354225.0,
-    "precos_horarios": [
-      0.5917,
-      0.564
-    ]
+    "volume_media_7d": 993050.5714285715,
+    "atr_1h_pct": 0.06465528826770599,
+    "oi_30m_anterior": 277625.0
   },
   "QNTSTOCK_USDT": {
     "ticker": "QNTSTOCK_USDT",
@@ -20369,7 +20800,8 @@
     "oi_30m_anterior": 160964.0,
     "precos_horarios": [
       76.57,
-      76.56
+      76.56,
+      76.61
     ]
   },
   "CRWVSTOCK_USDT": {
@@ -20412,7 +20844,8 @@
     "oi_30m_anterior": 351958.0,
     "precos_horarios": [
       84.82,
-      84.88
+      84.88,
+      84.95
     ]
   },
   "MORPHO_USDT": {
@@ -20455,7 +20888,8 @@
     "oi_30m_anterior": 2459829.0,
     "precos_horarios": [
       1.9713,
-      1.9844
+      1.9844,
+      2.007
     ]
   },
   "ORCLSTOCK_USDT": {
@@ -20498,7 +20932,8 @@
     "oi_30m_anterior": 1108743.0,
     "precos_horarios": [
       143.62,
-      143.61
+      143.61,
+      143.78
     ]
   },
   "GMESTOCK_USDT": {
@@ -20541,7 +20976,8 @@
     "oi_30m_anterior": 635956.0,
     "precos_horarios": [
       22.82,
-      22.78
+      22.78,
+      22.77
     ]
   },
   "B_USDT": {
@@ -20584,7 +21020,8 @@
     "oi_30m_anterior": 327333.0,
     "precos_horarios": [
       0.2125,
-      0.2122
+      0.2122,
+      0.2114
     ]
   },
   "HEMI_USDT": {
@@ -20627,7 +21064,8 @@
     "oi_30m_anterior": 258419.0,
     "precos_horarios": [
       0.004666,
-      0.004703
+      0.004703,
+      0.004748
     ]
   },
   "BIRB_USDT": {
@@ -20670,7 +21108,8 @@
     "oi_30m_anterior": 319202.0,
     "precos_horarios": [
       0.08426,
-      0.08499
+      0.08499,
+      0.08341
     ]
   },
   "BLKSTOCK_USDT": {
@@ -20713,7 +21152,8 @@
     "oi_30m_anterior": 878370.0,
     "precos_horarios": [
       1001.23,
-      1000.46
+      1000.46,
+      1000.04
     ]
   },
   "BREV_USDT": {
@@ -20756,7 +21196,8 @@
     "oi_30m_anterior": 4069619.0,
     "precos_horarios": [
       0.08894,
-      0.08903
+      0.08903,
+      0.0885
     ]
   },
   "BABASTOCK_USDT": {
@@ -20799,7 +21240,8 @@
     "oi_30m_anterior": 963873.0,
     "precos_horarios": [
       96.88,
-      96.89
+      96.89,
+      96.98
     ]
   },
   "AIN_USDT": {
@@ -20842,7 +21284,8 @@
     "oi_30m_anterior": 2304185.0,
     "precos_horarios": [
       0.08213,
-      0.08204
+      0.08204,
+      0.08258
     ]
   },
   "ROBINHOOD_USDT": {
@@ -20885,7 +21328,8 @@
     "oi_30m_anterior": 250908.0,
     "precos_horarios": [
       114.27,
-      114.36
+      114.36,
+      114.48
     ]
   },
   "DEEP_USDT": {
@@ -20928,7 +21372,8 @@
     "oi_30m_anterior": 185859.0,
     "precos_horarios": [
       0.0175,
-      0.01757
+      0.01757,
+      0.0176
     ]
   },
   "WENSTOCK_USDT": {
@@ -20971,6 +21416,7 @@
     "oi_30m_anterior": 2454949.0,
     "precos_horarios": [
       8.434,
+      8.359,
       8.359
     ]
   },
@@ -21014,7 +21460,8 @@
     "oi_30m_anterior": 133098.0,
     "precos_horarios": [
       119.43,
-      119.45
+      119.45,
+      119.42
     ]
   },
   "INTUSTOCK_USDT": {
@@ -21056,6 +21503,7 @@
     "atr_1h_pct": 7.22438953909791e-05,
     "oi_30m_anterior": 286994.0,
     "precos_horarios": [
+      276.84,
       276.84,
       276.84
     ]
@@ -21100,7 +21548,8 @@
     "oi_30m_anterior": 2136423.0,
     "precos_horarios": [
       1651.25,
-      1651.13
+      1651.13,
+      1650.38
     ]
   },
   "IRENSTOCK_USDT": {
@@ -21143,7 +21592,8 @@
     "oi_30m_anterior": 607668.0,
     "precos_horarios": [
       40.9,
-      40.96
+      40.96,
+      41.04
     ]
   },
   "MAGMA_USDT": {
@@ -21186,7 +21636,8 @@
     "oi_30m_anterior": 66409.0,
     "precos_horarios": [
       0.5218,
-      0.5353
+      0.5353,
+      0.5381
     ]
   },
   "STG_USDT": {
@@ -21229,7 +21680,8 @@
     "oi_30m_anterior": 478691.0,
     "precos_horarios": [
       0.1532,
-      0.1519
+      0.1519,
+      0.1528
     ]
   },
   "TWLOSTOCK_USDT": {
@@ -21272,7 +21724,8 @@
     "oi_30m_anterior": 2860647.0,
     "precos_horarios": [
       207.19,
-      207.88
+      207.88,
+      207.22
     ]
   },
   "AAPLSTOCK_USDT": {
@@ -21315,7 +21768,8 @@
     "oi_30m_anterior": 557894.0,
     "precos_horarios": [
       307.94,
-      307.94
+      307.94,
+      308.03
     ]
   },
   "BLEND_USDT": {
@@ -21358,7 +21812,8 @@
     "oi_30m_anterior": 8299615.0,
     "precos_horarios": [
       0.06606,
-      0.06628
+      0.06628,
+      0.06602
     ]
   },
   "GOOGLSTOCK_USDT": {
@@ -21401,7 +21856,8 @@
     "oi_30m_anterior": 1063946.0,
     "precos_horarios": [
       360.32,
-      360.12
+      360.12,
+      360.37
     ]
   },
   "STO_USDT": {
@@ -21444,7 +21900,8 @@
     "oi_30m_anterior": 11400318.0,
     "precos_horarios": [
       0.04818,
-      0.04807
+      0.04807,
+      0.04814
     ]
   },
   "RCATSTOCK_USDT": {
@@ -21487,7 +21944,8 @@
     "oi_30m_anterior": 77365.0,
     "precos_horarios": [
       10.523,
-      10.517
+      10.517,
+      10.522
     ]
   },
   "FRAX_USDT": {
@@ -21530,7 +21988,8 @@
     "oi_30m_anterior": 198788.0,
     "precos_horarios": [
       0.2431,
-      0.2437
+      0.2437,
+      0.245
     ]
   },
   "BUILDONBOB_USDT": {
@@ -21573,19 +22032,20 @@
     "oi_30m_anterior": 58700.0,
     "precos_horarios": [
       0.004785,
-      0.004813
+      0.004813,
+      0.004826
     ]
   },
   "CAP_USDT": {
     "ticker": "CAP_USDT",
-    "estado": 1,
-    "direccao": "",
-    "score_actual": 0,
+    "estado": 2,
+    "direccao": "LONG",
+    "score_actual": 2,
     "score_anterior": 0,
     "scans_consecutivos": 1,
     "contador_estado2": 0,
-    "timestamp_entrada_estado": "2026-07-05T05:01:21.229360+00:00",
-    "ultimo_scan": "2026-07-05T05:01:21.229360+00:00",
+    "timestamp_entrada_estado": "2026-07-05T08:00:59.591622+00:00",
+    "ultimo_scan": "2026-07-05T08:00:59.591622+00:00",
     "salto_directo": false,
     "grace_period": false,
     "grace_period_dias_restantes": null,
@@ -21609,15 +22069,11 @@
       "s6_short": false
     },
     "categoria": "Infrastructure",
-    "oi_atual": 1803248.0,
+    "oi_atual": 1896714.0,
     "oi_inicio_dia": 1803248.0,
-    "volume_media_7d": 10632608.142857144,
-    "atr_1h_pct": 0.06355016384298962,
-    "oi_30m_anterior": 1803248.0,
-    "precos_horarios": [
-      0.02063,
-      0.02152
-    ]
+    "volume_media_7d": 10743060.57142857,
+    "atr_1h_pct": 0.06306306306306306,
+    "oi_30m_anterior": 1896714.0
   },
   "AKE_USDT": {
     "ticker": "AKE_USDT",
@@ -21659,7 +22115,8 @@
     "oi_30m_anterior": 596910.0,
     "precos_horarios": [
       0.0003006,
-      0.0003009
+      0.0003009,
+      0.0003023
     ]
   },
   "PARTI_USDT": {
@@ -21702,7 +22159,8 @@
     "oi_30m_anterior": 1996572.0,
     "precos_horarios": [
       0.04817,
-      0.04839
+      0.04839,
+      0.04774
     ]
   },
   "LAB_USDT": {
@@ -21745,7 +22203,8 @@
     "oi_30m_anterior": 82262.0,
     "precos_horarios": [
       16.879,
-      16.087
+      16.087,
+      16.616
     ]
   },
   "TRB_USDT": {
@@ -21788,7 +22247,8 @@
     "oi_30m_anterior": 3737606.0,
     "precos_horarios": [
       15.747,
-      15.866
+      15.866,
+      15.932
     ]
   },
   "TA_USDT": {
@@ -21831,7 +22291,8 @@
     "oi_30m_anterior": 188661.0,
     "precos_horarios": [
       0.07985,
-      0.07953
+      0.07953,
+      0.07962
     ]
   },
   "XLK_USDT": {
@@ -21874,7 +22335,8 @@
     "oi_30m_anterior": 572091.0,
     "precos_horarios": [
       181.78,
-      181.11
+      181.11,
+      181.02
     ]
   },
   "VTHO_USDT": {
@@ -21917,7 +22379,8 @@
     "oi_30m_anterior": 1122409.0,
     "precos_horarios": [
       0.0003661,
-      0.0003674
+      0.0003674,
+      0.0003689
     ]
   },
   "AGI_USDT": {
@@ -21960,7 +22423,8 @@
     "oi_30m_anterior": 4962576.0,
     "precos_horarios": [
       0.004234,
-      0.004228
+      0.004228,
+      0.004238
     ]
   },
   "ADVANTESTSTOCK_USDT": {
@@ -22003,7 +22467,8 @@
     "oi_30m_anterior": 123585.0,
     "precos_horarios": [
       181.87,
-      181.21
+      181.21,
+      181.57
     ]
   },
   "POETSTOCK_USDT": {
@@ -22046,7 +22511,8 @@
     "oi_30m_anterior": 1601829.0,
     "precos_horarios": [
       9.014,
-      9.007
+      9.007,
+      8.987
     ]
   },
   "CATI_USDT": {
@@ -22089,7 +22555,8 @@
     "oi_30m_anterior": 7212582.0,
     "precos_horarios": [
       0.05179,
-      0.05055
+      0.05055,
+      0.05049
     ]
   },
   "SONYSTOCK_USDT": {
@@ -22132,7 +22599,8 @@
     "oi_30m_anterior": 1059818.0,
     "precos_horarios": [
       20.76,
-      20.76
+      20.76,
+      20.73
     ]
   },
   "SKR_USDT": {
@@ -22175,7 +22643,8 @@
     "oi_30m_anterior": 467012.0,
     "precos_horarios": [
       0.00912,
-      0.00919
+      0.00919,
+      0.0092
     ]
   },
   "UVXY_USDT": {
@@ -22218,7 +22687,8 @@
     "oi_30m_anterior": 801005.0,
     "precos_horarios": [
       24.75,
-      24.73
+      24.73,
+      24.81
     ]
   }
 }
