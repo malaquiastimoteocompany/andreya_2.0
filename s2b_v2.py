@@ -87,7 +87,15 @@ S2B_JANELA_OBSERVACAO_MIN = 1440   # 24h
 S2B_CHECKPOINT_MIN        = 30
 
 HISTORICO_PATH = "s2b_historico.json"
-OUTCOMES_PATH  = "s2b_outcomes.json"
+OUTCOMES_PATH  = "s2b_outcomes_v2.json"
+# CORREÇÃO 05/07/2026: usámos "s2b_outcomes.json" (o ficheiro antigo) até
+# esta versão — mas esse ficheiro já tinha 204 registos do sistema anterior
+# (schema diferente: "precos"/"sinais_evolucao" em vez de "checkpoints"),
+# 119 deles ainda com completo=false. O código tentava processá-los como
+# se fossem do schema novo e rebentava com KeyError: 'checkpoints' — foi
+# a causa dos e-mails de falha nas primeiras execuções em produção.
+# Ficheiro novo e dedicado, para nunca misturar com o histórico antigo
+# (que fica congelado, tal como o resto do pipeline clássico).
 
 
 # =============================================================================
@@ -401,11 +409,12 @@ def scan_s2b() -> None:
         # absorver pequenas derivas do agendamento (segundos, não minutos)
         checkpoint = round(minutos / S2B_CHECKPOINT_MIN) * S2B_CHECKPOINT_MIN
         chave = str(checkpoint)
+        checkpoints = o.setdefault("checkpoints", {})  # nunca rebentar por registo com schema inesperado
 
-        if checkpoint > 0 and chave not in o["checkpoints"]:
+        if checkpoint > 0 and chave not in checkpoints:
             snap = snapshot_completo(symbol, o["direccao"], ticker)
             if snap is not None:
-                o["checkpoints"][chave] = snap
+                checkpoints[chave] = snap
                 alterado_out = True
 
         if minutos >= S2B_JANELA_OBSERVACAO_MIN and not o.get("completo"):
@@ -414,7 +423,7 @@ def scan_s2b() -> None:
             if symbol in historico:
                 historico[symbol]["em_observacao"] = False  # liberta para poder voltar a disparar
                 alterado_hist = True
-            log.info(f"[{symbol}] S2b — observação de 24h completa ({len(o['checkpoints'])} checkpoints)")
+            log.info(f"[{symbol}] S2b — observação de 24h completa ({len(checkpoints)} checkpoints)")
 
     # ── 3) Notificar + gravar ──
     if novos_disparos:
