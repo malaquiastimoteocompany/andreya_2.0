@@ -6461,5 +6461,33 @@
       "30": 0.5705
     },
     "completo": false
+  },
+  {
+    "symbol": "OPENLEDGER_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.1721,
+    "contexto_score": 1,
+    "sinais_lancamento": {
+      "s1_ok": false,
+      "s1_valor": 1.4427153095851126,
+      "s2_ok": false,
+      "s2_oi_pct": 0.15067575799384067,
+      "s2_preco_pct": 0.0643,
+      "s2_vol_dir_pct": 0.6547493715708405,
+      "s3_ok": true,
+      "s3_funding": 5e-05,
+      "s4_ok": false,
+      "s4_range_pct": 0.1347252747252747,
+      "s5_ok": false,
+      "s5_ema9": 0.16792304863851076,
+      "s5_ema21": 0.16445946676459505,
+      "s5_estrutura_ok": false,
+      "s6_ok": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": 0.0643
+    },
+    "timestamp_entrada": "2026-07-05T00:01:00.102521+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
