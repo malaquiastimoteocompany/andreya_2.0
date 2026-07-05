@@ -8505,5 +8505,33 @@
     "timestamp_entrada": "2026-07-05T04:01:01.326729+00:00",
     "precos": {},
     "completo": false
+  },
+  {
+    "symbol": "VANRY_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.005112,
+    "contexto_score": 0,
+    "sinais_lancamento": {
+      "s1_ok": false,
+      "s1_valor": 4.691764253798678,
+      "s2_ok": false,
+      "s2_oi_pct": -0.16908164328740855,
+      "s2_preco_pct": 0.083,
+      "s2_vol_dir_pct": 0.6583047266581292,
+      "s3_ok": false,
+      "s3_funding": -0.002046,
+      "s4_ok": false,
+      "s4_range_pct": 0.777783839072622,
+      "s5_ok": false,
+      "s5_ema9": 0.004630494275540738,
+      "s5_ema21": 0.0042656302602010945,
+      "s5_estrutura_ok": false,
+      "s6_ok": false,
+      "s6_ls_ratio": 0.5,
+      "s6_preco_pct": 0.083
+    },
+    "timestamp_entrada": "2026-07-05T04:01:01.326729+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
