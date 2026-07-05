@@ -8019,5 +8019,33 @@
     "timestamp_entrada": "2026-07-05T03:01:01.262018+00:00",
     "precos": {},
     "completo": false
+  },
+  {
+    "symbol": "AKE_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 0.0003025,
+    "contexto_score": 1,
+    "sinais_lancamento": {
+      "s1_ok": false,
+      "s1_valor": 2.533199283572909,
+      "s2_ok": false,
+      "s2_oi_pct": -0.12094949124901026,
+      "s2_preco_pct": -0.0611,
+      "s2_vol_dir_pct": 0.6853996275002024,
+      "s3_ok": false,
+      "s3_funding": 0.000429,
+      "s4_ok": true,
+      "s4_range_pct": 0.047352342158859424,
+      "s5_ok": true,
+      "s5_ema9": 0.000307050507242949,
+      "s5_ema21": 0.0003252195017172812,
+      "s5_estrutura_ok": true,
+      "s6_ok": false,
+      "s6_ls_ratio": 1.5,
+      "s6_preco_pct": -0.0611
+    },
+    "timestamp_entrada": "2026-07-05T03:01:01.262018+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
