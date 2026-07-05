@@ -6981,5 +6981,33 @@
     "timestamp_entrada": "2026-07-05T01:01:01.239504+00:00",
     "precos": {},
     "completo": false
+  },
+  {
+    "symbol": "ZKP_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 0.05019,
+    "contexto_score": 0,
+    "sinais_lancamento": {
+      "s1_ok": true,
+      "s1_valor": 0.9627143643211017,
+      "s2_ok": false,
+      "s2_oi_pct": -0.028101982497405538,
+      "s2_preco_pct": -0.0681,
+      "s2_vol_dir_pct": 0.6312138585542005,
+      "s3_ok": false,
+      "s3_funding": -0.00077,
+      "s4_ok": true,
+      "s4_range_pct": 0.04434516523867802,
+      "s5_ok": false,
+      "s5_ema9": 0.05159411046726894,
+      "s5_ema21": 0.05283267814591475,
+      "s5_estrutura_ok": false,
+      "s6_ok": false,
+      "s6_ls_ratio": 0.5,
+      "s6_preco_pct": -0.0681
+    },
+    "timestamp_entrada": "2026-07-05T01:01:01.239504+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
