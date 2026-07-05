@@ -92,6 +92,23 @@
         "s6_preco_pct": -0.0131,
         "atr_pct": 1.5969706947645712,
         "rsi14": 34.044350835672475
+      },
+      "150": {
+        "preco": 0.00607,
+        "volume": 522815.0,
+        "s1_valor": 1.3774036407788002,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": -0.0136,
+        "s2_vol_dir_pct": 0.2344438978737611,
+        "s3_funding": 5e-05,
+        "s4_range_pct": 0.08567159222978582,
+        "s5_ema9": 0.006126085218192982,
+        "s5_ema21": 0.006166934390937948,
+        "s5_estrutura": true,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": -0.0136,
+        "atr_pct": 1.5980230642504116,
+        "rsi14": 35.251286872633614
       }
     },
     "completo": false
@@ -172,6 +189,23 @@
         "s6_preco_pct": 0.0593,
         "atr_pct": 1.5881973556917117,
         "rsi14": 84.59600709800114
+      },
+      "120": {
+        "preco": 2.665,
+        "volume": 1880369.0,
+        "s1_valor": 2.028468030466666,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": 0.0621,
+        "s2_vol_dir_pct": 0.8571968844790269,
+        "s3_funding": 1.1e-05,
+        "s4_range_pct": 0.11574261432618374,
+        "s5_ema9": 2.574102880587288,
+        "s5_ema21": 2.5367982717799675,
+        "s5_estrutura": true,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": 0.0621,
+        "atr_pct": 1.675319809452443,
+        "rsi14": 85.5859266796324
       }
     },
     "completo": false
@@ -201,6 +235,52 @@
       "rsi14": 90.81180464019077
     },
     "timestamp_entrada": "2026-07-05T18:45:28.930249+00:00",
+    "checkpoints": {
+      "30": {
+        "preco": 0.0129,
+        "volume": 44653296.0,
+        "s1_valor": 2.4015767317660925,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": 0.684,
+        "s2_vol_dir_pct": 0.10137844305675799,
+        "s3_funding": -0.038128,
+        "s4_range_pct": 1.2998266897746968,
+        "s5_ema9": 0.009164047432670172,
+        "s5_ema21": 0.007810779112511901,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 0.5,
+        "s6_preco_pct": 0.684,
+        "atr_pct": 6.186421937195933,
+        "rsi14": 94.38060784107425
+      }
+    },
+    "completo": false
+  },
+  {
+    "symbol": "TRB_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 18.197,
+    "volume_entrada": 1543110.0,
+    "var_preco_gatilho": 4.857669701509739,
+    "var_volume_gatilho": 100.15037229898405,
+    "sinais_lancamento": {
+      "preco": 18.197,
+      "volume": 1543110.0,
+      "s1_valor": 2.448932814335336,
+      "s2_oi_pct": 0.0,
+      "s2_preco_pct": 0.1445,
+      "s2_vol_dir_pct": 0.9047813666310683,
+      "s3_funding": 5e-05,
+      "s4_range_pct": 0.17402480560375286,
+      "s5_ema9": 16.819448489131286,
+      "s5_ema21": 16.377508081595344,
+      "s5_estrutura": true,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": 0.1445,
+      "atr_pct": 1.9795256674962107,
+      "rsi14": 83.35401927204688
+    },
+    "timestamp_entrada": "2026-07-05T19:15:29.370139+00:00",
     "checkpoints": {},
     "completo": false
   }
