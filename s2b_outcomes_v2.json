@@ -75,6 +75,23 @@
         "s6_preco_pct": -0.0081,
         "atr_pct": 1.529442052050178,
         "rsi14": 38.81650629236507
+      },
+      "120": {
+        "preco": 0.006073,
+        "volume": 526036.0,
+        "s1_valor": 1.3831815581401727,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": -0.0131,
+        "s2_vol_dir_pct": 0.25613292862934245,
+        "s3_funding": 5e-05,
+        "s4_range_pct": 0.08567159222978582,
+        "s5_ema9": 0.006135506522741227,
+        "s5_ema21": 0.006174536920940834,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": -0.0131,
+        "atr_pct": 1.5969706947645712,
+        "rsi14": 34.044350835672475
       }
     },
     "completo": false
@@ -138,8 +155,53 @@
         "s6_preco_pct": 0.0506,
         "atr_pct": 1.393794490028798,
         "rsi14": 82.18044616438321
+      },
+      "90": {
+        "preco": 2.658,
+        "volume": 1810539.0,
+        "s1_valor": 1.9606475791199824,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": 0.0593,
+        "s2_vol_dir_pct": 0.838771639307502,
+        "s3_funding": -1.5e-05,
+        "s4_range_pct": 0.11574261432618374,
+        "s5_ema9": 2.55777860073411,
+        "s5_ema21": 2.5269417353216004,
+        "s5_estrutura": true,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": 0.0593,
+        "atr_pct": 1.5881973556917117,
+        "rsi14": 84.59600709800114
       }
     },
+    "completo": false
+  },
+  {
+    "symbol": "ES_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 0.01041,
+    "volume_entrada": 38783692.0,
+    "var_preco_gatilho": -3.9667896678966774,
+    "var_volume_gatilho": 62.500702772378105,
+    "sinais_lancamento": {
+      "preco": 0.01041,
+      "volume": 38783692.0,
+      "s1_valor": 2.2012539628792798,
+      "s2_oi_pct": 0.0,
+      "s2_preco_pct": 0.359,
+      "s2_vol_dir_pct": 0.13519349885697157,
+      "s3_funding": -0.03,
+      "s4_range_pct": 0.9566724436741767,
+      "s5_ema9": 0.008153059290837714,
+      "s5_ema21": 0.007267129751035818,
+      "s5_estrutura": false,
+      "s6_ls_ratio": 0.5,
+      "s6_preco_pct": 0.359,
+      "atr_pct": 6.0810810810810825,
+      "rsi14": 90.81180464019077
+    },
+    "timestamp_entrada": "2026-07-05T18:45:28.930249+00:00",
+    "checkpoints": {},
     "completo": false
   }
 ]
