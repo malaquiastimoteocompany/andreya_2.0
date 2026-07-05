@@ -8449,5 +8449,33 @@
     "timestamp_entrada": "2026-07-05T04:01:01.326729+00:00",
     "precos": {},
     "completo": false
+  },
+  {
+    "symbol": "VELVET_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.5749,
+    "contexto_score": 1,
+    "sinais_lancamento": {
+      "s1_ok": false,
+      "s1_valor": 0.9255240343390705,
+      "s2_ok": false,
+      "s2_oi_pct": -0.06695041715329997,
+      "s2_preco_pct": 0.104,
+      "s2_vol_dir_pct": 0.5827242372187381,
+      "s3_ok": true,
+      "s3_funding": -5.7e-05,
+      "s4_ok": false,
+      "s4_range_pct": 0.35583352601156065,
+      "s5_ok": false,
+      "s5_ema9": 0.558633119065686,
+      "s5_ema21": 0.5456586924467645,
+      "s5_estrutura_ok": false,
+      "s6_ok": false,
+      "s6_ls_ratio": 0.5,
+      "s6_preco_pct": 0.104
+    },
+    "timestamp_entrada": "2026-07-05T04:01:01.326729+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
