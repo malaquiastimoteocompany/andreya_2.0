@@ -6489,5 +6489,33 @@
     "timestamp_entrada": "2026-07-05T00:01:00.102521+00:00",
     "precos": {},
     "completo": false
+  },
+  {
+    "symbol": "OGN_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 0.01834,
+    "contexto_score": 0,
+    "sinais_lancamento": {
+      "s1_ok": false,
+      "s1_valor": 4.83951437269614,
+      "s2_ok": false,
+      "s2_oi_pct": -0.04630226225023723,
+      "s2_preco_pct": -0.0783,
+      "s2_vol_dir_pct": 0.4710405461356527,
+      "s3_ok": false,
+      "s3_funding": -0.002104,
+      "s4_ok": false,
+      "s4_range_pct": 0.19685220729366584,
+      "s5_ok": false,
+      "s5_ema9": 0.018924980259027238,
+      "s5_ema21": 0.018447472840192596,
+      "s5_estrutura_ok": false,
+      "s6_ok": false,
+      "s6_ls_ratio": 0.5,
+      "s6_preco_pct": -0.0783
+    },
+    "timestamp_entrada": "2026-07-05T00:01:00.102521+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
