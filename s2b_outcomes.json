@@ -7392,5 +7392,33 @@
       "30": 0.04951
     },
     "completo": false
+  },
+  {
+    "symbol": "BEAT_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 2.811,
+    "contexto_score": 2,
+    "sinais_lancamento": {
+      "s1_ok": false,
+      "s1_valor": 0.5330852224107809,
+      "s2_ok": false,
+      "s2_oi_pct": -0.1328670552601835,
+      "s2_preco_pct": -0.0692,
+      "s2_vol_dir_pct": 0.5507815251657655,
+      "s3_ok": true,
+      "s3_funding": 7.7e-05,
+      "s4_ok": false,
+      "s4_range_pct": 0.11695364238410592,
+      "s5_ok": true,
+      "s5_ema9": 2.8757776215201574,
+      "s5_ema21": 2.8937123088708994,
+      "s5_estrutura_ok": true,
+      "s6_ok": false,
+      "s6_ls_ratio": 1.5,
+      "s6_preco_pct": -0.0692
+    },
+    "timestamp_entrada": "2026-07-05T02:00:57.942187+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
