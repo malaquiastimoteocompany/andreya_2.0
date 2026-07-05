@@ -8047,5 +8047,33 @@
     "timestamp_entrada": "2026-07-05T03:01:01.262018+00:00",
     "precos": {},
     "completo": false
+  },
+  {
+    "symbol": "CATI_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 0.05234,
+    "contexto_score": 2,
+    "sinais_lancamento": {
+      "s1_ok": false,
+      "s1_valor": 1.5151956348359266,
+      "s2_ok": false,
+      "s2_oi_pct": -0.001927189023296822,
+      "s2_preco_pct": -0.0711,
+      "s2_vol_dir_pct": 0.7894512914636312,
+      "s3_ok": true,
+      "s3_funding": 5e-05,
+      "s4_ok": true,
+      "s4_range_pct": 0.020975329890992444,
+      "s5_ok": true,
+      "s5_ema9": 0.05412608871959552,
+      "s5_ema21": 0.05559155387352642,
+      "s5_estrutura_ok": true,
+      "s6_ok": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": -0.0711
+    },
+    "timestamp_entrada": "2026-07-05T03:01:01.262018+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
