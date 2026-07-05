@@ -8477,5 +8477,33 @@
     "timestamp_entrada": "2026-07-05T04:01:01.326729+00:00",
     "precos": {},
     "completo": false
+  },
+  {
+    "symbol": "POWER_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 0.07414,
+    "contexto_score": 1,
+    "sinais_lancamento": {
+      "s1_ok": false,
+      "s1_valor": 0.6750007892763008,
+      "s2_ok": false,
+      "s2_oi_pct": -0.006801505160742191,
+      "s2_preco_pct": -0.1046,
+      "s2_vol_dir_pct": 0.6296521609495,
+      "s3_ok": false,
+      "s3_funding": 0.000291,
+      "s4_ok": true,
+      "s4_range_pct": 0.037634467618002244,
+      "s5_ok": true,
+      "s5_ema9": 0.0792800335834748,
+      "s5_ema21": 0.08092147488831948,
+      "s5_estrutura_ok": true,
+      "s6_ok": false,
+      "s6_ls_ratio": 1.5,
+      "s6_preco_pct": -0.1046
+    },
+    "timestamp_entrada": "2026-07-05T04:01:01.326729+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
