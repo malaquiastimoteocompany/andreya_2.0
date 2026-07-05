@@ -29114,5 +29114,34 @@
         "s6_preco_pct": 0.1736
       }
     }
+  },
+  {
+    "symbol": "BTW_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.07344,
+    "contexto_score": 1,
+    "sinais_lancamento": {
+      "s1_ok": true,
+      "s1_valor": 0.3069732451088739,
+      "s2_ok": false,
+      "s2_oi_pct": 0.037059094079967346,
+      "s2_preco_pct": 0.1075,
+      "s2_vol_dir_pct": 0.6564108900696075,
+      "s3_ok": false,
+      "s3_funding": 0.000418,
+      "s4_ok": false,
+      "s4_range_pct": 0.3002742579413298,
+      "s5_ok": true,
+      "s5_ema9": 0.06742055367754247,
+      "s5_ema21": 0.06528402768107541,
+      "s5_estrutura_ok": true,
+      "s6_ok": false,
+      "s6_ls_ratio": 1.5,
+      "s6_preco_pct": 0.1075
+    },
+    "timestamp_entrada": "2026-07-05T07:01:00.756709+00:00",
+    "precos": {},
+    "sinais_evolucao": {},
+    "completo": false
   }
 ]
