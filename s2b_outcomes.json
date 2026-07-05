@@ -8533,5 +8533,33 @@
     "timestamp_entrada": "2026-07-05T04:01:01.326729+00:00",
     "precos": {},
     "completo": false
+  },
+  {
+    "symbol": "CHILLGUY_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 0.01008,
+    "contexto_score": 2,
+    "sinais_lancamento": {
+      "s1_ok": true,
+      "s1_valor": 1.1336206054851625,
+      "s2_ok": false,
+      "s2_oi_pct": -0.05742903781516196,
+      "s2_preco_pct": -0.0666,
+      "s2_vol_dir_pct": 0.6163329256893378,
+      "s3_ok": true,
+      "s3_funding": 5e-05,
+      "s4_ok": true,
+      "s4_range_pct": 0.01999999999999997,
+      "s5_ok": true,
+      "s5_ema9": 0.010270272977347372,
+      "s5_ema21": 0.010386263131571294,
+      "s5_estrutura_ok": true,
+      "s6_ok": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": -0.0666
+    },
+    "timestamp_entrada": "2026-07-05T04:01:01.326729+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
