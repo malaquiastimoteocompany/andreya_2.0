@@ -35143,5 +35143,34 @@
     "precos": {},
     "sinais_evolucao": {},
     "completo": false
+  },
+  {
+    "symbol": "EPIC_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 0.534,
+    "contexto_score": 2,
+    "sinais_lancamento": {
+      "s1_ok": false,
+      "s1_valor": 2.976064950799513,
+      "s2_ok": false,
+      "s2_oi_pct": -0.21624673583174536,
+      "s2_preco_pct": -0.2268,
+      "s2_vol_dir_pct": 0.6545915201258472,
+      "s3_ok": true,
+      "s3_funding": -1.6e-05,
+      "s4_ok": true,
+      "s4_range_pct": 0.03374454355665215,
+      "s5_ok": true,
+      "s5_ema9": 0.6093092244229167,
+      "s5_ema21": 0.6400325468812353,
+      "s5_estrutura_ok": true,
+      "s6_ok": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": -0.2268
+    },
+    "timestamp_entrada": "2026-07-05T08:00:59.591622+00:00",
+    "precos": {},
+    "sinais_evolucao": {},
+    "completo": false
   }
 ]
