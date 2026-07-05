@@ -6897,5 +6897,33 @@
       "60": 0.03065
     },
     "completo": false
+  },
+  {
+    "symbol": "GRASS_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 0.5231,
+    "contexto_score": 2,
+    "sinais_lancamento": {
+      "s1_ok": true,
+      "s1_valor": 0.8525542970081028,
+      "s2_ok": false,
+      "s2_oi_pct": -0.18505420281601967,
+      "s2_preco_pct": -0.067,
+      "s2_vol_dir_pct": 0.507181851016336,
+      "s3_ok": true,
+      "s3_funding": 5e-05,
+      "s4_ok": true,
+      "s4_range_pct": 0.028057803468208024,
+      "s5_ok": true,
+      "s5_ema9": 0.5415629591810424,
+      "s5_ema21": 0.5505073453311067,
+      "s5_estrutura_ok": true,
+      "s6_ok": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": -0.067
+    },
+    "timestamp_entrada": "2026-07-05T01:01:01.239504+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
