@@ -8589,5 +8589,33 @@
     "timestamp_entrada": "2026-07-05T04:01:01.326729+00:00",
     "precos": {},
     "completo": false
+  },
+  {
+    "symbol": "XNY_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.00653,
+    "contexto_score": 1,
+    "sinais_lancamento": {
+      "s1_ok": true,
+      "s1_valor": 0.5708663621460378,
+      "s2_ok": false,
+      "s2_oi_pct": -0.001604545596666411,
+      "s2_preco_pct": 0.0609,
+      "s2_vol_dir_pct": 0.5451076005311951,
+      "s3_ok": false,
+      "s3_funding": 0.000574,
+      "s4_ok": false,
+      "s4_range_pct": 0.13044806517311616,
+      "s5_ok": true,
+      "s5_ema9": 0.006321895366950523,
+      "s5_ema21": 0.0062080191970637485,
+      "s5_estrutura_ok": true,
+      "s6_ok": false,
+      "s6_ls_ratio": 1.5,
+      "s6_preco_pct": 0.0609
+    },
+    "timestamp_entrada": "2026-07-05T04:01:01.326729+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
