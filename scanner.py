@@ -186,6 +186,45 @@ def guardar_s2b_outcomes(outcomes: list[dict], sha: Optional[str], mensagem: str
     _github_request("PUT", S2B_OUTCOMES_PATH, payload)
 
 
+def actualizar_historico_precos(campos: dict, preco_actual: float, max_pontos: int = 24) -> None:
+    """
+    Mantém um histórico rolante do preço em campos["precos_horarios"]
+    (até max_pontos leituras, ~1 por scan, ~24h no total). Sem qualquer
+    chamada extra à API — reaproveita o lastPrice já obtido no ticker
+    bulk, exactamente como já se faz para o OI (oi_30m_anterior).
+
+    Substitui o riseFallRate da MEXC como base do filtro de preço do S2b.
+    Motivo (descoberto 05/07/2026, caso SIREN_USDT): o riseFallRate da
+    MEXC não é uma janela rolante de 24h — reinicia a um ponto fixo do
+    dia (documentado como "price Change Percent in utc8"), o que faz a
+    sensibilidade do filtro variar ao longo do dia sem relação com o
+    movimento real do token. Esta função dá-nos uma janela verdadeiramente
+    rolante, calculada por nós, ao mesmo custo (zero chamadas extra).
+    """
+    historico = campos.setdefault("precos_horarios", [])
+    historico.append(preco_actual)
+    if len(historico) > max_pontos:
+        del historico[: len(historico) - max_pontos]
+
+
+def calcular_variacao_rolante_preco(campos: dict) -> float:
+    """
+    Variação % entre o primeiro e o último ponto do histórico guardado por
+    actualizar_historico_precos(). Com menos de 2 pontos (arranque, ou
+    token que acabou de voltar a Estado 1) devolve 0.0 — fica sem sinal
+    até acumular histórico, tal como o volume_media_7d faz nos primeiros
+    dias. Ao fim de ~24h de scans (24 pontos), a janela fica completa.
+    """
+    historico = campos.get("precos_horarios", [])
+    if len(historico) < 2:
+        return 0.0
+    preco_inicio, preco_fim = historico[0], historico[-1]
+    if preco_inicio == 0:
+        return 0.0
+    return (preco_fim - preco_inicio) / preco_inicio
+
+
+
 def registar_sinal_s2b(
     symbol: str, direccao: str, preco_entrada: float,
     contexto_score: int, timestamp_utc: str,
@@ -209,6 +248,7 @@ def registar_sinal_s2b(
             "sinais_lancamento": sinais_lancamento,  # snapshot S1-S6 no momento do sinal, ou None
             "timestamp_entrada": timestamp_utc,
             "precos":            {},     # {"30": preco, "60": preco, ..., "1440": preco}
+            "sinais_evolucao":   {},     # {"30": {snapshot S1-S6}, "60": {...}, ...}
             "completo":          False,  # True quando chega aos S2B_JANELA_TOTAL_MIN
         })
         guardar_s2b_outcomes(outcomes, sha, f"S2b: registar sinal {symbol} {direccao}")
@@ -217,6 +257,36 @@ def registar_sinal_s2b(
         # Nunca deixar o registo de tracking derrubar o scan — o alerta em
         # si já foi enviado, isto é só telemetria.
         log.error(f"[{symbol}] Falha a registar outcome S2b: {e}")
+
+
+def _snapshot_evolucao_agora(symbol: str, direccao: str) -> Optional[dict]:
+    """
+    Snapshot AO VIVO dos 6 sinais (S1-S6) para um sinal S2b já aberto —
+    preenche sinais_evolucao a cada checkpoint de 30 min. Pedido de
+    Malaquias, 05/07/2026: "para podermos ter dados que nos permitam
+    perceber os sucessos e as falhas" ao longo do tempo, não só no
+    lançamento.
+
+    Ao contrário dos preços (reconstruídos de velas históricas), o
+    funding (S3) e o L/S ratio (S6) não têm histórico acessível — isto só
+    reflecte o instante em que o scan corre. Se dois checkpoints de 30min
+    ficarem em falta no mesmo scan (a cadência real do scan é ~1h), ambos
+    recebem o mesmo snapshot — aproximação aceite, tal como já acontecia
+    nos preços antes de passarmos a usar velas.
+
+    Custo: 1 chamada de ticker + 1 de velas Min60 por sinal aberto, por
+    scan leve — a somar à vela Min30 já usada para o preço.
+    """
+    try:
+        ticker = fetch_ticker(symbol)
+        candles_1h = fetch_candles(symbol, "Min60", 30)
+        if not ticker or len(candles_1h) < 25:
+            return None
+        mexc_d, cg_d, _ = construir_dados_mexc(symbol, ticker, candles_1h, 0.0)
+        return snapshot_sinais_s2b(mexc_d, cg_d, direccao)
+    except Exception as e:
+        log.error(f"[{symbol}] Falha a obter snapshot de evolução S2b: {e}")
+        return None
 
 
 def _preco_historico_mais_proximo(velas: list[dict], alvo_epoch: int) -> Optional[float]:
@@ -237,7 +307,10 @@ def _preencher_precos_registo(registo: dict, velas: list[dict], agora: datetime)
     """
     Preenche em registo["precos"] todos os checkpoints de S2B_CHECKPOINT_MIN
     em S2B_CHECKPOINT_MIN minutos que já passaram e ainda não têm valor,
-    usando as velas Min30 fornecidas. Marca "completo" ao atingir
+    usando as velas Min30 fornecidas. Para cada checkpoint novo, também
+    preenche registo["sinais_evolucao"] com um snapshot ao vivo dos 6
+    sinais (ver _snapshot_evolucao_agora — 2 chamadas extra à API, só
+    quando há pelo menos um checkpoint novo). Marca "completo" ao atingir
     S2B_JANELA_TOTAL_MIN. Devolve True se alterou algo.
     """
     try:
@@ -249,8 +322,10 @@ def _preencher_precos_registo(registo: dict, velas: list[dict], agora: datetime)
     minutos_passados = int((agora - entrada).total_seconds() // 60)
     minutos_passados = min(minutos_passados, S2B_JANELA_TOTAL_MIN)
 
-    precos   = registo.setdefault("precos", {})
-    alterado = False
+    precos             = registo.setdefault("precos", {})
+    evolucao           = registo.setdefault("sinais_evolucao", {})
+    alterado           = False
+    novos_checkpoints  = []
 
     for minuto in range(S2B_CHECKPOINT_MIN, minutos_passados + 1, S2B_CHECKPOINT_MIN):
         chave = str(minuto)
@@ -260,6 +335,14 @@ def _preencher_precos_registo(registo: dict, velas: list[dict], agora: datetime)
         if preco is not None:
             precos[chave] = preco
             alterado = True
+            novos_checkpoints.append(chave)
+
+    if novos_checkpoints:
+        snap = _snapshot_evolucao_agora(registo["symbol"], registo["direccao"])
+        if snap is not None:
+            for chave in novos_checkpoints:
+                evolucao[chave] = snap
+            alterado = True
 
     if minutos_passados >= S2B_JANELA_TOTAL_MIN and not registo.get("completo"):
         registo["completo"] = True
@@ -267,6 +350,7 @@ def _preencher_precos_registo(registo: dict, velas: list[dict], agora: datetime)
         log.info(f"[{registo['symbol']}] S2b — janela de 24h completa ({len(precos)} pontos guardados)")
 
     return alterado
+
 
 
 def actualizar_checkpoints_s2b(tickers: Optional[dict] = None) -> None:
@@ -384,6 +468,15 @@ def fetch_todos_tickers() -> dict[str, dict]:
     if isinstance(dados, list):
         return {t["symbol"]: t for t in dados if "_USDT" in t.get("symbol", "")}
     return {}
+
+
+def fetch_ticker(symbol: str) -> Optional[dict]:
+    """Ticker de um único símbolo — usado onde não faz sentido pedir o bulk todo
+    (ex.: snapshot de evolução dos sinais S2b, 1x por sinal aberto por scan)."""
+    dados = _mexc_get("/contract/ticker", {"symbol": symbol})
+    if not dados or not isinstance(dados, dict):
+        return None
+    return dados
 
 
 def fetch_candles(symbol: str, intervalo: str, count: int) -> list[dict]:
@@ -674,6 +767,12 @@ def scan_pesado(hora_lisboa: int) -> None:
         oi_24h_anterior = campos.get("oi_atual", 0.0)
         mexc_d, cg_d, atr_pct = construir_dados_mexc(symbol, ticker, candles_1h, oi_24h_anterior)
 
+        # Histórico rolante de preço — mesma lógica do scan leve, aqui de
+        # graça porque já percorremos todos os tokens com ticker em mão.
+        preco_actual = float(ticker.get("lastPrice", 0))
+        if preco_actual:
+            actualizar_historico_precos(campos, preco_actual)
+
         token        = estado_para_token(campos, symbol)
         estado_antes = token.estado
 
@@ -835,8 +934,11 @@ def scan_leve() -> None:
     # Manual CFI v2.0 — extensão 03/07/2026. Ver docstring de
     # signals.preco_ja_em_breakout() para o problema que resolve.
     #
-    # Passo 1 (grátis): filtra pelo riseFallRate já presente no ticker —
-    # sem qualquer chamada extra à API, aplicado aos ~500 tokens em E1 de uma vez.
+    # Passo 1 (grátis): filtra pela nossa própria janela rolante de preço —
+    # sem qualquer chamada extra à API (reaproveita o lastPrice do ticker
+    # bulk), aplicado aos ~500 tokens em E1 de uma vez. Substituiu o
+    # riseFallRate da MEXC em 05/07/2026 — ver docstring de
+    # actualizar_historico_precos() para o motivo.
     # Passo 2 (com custo): só os sobreviventes do passo 1 pagam o fetch de candles.
     e1_tokens = {
         sym: c for sym, c in estado_json.items()
@@ -847,7 +949,11 @@ def scan_leve() -> None:
         ticker = tickers.get(symbol)
         if not ticker:
             continue
-        preco_change = float(ticker.get("riseFallRate", 0))
+        preco_actual = float(ticker.get("lastPrice", 0))
+        if preco_actual:
+            actualizar_historico_precos(campos, preco_actual)
+            alterados = True
+        preco_change = calcular_variacao_rolante_preco(campos)
         passa_preco, direccao_provavel = preco_ja_em_breakout(preco_change)
         if passa_preco:
             candidatos_s2b.append((symbol, campos, ticker, direccao_provavel))
