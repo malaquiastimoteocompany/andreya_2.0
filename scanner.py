@@ -1508,18 +1508,29 @@ def analise_token() -> None:
 def main() -> None:
     tipo = os.environ.get("SCAN_TIPO", "").lower()
     if not tipo:
-        log.error("SCAN_TIPO não definido. Usar: pesado | leve | breakout | analise_token")
+        log.error("SCAN_TIPO não definido. Usar: s2b | analise_token")
         sys.exit(1)
 
-    if tipo == "pesado":
-        hora = datetime.now(TZ_LISBOA).hour
-        scan_pesado(hora)
-    elif tipo == "leve":
-        scan_leve()
-    elif tipo == "breakout":
-        scan_breakout()
+    if tipo == "s2b":
+        import s2b_v2
+        s2b_v2.scan_s2b()
     elif tipo == "analise_token":
         analise_token()
+    elif tipo in ("pesado", "leve", "breakout"):
+        # CONGELADO 05/07/2026 (decisão do Malaquias): o pipeline clássico
+        # E1-E5 parou de dar sinais úteis com o mercado neste regime — o
+        # S2b (s2b_v2.py) passa a ser o único mecanismo activo. Isto falha
+        # alto de propósito, em vez de continuar a correr silenciosamente,
+        # para o caso de um cron job antigo não ter sido removido a tempo
+        # do cron-job.org. O código de scan_leve/scan_pesado/scan_breakout
+        # fica no repo, intacto, para referência futura — só deixou de ser
+        # chamado a partir daqui.
+        log.error(
+            f"SCAN_TIPO={tipo!r} está CONGELADO desde 05/07/2026 — "
+            f"o único scan activo é 's2b'. Remove este cron job do "
+            f"cron-job.org se ainda o vires disparar."
+        )
+        sys.exit(1)
     else:
         log.error(f"SCAN_TIPO inválido: {tipo!r}")
         sys.exit(1)
