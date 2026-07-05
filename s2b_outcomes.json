@@ -7991,5 +7991,33 @@
     "timestamp_entrada": "2026-07-05T03:01:01.262018+00:00",
     "precos": {},
     "completo": false
+  },
+  {
+    "symbol": "RPL_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 2.277,
+    "contexto_score": 0,
+    "sinais_lancamento": {
+      "s1_ok": false,
+      "s1_valor": 3.908611388931688,
+      "s2_ok": false,
+      "s2_oi_pct": 0.1932679381589668,
+      "s2_preco_pct": 0.2635,
+      "s2_vol_dir_pct": 0.6106114655421592,
+      "s3_ok": false,
+      "s3_funding": -0.002593,
+      "s4_ok": false,
+      "s4_range_pct": 0.45522556390977437,
+      "s5_ok": false,
+      "s5_ema9": 2.216352440547657,
+      "s5_ema21": 2.0520553716325667,
+      "s5_estrutura_ok": false,
+      "s6_ok": false,
+      "s6_ls_ratio": 0.5,
+      "s6_preco_pct": 0.2635
+    },
+    "timestamp_entrada": "2026-07-05T03:01:01.262018+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
