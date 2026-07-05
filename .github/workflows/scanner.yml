@@ -1,20 +1,26 @@
 name: Andreya v2 — Scanner
 # Disparado via webhook do cron-job.org (workflow_dispatch)
 # NÃO usar schedule do GitHub Actions — atrasos de até 10min inaceitáveis
-# para o scan de breakout (30 min) e scan leve (1h).
+# para o scan S2b (30 min).
+#
+# CONGELADO 05/07/2026: pesado/leve/breakout deixaram de ser accionados —
+# ver s2b_v2.py e a nota em scanner.py:main(). Mantidos na lista só para
+# não partir o comando /analise_token nem chamadas manuais de depuração;
+# escolhê-los agora falha de propósito.
 on:
   workflow_dispatch:
     inputs:
       scan_tipo:
         description: 'Tipo de scan'
         required: true
-        default: 'pesado'
+        default: 's2b'
         type: choice
         options:
+          - s2b
+          - analise_token
           - pesado
           - leve
           - breakout
-          - analise_token
       symbol:
         description: 'Token a analisar (só para scan_tipo=analise_token). Ex: SHIB ou SHIB_USDT'
         required: false
@@ -22,13 +28,13 @@ on:
         type: string
 
 permissions:
-  contents: write   # necessário para ler e escrever state.json
+  contents: write   # necessário para ler e escrever s2b_historico.json / s2b_outcomes.json
 
 jobs:
   scanner:
     name: "Scan ${{ inputs.scan_tipo }}"
     runs-on: ubuntu-latest
-    timeout-minutes: 15   # scan pesado pode demorar até 10min com Playwright
+    timeout-minutes: 15
 
     steps:
       # ── 1. Checkout ─────────────────────────────────────────────────────────
@@ -46,8 +52,9 @@ jobs:
       - name: Instalar dependências Python
         run: pip install -r requirements.txt
 
-      # Playwright — só necessário para scan pesado e breakout (Método A, heatmap)
-      # Scan leve nunca chama Playwright.
+      # Playwright já não é usado por nenhum scan activo (s2b não precisa;
+      # pesado/breakout estão congelados) — mantido só se algum dia
+      # analise_token vier a precisar. Sem custo se não for instalado.
       - name: Instalar Chromium (Playwright)
         if: inputs.scan_tipo == 'pesado' || inputs.scan_tipo == 'breakout'
         run: playwright install chromium --with-deps
