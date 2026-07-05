@@ -6925,5 +6925,33 @@
     "timestamp_entrada": "2026-07-05T01:01:01.239504+00:00",
     "precos": {},
     "completo": false
+  },
+  {
+    "symbol": "ACT_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 0.00936,
+    "contexto_score": 2,
+    "sinais_lancamento": {
+      "s1_ok": false,
+      "s1_valor": 0.3870836135653602,
+      "s2_ok": false,
+      "s2_oi_pct": 0.00817278262327303,
+      "s2_preco_pct": -0.064,
+      "s2_vol_dir_pct": 0.5336846699975325,
+      "s3_ok": true,
+      "s3_funding": 5e-05,
+      "s4_ok": false,
+      "s4_range_pct": 0.053774834437086104,
+      "s5_ok": true,
+      "s5_ema9": 0.009592811073003771,
+      "s5_ema21": 0.009650450493720531,
+      "s5_estrutura_ok": true,
+      "s6_ok": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": -0.064
+    },
+    "timestamp_entrada": "2026-07-05T01:01:01.239504+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
