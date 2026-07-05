@@ -8617,5 +8617,33 @@
     "timestamp_entrada": "2026-07-05T04:01:01.326729+00:00",
     "precos": {},
     "completo": false
+  },
+  {
+    "symbol": "BIRB_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.07883,
+    "contexto_score": 1,
+    "sinais_lancamento": {
+      "s1_ok": true,
+      "s1_valor": 0.22219565056881851,
+      "s2_ok": false,
+      "s2_oi_pct": 0.039430584454378775,
+      "s2_preco_pct": 0.0826,
+      "s2_vol_dir_pct": 0.49010202196078667,
+      "s3_ok": true,
+      "s3_funding": -7.4e-05,
+      "s4_ok": false,
+      "s4_range_pct": 0.1616093614562264,
+      "s5_ok": false,
+      "s5_ema9": 0.07418731809221363,
+      "s5_ema21": 0.07335507133751744,
+      "s5_estrutura_ok": false,
+      "s6_ok": false,
+      "s6_ls_ratio": 0.5,
+      "s6_preco_pct": 0.0826
+    },
+    "timestamp_entrada": "2026-07-05T04:01:01.326729+00:00",
+    "precos": {},
+    "completo": false
   }
 ]
