@@ -29143,5 +29143,34 @@
     "precos": {},
     "sinais_evolucao": {},
     "completo": false
+  },
+  {
+    "symbol": "TLM_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.0027,
+    "contexto_score": 1,
+    "sinais_lancamento": {
+      "s1_ok": false,
+      "s1_valor": 1.4637318340082452,
+      "s2_ok": false,
+      "s2_oi_pct": 0.009241894543108906,
+      "s2_preco_pct": 0.0444,
+      "s2_vol_dir_pct": 0.5016645192381048,
+      "s3_ok": false,
+      "s3_funding": -0.000512,
+      "s4_ok": false,
+      "s4_range_pct": 0.23166368515205735,
+      "s5_ok": true,
+      "s5_ema9": 0.002519241347250379,
+      "s5_ema21": 0.0025041046364417357,
+      "s5_estrutura_ok": true,
+      "s6_ok": false,
+      "s6_ls_ratio": 0.5,
+      "s6_preco_pct": 0.0444
+    },
+    "timestamp_entrada": "2026-07-05T07:01:00.756709+00:00",
+    "precos": {},
+    "sinais_evolucao": {},
+    "completo": false
   }
 ]
