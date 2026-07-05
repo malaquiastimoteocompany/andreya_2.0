@@ -24,6 +24,52 @@
       "rsi14": 38.501810354886466
     },
     "timestamp_entrada": "2026-07-05T16:45:30.060564+00:00",
+    "checkpoints": {
+      "30": {
+        "preco": 0.006152,
+        "volume": 512914.0,
+        "s1_valor": 1.3510937942749326,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": -0.0003,
+        "s2_vol_dir_pct": 0.24514351908694423,
+        "s3_funding": 5e-05,
+        "s4_range_pct": 0.07284659557013945,
+        "s5_ema9": 0.006167883153426534,
+        "s5_ema21": 0.006192317885762189,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": -0.0003,
+        "atr_pct": 1.42578487832064,
+        "rsi14": 41.49458978471477
+      }
+    },
+    "completo": false
+  },
+  {
+    "symbol": "OG_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 2.683,
+    "volume_entrada": 1312507.0,
+    "var_preco_gatilho": 3.8312693498451913,
+    "var_volume_gatilho": 122.79817167844354,
+    "sinais_lancamento": {
+      "preco": 2.683,
+      "volume": 1312507.0,
+      "s1_valor": 1.551916503199,
+      "s2_oi_pct": 0.0,
+      "s2_preco_pct": 0.0693,
+      "s2_vol_dir_pct": 0.7643208560008381,
+      "s3_funding": -8e-05,
+      "s4_range_pct": 0.11574261432618374,
+      "s5_ema9": 2.546723250917637,
+      "s5_ema21": 2.520199545217397,
+      "s5_estrutura": true,
+      "s6_ls_ratio": 0.5,
+      "s6_preco_pct": 0.0693,
+      "atr_pct": 1.2979744136460545,
+      "rsi14": 85.72996548682681
+    },
+    "timestamp_entrada": "2026-07-05T17:15:27.575301+00:00",
     "checkpoints": {},
     "completo": false
   }
