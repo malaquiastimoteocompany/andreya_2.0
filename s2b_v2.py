@@ -12,54 +12,63 @@ de Notion clássicas (Detecções/Moves/Scans/Tokens) e o bónus E2/E3 do CSA
 ficam a apontar para o último estado antes do freeze, aceite
 conscientemente (decisão do Malaquias, não mexer no CSA agora).
 
-CADÊNCIA — CORRIGIDA 07/07/2026: originalmente corria aos :15/:45 (herdado
-do antigo scan de breakout). Mudado para :00/:30 porque as velas de 30 min
-da MEXC começam exactamente aí — a ideia inicial de "apanhar o meio da
-vela" não fazia sentido tecnicamente (o gatilho lê sempre o ticker ao
-vivo num instante, nunca a vela em si), e o desalinhamento só criava
-trabalho extra sempre que era preciso reconstruir ou auditar dados
-históricos com velas reais (ATR, RSI, buffer_pre_gatilho — todos calculados
-a partir de velas Min30/Min60 alinhadas a :00/:30, nunca a :15/:45).
+CADÊNCIA — MUDADA 07/07/2026 (segunda vez): primeiro corria aos :15/:45
+(herdado do scan de breakout antigo), depois mudou para :00/:30 (alinhado
+com as velas de 30 min da MEXC). Agora passa a **:00/:15/:30/:45 — a cada
+15 minutos**, depois de se confirmar com dados reais (8 casos reais,
+velas Min15) que isto dá, na maioria deles, alguns minutos de avanço na
+detecção — e nalguns casos (YFI_USDT, OG_USDT) apanha sinais que a
+cadência de 30 min falhava por completo dentro da mesma janela. Motivo
+original: Malaquias reparou que os alertas chegavam "a meio da subida"
+(caso concreto: US_USDT e BLUR_USDT já tinham feito 59-64% do movimento
+total antes do alerta disparar) — ver conversa de 07/07/2026 para o
+histórico completo desta investigação.
 
 ELEGIBILIDADE: volume 24h > S2B_VOLUME_MIN_USD, lido directamente do
 ticker bulk da MEXC — não depende do universo antigo (state.json).
 
-GATILHO: preço actual vs a leitura de 30 min antes (a execução anterior
+GATILHO: preço actual vs a leitura de 15 min antes (a execução anterior
 deste mesmo processo) E volume actual vs a média das últimas
-S2B_JANELA_TRAILING leituras (3h) — sem filtro de BTC.
+S2B_JANELA_TRAILING leituras (1h) — sem filtro de BTC.
 
 Porque a comparação de volume usa uma janela mais larga que a de preço:
-calibração de 05/07/2026 mostrou que exigir os dois na MESMA vela de 30
-min falha no ALLO_USDT (caso real já catalogado) — o preço reage rápido,
-o volume confirma mais devagar. Comparar o volume com a média de 3h
-resolve isto, mesmo princípio que já se usava no S2b original (janela de
-6 candles Min60 para o volume).
+calibração de 05/07/2026 mostrou que exigir os dois na MESMA vela falha no
+ALLO_USDT (caso real já catalogado) — o preço reage rápido, o volume
+confirma mais devagar. Comparar o volume com uma média mais larga resolve
+isto, mesmo princípio do S2b original (janela de 6 candles Min60).
 
-Threshold calibrado com grid search contra ~4600 observações de ruído (40
-tokens aleatórios, ~60h) e contra o histórico real do ALLO_USDT:
-preço>=3.0% E volume>=60% → ~0.78% de ruído, ALLO apanhado 12x no seu
-histórico. Ver conversa de calibração para o detalhe.
+Threshold RECALIBRADO 07/07/2026 para a cadência de 15 min: preço>=2.0%
+(antes 3.0% a 30 min — ajustado para baixo porque uma janela de 15 min vê
+naturalmente metade do movimento de uma janela de 30 min para a mesma
+tendência) E volume>=60% (mantido) vs a média das últimas 4 leituras de
+15 min (1h, antes eram 6 leituras de 30 min = 3h). Testado contra ~9500
+observações de ruído (40 tokens, ~60h, velas Min15) e o histórico real do
+ALLO_USDT a Min15: ruído 1.31%, ALLO apanhado 21x — estatisticamente
+equivalente à versão de 30 min que substituiu (ruído 1.30%, ALLO 21x),
+mas com detecção mais rápida na maioria dos casos reais testados.
 
 AO DISPARAR: alerta Telegram + o token entra em "observação" — estado
 próprio deste ficheiro (campo em_observacao em s2b_historico.json),
 completamente separado do "estado" clássico E1-E5. Enquanto em
 observação, fica de fora de novos gatilhos (evita duplicar alertas).
 
-EM OBSERVAÇÃO (24h, a cada execução — 30 em 30 min nativos, sem precisar
+EM OBSERVAÇÃO (24h, a cada execução — 15 em 15 min nativos, sem precisar
 de reconstruir via velas históricas, porque o próprio scan já corre a
 essa cadência): grava preço, volume, e os valores brutos dos 6 sinais
 clássicos (S1-S6) + ATR% + RSI(14) — SÓ VALORES, sem ok/não-ok. A decisão
 de sucesso/insucesso fica para a análise estatística feita depois com os
 dados acumulados, não se grava agora (mesma filosofia "dados primeiro,
-thresholds depois" já usada no resto do CFI).
+thresholds depois" já usada no resto do CFI). Checkpoints agora a cada 15
+min (96 pontos em 24h, antes 48) — vem "de graça" da nova cadência, mais
+densidade de dados sem custo extra de execuções.
 
 FICHEIROS (no repo, mesmo mecanismo de commit do state.json antigo):
-  s2b_historico.json — buffers rolantes de preço/volume por token
+  s2b_historico.json  — buffers rolantes de preço/volume por token
                         elegível + flag em_observacao. Fonte de verdade
                         do gatilho.
-  s2b_outcomes.json   — um registo por sinal disparado, com os
-                        checkpoints de 30 min durante as 24h de
-                        observação. Schema idêntico ao já usado antes.
+  s2b_outcomes_v2.json — um registo por sinal disparado, com o buffer
+                        pré-gatilho (permanente, não se perde) e os
+                        checkpoints de 15 min durante as 24h de observação.
 """
 
 from __future__ import annotations
@@ -84,15 +93,15 @@ from signals import (
 log = logging.getLogger("s2b_v2")
 
 # =============================================================================
-# CONFIGURAÇÃO — calibrado 05/07/2026, ver docstring acima
+# CONFIGURAÇÃO — recalibrado 07/07/2026 para cadência de 15 min (ver docstring)
 # =============================================================================
 S2B_VOLUME_MIN_USD        = 250_000
-S2B_PRECO_MIN_PCT         = 3.0    # variação vs a leitura de 30 min antes
+S2B_PRECO_MIN_PCT         = 2.0    # variação vs a leitura de 15 min antes
 S2B_VOLUME_MIN_PCT        = 60.0   # variação vs a média das últimas S2B_JANELA_TRAILING leituras
-S2B_JANELA_TRAILING       = 6      # nº de leituras anteriores para a média de volume (3h)
-S2B_BUFFER_MAX            = 8      # leituras guardadas por token (>= janela + margem)
+S2B_JANELA_TRAILING       = 4      # nº de leituras anteriores para a média de volume (1h)
+S2B_BUFFER_MAX            = 8      # leituras guardadas por token (>= janela + margem, 2h)
 S2B_JANELA_OBSERVACAO_MIN = 1440   # 24h
-S2B_CHECKPOINT_MIN        = 30
+S2B_CHECKPOINT_MIN        = 15
 
 HISTORICO_PATH = "s2b_historico.json"
 OUTCOMES_PATH  = "s2b_outcomes_v2.json"
@@ -294,7 +303,7 @@ def snapshot_completo(symbol: str, direccao: str, ticker: dict) -> Optional[dict
     """
     Preço, volume, os 6 "S" (valores) + ATR% + RSI(14) — lista exacta
     acordada com o Malaquias em 05/07/2026. Usado tanto no momento do
-    gatilho como em cada checkpoint de 30 min durante a observação.
+    gatilho como em cada checkpoint de 15 min durante a observação.
     """
     candles_1h = fetch_candles(symbol, "Min60", 30)
     if len(candles_1h) < 25:
@@ -318,12 +327,12 @@ def snapshot_completo(symbol: str, direccao: str, ticker: dict) -> Optional[dict
 
 def _enviar_alerta_s2b(disparos: list[dict], agora: datetime) -> None:
     hora = agora.strftime("%H:%M")
-    linhas = [f"⚡ <b>S2b (30 min) — {hora} UTC</b>", ""]
+    linhas = [f"⚡ <b>S2b (15 min) — {hora} UTC</b>", ""]
     for d in disparos:
         seta = "🟢 LONG" if d["direccao"] == "LONG" else "🔴 SHORT"
         linhas.append(
             f"• <b>{d['symbol']}</b> {seta} — preço {d['var_preco']:+.1f}% / "
-            f"volume {d['var_volume']:+.0f}% (vs média 3h)"
+            f"volume {d['var_volume']:+.0f}% (vs média 1h)"
         )
     _enviar("\n".join(linhas))
 
@@ -381,7 +390,7 @@ def scan_s2b() -> None:
                     "var_preco_gatilho": var_preco,
                     "var_volume_gatilho": var_volume,
                     "sinais_lancamento": snap,   # None se as velas falharem — não bloqueia o alerta
-                    # Cópia permanente do histórico de 30 em 30 min ANTES do
+                    # Cópia permanente do histórico de 15 em 15 min ANTES do
                     # gatilho — sem isto, o buffer ao vivo (s2b_historico.json)
                     # continua a andar para a frente depois das 24h e perde-se
                     # a forma como o preço/volume se comportou antes de
@@ -423,7 +432,7 @@ def scan_s2b() -> None:
             continue
         minutos = int((agora - entrada).total_seconds() // 60)
         minutos = min(minutos, S2B_JANELA_OBSERVACAO_MIN)
-        # o scan já corre nativamente a cada 30 min — arredonda só para
+        # o scan já corre nativamente a cada 15 min — arredonda só para
         # absorver pequenas derivas do agendamento (segundos, não minutos)
         checkpoint = round(minutos / S2B_CHECKPOINT_MIN) * S2B_CHECKPOINT_MIN
         chave = str(checkpoint)
