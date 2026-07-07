@@ -4,14 +4,22 @@ s2b_v2.py — S2b independente, substitui scan_leve/scan_pesado por completo.
 Decisão 05/07/2026 (Malaquias): os scans clássicos (leve/pesado) pararam de
 dar sinais úteis com o mercado neste regime ("não estou a conseguir ter
 sinais, porque o mercado está baixo"). O S2b passa a ser o ÚNICO mecanismo
-activo — scan próprio, correndo aos minutos :15 e :45 de cada hora
-(reaproveita o horário que já era do scan de breakout, que deixa de
-existir como tal). scan_leve e scan_pesado, e tudo o que só existia para
-os servir (pipeline clássico E1-E5, heatmap em E3, leverage em E4, filtro
-de BTC, universo automático), ficam congelados — não são chamados a partir
-daqui. As bases de Notion clássicas (Detecções/Moves/Scans/Tokens) e o
-bónus E2/E3 do CSA ficam a apontar para o último estado antes do freeze,
-aceite conscientemente (decisão do Malaquias, não mexer no CSA agora).
+activo — scan próprio, correndo aos minutos :00 e :30 de cada hora.
+scan_leve e scan_pesado, e tudo o que só existia para os servir (pipeline
+clássico E1-E5, heatmap em E3, leverage em E4, filtro de BTC, universo
+automático), ficam congelados — não são chamados a partir daqui. As bases
+de Notion clássicas (Detecções/Moves/Scans/Tokens) e o bónus E2/E3 do CSA
+ficam a apontar para o último estado antes do freeze, aceite
+conscientemente (decisão do Malaquias, não mexer no CSA agora).
+
+CADÊNCIA — CORRIGIDA 07/07/2026: originalmente corria aos :15/:45 (herdado
+do antigo scan de breakout). Mudado para :00/:30 porque as velas de 30 min
+da MEXC começam exactamente aí — a ideia inicial de "apanhar o meio da
+vela" não fazia sentido tecnicamente (o gatilho lê sempre o ticker ao
+vivo num instante, nunca a vela em si), e o desalinhamento só criava
+trabalho extra sempre que era preciso reconstruir ou auditar dados
+históricos com velas reais (ATR, RSI, buffer_pre_gatilho — todos calculados
+a partir de velas Min30/Min60 alinhadas a :00/:30, nunca a :15/:45).
 
 ELEGIBILIDADE: volume 24h > S2B_VOLUME_MIN_USD, lido directamente do
 ticker bulk da MEXC — não depende do universo antigo (state.json).
