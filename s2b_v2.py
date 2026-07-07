@@ -373,6 +373,16 @@ def scan_s2b() -> None:
                     "var_preco_gatilho": var_preco,
                     "var_volume_gatilho": var_volume,
                     "sinais_lancamento": snap,   # None se as velas falharem — não bloqueia o alerta
+                    # Cópia permanente do histórico de 30 em 30 min ANTES do
+                    # gatilho — sem isto, o buffer ao vivo (s2b_historico.json)
+                    # continua a andar para a frente depois das 24h e perde-se
+                    # a forma como o preço/volume se comportou antes de
+                    # disparar. Guardado aqui, fica preso a este sinal para
+                    # sempre. Decisão 07/07/2026.
+                    "buffer_pre_gatilho": {
+                        "precos":  list(precos_ant),
+                        "volumes": list(vols_ant),
+                    },
                     "timestamp_entrada": agora.isoformat(),
                     "checkpoints":       {},
                     "completo":          False,
