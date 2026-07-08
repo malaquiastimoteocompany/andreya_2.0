@@ -137,10 +137,28 @@ def _github_request(method: str, path: str, payload: Optional[dict] = None) -> d
 
 
 def _carregar_json_github(path: str, default: Any) -> tuple[Any, Optional[str]]:
+    """
+    CORREÇÃO 08/07/2026: a API "Contents" do GitHub só devolve o campo
+    "content" (base64) para ficheiros até 1MB. Acima disso, devolve só
+    metadados (incluindo sempre "sha", que continua a ser preciso para a
+    escrita seguinte) e um "download_url" para o conteúdo real. Sem esta
+    distinção, s2b_outcomes_v2.json (que ultrapassou 1MB) fazia o scan
+    inteiro rebentar com JSONDecodeError em todas as execuções.
+    """
     try:
         resp = _github_request("GET", path)
-        conteudo = base64.b64decode(resp["content"]).decode()
-        return json.loads(conteudo), resp["sha"]
+        sha = resp["sha"]
+        conteudo_b64 = resp.get("content")
+        if conteudo_b64:
+            conteudo = base64.b64decode(conteudo_b64).decode()
+        else:
+            # Ficheiro > 1MB — ir buscar via download_url (conteúdo bruto, sem auth)
+            download_url = resp.get("download_url")
+            if not download_url:
+                raise RuntimeError(f"GitHub não devolveu 'content' nem 'download_url' para {path}")
+            with urllib.request.urlopen(download_url, timeout=30) as r:
+                conteudo = r.read().decode()
+        return json.loads(conteudo), sha
     except urllib.error.HTTPError as e:
         if e.code == 404:
             return default, None
