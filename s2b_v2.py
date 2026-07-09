@@ -76,6 +76,7 @@ from __future__ import annotations
 import base64
 import json
 import logging
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -119,21 +120,46 @@ OUTCOMES_PATH  = "s2b_outcomes_v2.json"
 # GITHUB — mesmo padrão já usado no resto do repo
 # =============================================================================
 
+def _com_retry_transiente(func, tentativas: int = 3, espera_inicial: float = 2.0):
+    """
+    Repete func() em caso de erro transitório (429 rate limit, 5xx do lado
+    do servidor) — introduzido 09/07/2026 depois de um scan inteiro ter
+    rebentado por um único 429 isolado no download_url. Espera crescente
+    entre tentativas (2s, 4s, 8s...). Erros que não sejam destes códigos
+    propagam-se logo, sem repetir (não faz sentido repetir um 404, por
+    exemplo).
+    """
+    ultimo_erro = None
+    for tentativa in range(tentativas):
+        try:
+            return func()
+        except urllib.error.HTTPError as e:
+            if e.code not in (429, 500, 502, 503, 504):
+                raise
+            ultimo_erro = e
+            if tentativa < tentativas - 1:
+                log.warning(f"HTTP {e.code} (tentativa {tentativa+1}/{tentativas}) — a esperar e a repetir")
+                time.sleep(espera_inicial * (2 ** tentativa))
+    raise ultimo_erro
+
+
 def _github_request(method: str, path: str, payload: Optional[dict] = None) -> dict:
-    url  = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{path}"
-    data = json.dumps(payload).encode() if payload else None
-    req  = urllib.request.Request(
-        url, data=data,
-        headers={
-            "Authorization": f"token {GITHUB_TOKEN}",
-            "Accept": "application/vnd.github.v3+json",
-            "Content-Type": "application/json",
-            "User-Agent": "andreya-v2-s2b",
-        },
-        method=method,
-    )
-    with urllib.request.urlopen(req, timeout=30) as r:
-        return json.loads(r.read())
+    def _fazer():
+        url  = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{path}"
+        data = json.dumps(payload).encode() if payload else None
+        req  = urllib.request.Request(
+            url, data=data,
+            headers={
+                "Authorization": f"token {GITHUB_TOKEN}",
+                "Accept": "application/vnd.github.v3+json",
+                "Content-Type": "application/json",
+                "User-Agent": "andreya-v2-s2b",
+            },
+            method=method,
+        )
+        with urllib.request.urlopen(req, timeout=30) as r:
+            return json.loads(r.read())
+    return _com_retry_transiente(_fazer)
 
 
 def _carregar_json_github(path: str, default: Any) -> tuple[Any, Optional[str]]:
@@ -152,12 +178,17 @@ def _carregar_json_github(path: str, default: Any) -> tuple[Any, Optional[str]]:
         if conteudo_b64:
             conteudo = base64.b64decode(conteudo_b64).decode()
         else:
-            # Ficheiro > 1MB — ir buscar via download_url (conteúdo bruto, sem auth)
+            # Ficheiro > 1MB — ir buscar via download_url (conteúdo bruto,
+            # sem auth). CORREÇÃO 09/07/2026: com retry — este pedido já
+            # rebentou uma vez com 429 (rate limit), derrubando o scan
+            # inteiro por causa de uma única falha transitória.
             download_url = resp.get("download_url")
             if not download_url:
                 raise RuntimeError(f"GitHub não devolveu 'content' nem 'download_url' para {path}")
-            with urllib.request.urlopen(download_url, timeout=30) as r:
-                conteudo = r.read().decode()
+            def _fetch():
+                with urllib.request.urlopen(download_url, timeout=30) as r:
+                    return r.read().decode()
+            conteudo = _com_retry_transiente(_fetch)
         return json.loads(conteudo), sha
     except urllib.error.HTTPError as e:
         if e.code == 404:
@@ -166,13 +197,32 @@ def _carregar_json_github(path: str, default: Any) -> tuple[Any, Optional[str]]:
 
 
 def _guardar_json_github(path: str, dados: Any, sha: Optional[str], mensagem: str) -> None:
+    """
+    CORREÇÃO 09/07/2026: em 409 Conflict (sha desactualizado — provável
+    sobreposição entre duas execuções, mais fácil de acontecer agora que o
+    scan corre a cada 15 min e uma execução pode ainda estar a terminar
+    quando a seguinte começa), busca o sha actual e tenta escrever outra
+    vez, até 3 vezes, antes de desistir. Sem isto, um 409 isolado derrubava
+    o scan inteiro a meio — já aconteceu (ver histórico de 09/07/2026).
+    """
     conteudo_b64 = base64.b64encode(
         json.dumps(dados, indent=2, ensure_ascii=False).encode()
     ).decode()
     payload = {"message": mensagem, "content": conteudo_b64}
     if sha:
         payload["sha"] = sha
-    _github_request("PUT", path, payload)
+
+    for tentativa in range(3):
+        try:
+            _github_request("PUT", path, payload)
+            return
+        except urllib.error.HTTPError as e:
+            if e.code != 409 or tentativa == 2:
+                raise
+            log.warning(f"{path}: 409 Conflict (tentativa {tentativa+1}/3) — a buscar sha actual e a repetir")
+            _, sha_novo = _carregar_json_github(path, None)
+            payload["sha"] = sha_novo
+            time.sleep(1)
 
 
 # =============================================================================
