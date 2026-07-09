@@ -427,6 +427,12 @@ def scan_s2b() -> None:
 
     # ── 1) Elegibilidade + gatilho, para todos os tokens ainda não em observação ──
     for symbol, ticker in tickers.items():
+        # Filtro defensivo: tokens sintéticos do tipo *STOCK_USDT não são perpétuos
+        # reais negociáveis da forma esperada — mesmo problema já identificado e
+        # filtrado no universo do CSA. Fronteira: só afecta gatilhos novos a partir
+        # daqui; observações já em curso para estes símbolos não são interrompidas.
+        if "STOCK" in symbol.upper():
+            continue
         volume = float(ticker.get("volume24", 0))
         if volume < S2B_VOLUME_MIN_USD:
             continue
