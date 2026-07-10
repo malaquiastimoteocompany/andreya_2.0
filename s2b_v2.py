@@ -104,6 +104,16 @@ S2B_BUFFER_MAX            = 8      # leituras guardadas por token (>= janela + m
 S2B_JANELA_OBSERVACAO_MIN = 1440   # 24h
 S2B_CHECKPOINT_MIN        = 15
 
+# Gatilho alternativo — padrão sobe-desce de volume (testado 10/07/2026 contra
+# 4.5 dias reais, 26 tokens). Activo dispara a 40%, o melhor dos 4 cortes
+# testados (30/40/50/60) em pnl médio e total — mas o padrão entre thresholds
+# não foi perfeitamente monótono (50% pior que os vizinhos), sinal de amostra
+# ainda pequena. Sinais que também batem 60% ficam marcados como "forte" para
+# comparação futura com dados novos — não é um segundo gatilho paralelo,
+# porque 60% é sempre subconjunto de 40% (nunca bate 60% sem já bater 40%).
+S2B_SOBE_DESCE_ACTIVO_PCT = 40.0
+S2B_SOBE_DESCE_FORTE_PCT  = 60.0
+
 HISTORICO_PATH = "s2b_historico.json"
 OUTCOMES_PATH  = "s2b_outcomes_v2.json"
 # CORREÇÃO 05/07/2026: usámos "s2b_outcomes.json" (o ficheiro antigo) até
@@ -398,10 +408,17 @@ def _enviar_alerta_s2b(disparos: list[dict], agora: datetime) -> None:
     linhas = [f"⚡ <b>S2b (15 min) — {hora} UTC</b>", ""]
     for d in disparos:
         seta = "🟢 LONG" if d["direccao"] == "LONG" else "🔴 SHORT"
-        linhas.append(
-            f"• <b>{d['symbol']}</b> {seta} — preço {d['var_preco']:+.1f}% / "
-            f"volume {d['var_volume']:+.0f}% (vs média 1h)"
-        )
+        if d.get("tipo_gatilho") == "sobe_desce_volume":
+            forte = " 🔥forte" if d.get("confirmacao_forte") else ""
+            linhas.append(
+                f"• <b>{d['symbol']}</b> {seta} — preço {d['var_preco']:+.1f}% / "
+                f"volume sobe-desce{forte}"
+            )
+        else:
+            linhas.append(
+                f"• <b>{d['symbol']}</b> {seta} — preço {d['var_preco']:+.1f}% / "
+                f"volume {d['var_volume']:+.0f}% (vs média 1h)"
+            )
     _enviar("\n".join(linhas))
 
 
@@ -463,6 +480,7 @@ def scan_s2b() -> None:
                     "volume_entrada":    volume,
                     "var_preco_gatilho": var_preco,
                     "var_volume_gatilho": var_volume,
+                    "tipo_gatilho":      "preco_volume_classico",
                     "sinais_lancamento": snap,   # None se as velas falharem — não bloqueia o alerta
                     # Cópia permanente do histórico de 15 em 15 min ANTES do
                     # gatilho — sem isto, o buffer ao vivo (s2b_historico.json)
@@ -481,9 +499,60 @@ def scan_s2b() -> None:
                 novos_disparos.append({
                     "symbol": symbol, "direccao": direccao,
                     "var_preco": var_preco, "var_volume": var_volume,
+                    "tipo_gatilho": "preco_volume_classico",
                 })
                 alterado_out = True
                 log.info(f"[{symbol}] S2b DISPAROU {direccao} | preço {var_preco:+.1f}% | volume {var_volume:+.0f}%")
+
+        # ── Gatilho alternativo: padrão sobe-desce de volume ──
+        # Preço move ≥2% na leitura anterior (o "pico"), volume dessa mesma
+        # leitura sobe ≥40% acima da média das 4 antes dela, e o volume DESTA
+        # leitura (agora) já caiu ≥40% em relação ao pico. Sinais que também
+        # batem 60% em ambos os lados ficam marcados "confirmacao_forte_60pct".
+        # Nota: entra 15 min DEPOIS do preço do pico (não há como entrar na
+        # própria vela do pico em tempo real — diferente do backtest).
+        if not registo.get("em_observacao") and len(precos_ant) >= 2 and len(vols_ant) >= S2B_JANELA_TRAILING + 1:
+            var_preco_pico = (precos_ant[-1] - precos_ant[-2]) / precos_ant[-2] * 100 if precos_ant[-2] else 0.0
+            if abs(var_preco_pico) >= S2B_PRECO_MIN_PCT:
+                media_antes_pico = sum(vols_ant[-(S2B_JANELA_TRAILING + 1):-1]) / S2B_JANELA_TRAILING
+                subida_pct  = ((vols_ant[-1] - media_antes_pico) / media_antes_pico * 100) if media_antes_pico else 0.0
+                descida_pct = ((volume - vols_ant[-1]) / vols_ant[-1] * 100) if vols_ant[-1] else 0.0
+
+                if subida_pct >= S2B_SOBE_DESCE_ACTIVO_PCT and descida_pct <= -S2B_SOBE_DESCE_ACTIVO_PCT:
+                    direccao_sd = "LONG" if var_preco_pico > 0 else "SHORT"
+                    confirmacao_forte = (subida_pct >= S2B_SOBE_DESCE_FORTE_PCT
+                                          and descida_pct <= -S2B_SOBE_DESCE_FORTE_PCT)
+                    snap = snapshot_completo(symbol, direccao_sd, ticker)
+                    registo["em_observacao"] = True
+                    outcomes.append({
+                        "symbol":                  symbol,
+                        "direccao":                direccao_sd,
+                        "preco_entrada":           preco,
+                        "volume_entrada":          volume,
+                        "var_preco_gatilho":       var_preco_pico,
+                        "var_volume_gatilho":      descida_pct,
+                        "tipo_gatilho":            "sobe_desce_volume",
+                        "confirmacao_forte_60pct": confirmacao_forte,
+                        "volume_subida_pct":       subida_pct,
+                        "volume_descida_pct":      descida_pct,
+                        "sinais_lancamento":       snap,
+                        "buffer_pre_gatilho": {
+                            "precos":  list(precos_ant),
+                            "volumes": list(vols_ant),
+                        },
+                        "timestamp_entrada": agora.isoformat(),
+                        "checkpoints":       {},
+                        "completo":          False,
+                    })
+                    novos_disparos.append({
+                        "symbol": symbol, "direccao": direccao_sd,
+                        "var_preco": var_preco_pico, "var_volume": descida_pct,
+                        "tipo_gatilho": "sobe_desce_volume", "confirmacao_forte": confirmacao_forte,
+                    })
+                    alterado_out = True
+                    forte_str = " [FORTE 60%]" if confirmacao_forte else ""
+                    log.info(f"[{symbol}] S2b DISPAROU (sobe-desce) {direccao_sd} | preço pico "
+                             f"{var_preco_pico:+.1f}% | volume {subida_pct:+.0f}%→{descida_pct:+.0f}%{forte_str}")
 
         # actualizar buffers sempre, tenha ou não disparado
         precos_ant.append(preco)
