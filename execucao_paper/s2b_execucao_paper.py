@@ -54,9 +54,14 @@ JANELA_SYNC_HORAS = float(os.environ.get("JANELA_SYNC_HORAS", "24"))
 FILTRAR_SINTETICOS = os.environ.get("FILTRAR_SINTETICOS", "1") == "1"
 MEXC_TICKER_URL = os.environ.get("MEXC_TICKER_URL", "https://contract.mexc.com/api/v1/contract/ticker")
 
-# Mecanismo de trailing — manual S2b Secção 6.2, validado contra 34 sinais reais
+# Mecanismo de trailing — manual S2b Secção 6.2, validado contra 34 sinais reais.
+# ATR_DISTANCIA_TRAILING actualizado de 2.0 -> 1.5 em 11/07/2026, depois de
+# testar 1.0x-6.0x contra os 50 sinais completos disponíveis nessa altura:
+# padrão limpo e quase monótono, 1.5x deu o melhor PnL médio (+2.83% vs +2.49%
+# a 2x) e o melhor total ($1.41 vs $1.24 a $1/trade). Mesma amostra usada para
+# validar o resto do mecanismo — a confirmar com dados novos do paper mode.
 ATR_ACTIVACAO = 1.0
-ATR_DISTANCIA_TRAILING = 2.0
+ATR_DISTANCIA_TRAILING = 1.5
 ATR_SL_INICIAL = 5.0
 TIMEOUT_HORAS = 24.0
 
