@@ -55,8 +55,11 @@ REPOS_A_CONFIRMAR = [
     "malaquiastimoteocompany/andreya_scalp_data",
 ]
 
-NOTION_DATA_SOURCES = {
-    "Alertas CSA": "c0dbd6f7-21e5-46cb-a9da-17869434668e",
+NOTION_DATABASES = {
+    # ID de "database" da API REST pública (2022-06-28) — diferente do ID de
+    # "data source" usado internamente por ferramentas mais recentes.
+    # Vem directamente do URL: https://app.notion.com/p/da6f6d5a398544d9ab02730724260fe1
+    "Alertas CSA": "da6f6d5a398544d9ab02730724260fe1",
 }
 
 resultados = []  # cada item: (nivel, mensagem)  nivel em OK/AVISO/ERRO
@@ -170,10 +173,10 @@ def verificar_notion():
         "Content-Type": "application/json",
     }
 
-    for nome, data_source_id in NOTION_DATA_SOURCES.items():
+    for nome, database_id in NOTION_DATABASES.items():
         try:
             r = requests.post(
-                f"https://api.notion.com/v1/databases/{data_source_id}/query",
+                f"https://api.notion.com/v1/databases/{database_id}/query",
                 headers=headers, json={"page_size": 1}, timeout=15,
             )
             if r.status_code == 200:
