@@ -1,0 +1,36 @@
+name: Andreya v2 — Healthcheck diário
+# Disparado via webhook do cron-job.org (workflow_dispatch), 1x/dia.
+# Verifica se MEXC, GitHub e Notion continuam acessíveis e a devolver o
+# formato esperado — ver healthcheck.py para o porquê disto existir.
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  healthcheck:
+    name: "Healthcheck diário"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v5
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependências
+        run: pip install requests
+
+      - name: "Run healthcheck"
+        env:
+          GITHUB_TOKEN:       ${{ secrets.GITHUB_TOKEN }}
+          NOTION_TOKEN:       ${{ secrets.NOTION_TOKEN }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python healthcheck.py
