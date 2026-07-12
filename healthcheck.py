@@ -174,19 +174,28 @@ def verificar_notion():
     }
 
     for nome, database_id in NOTION_DATABASES.items():
-        try:
-            r = requests.post(
-                f"https://api.notion.com/v1/databases/{database_id}/query",
-                headers=headers, json={"page_size": 1}, timeout=15,
-            )
-            if r.status_code == 200:
-                registar("OK", f"Notion — base '{nome}' acessível")
-            elif r.status_code in (401, 403):
-                registar("AVISO", f"Notion — sem acesso à base '{nome}' (status {r.status_code})")
-            else:
-                registar("ERRO", f"Notion — base '{nome}' devolveu {r.status_code} inesperado")
-        except Exception as e:
-            registar("ERRO", f"Notion — base '{nome}' inacessível: {e}")
+        sucesso = False
+        ultimo_erro = None
+        for tentativa in range(2):
+            try:
+                r = requests.post(
+                    f"https://api.notion.com/v1/databases/{database_id}/query",
+                    headers=headers, json={"page_size": 1}, timeout=25,
+                )
+                if r.status_code == 200:
+                    registar("OK", f"Notion — base '{nome}' acessível")
+                    sucesso = True
+                elif r.status_code in (401, 403):
+                    registar("AVISO", f"Notion — sem acesso à base '{nome}' (status {r.status_code})")
+                    sucesso = True  # resposta válida, não é falha de rede — não repetir
+                else:
+                    registar("ERRO", f"Notion — base '{nome}' devolveu {r.status_code} inesperado")
+                    sucesso = True
+                break
+            except Exception as e:
+                ultimo_erro = e
+        if not sucesso:
+            registar("ERRO", f"Notion — base '{nome}' inacessível após 2 tentativas: {ultimo_erro}")
 
 
 # --------------------------------------------------------------------------
