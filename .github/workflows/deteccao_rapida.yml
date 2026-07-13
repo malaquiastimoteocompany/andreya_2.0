@@ -1,0 +1,41 @@
+name: Andreya v2 — Detecção rápida (5 min)
+# Disparado via webhook do cron-job.org (workflow_dispatch), a cada 5 min.
+# Terceira via de gatilho do S2b, em paralelo ao scanner.yml (clássico +
+# sobe-desce, 15 min) — não o substitui nem mexe nele. Ver
+# s2b_deteccao_rapida.py para o porquê disto existir.
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write   # necessário para ler/escrever s2b_historico_5min.json e s2b_outcomes_v2.json
+
+jobs:
+  deteccao_rapida:
+    name: "Detecção rápida (5 min)"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v5
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Instalar dependências Python
+        run: pip install -r requirements.txt
+
+      - name: "Run detecção rápida"
+        env:
+          MEXC_API_KEY:       ${{ secrets.MEXC_API_KEY }}
+          MEXC_API_SECRET:    ${{ secrets.MEXC_API_SECRET }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+          ANTHROPIC_API_KEY:  ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN:       ${{ secrets.GITHUB_TOKEN }}
+          NOTION_TOKEN:       ${{ secrets.NOTION_TOKEN }}
+        run: python s2b_deteccao_rapida.py
