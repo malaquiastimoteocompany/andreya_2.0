@@ -52,6 +52,17 @@ DB_PATH = os.environ.get("DB_PATH", "/data/s2b_execucao_paper.db")
 POLL_SECONDS = int(os.environ.get("POLL_SECONDS", "60"))
 JANELA_SYNC_HORAS = float(os.environ.get("JANELA_SYNC_HORAS", "24"))
 FILTRAR_SINTETICOS = os.environ.get("FILTRAR_SINTETICOS", "1") == "1"
+
+# Filtro de var_preco_gatilho — testado 13/07/2026 contra a Amostra Real (32
+# trades reais, monitorização a 1min): sinais com |var_preco_gatilho| > 20%
+# tiveram só 14.3% win rate (-8.02% médio) vs 60% win rate (+2.26% médio)
+# dentro do tecto. Mecanismo: um movimento já grande na própria vela do
+# gatilho significa que a maior parte do movimento já aconteceu antes de
+# entrarmos — pouco espaço sobra para o trailing trabalhar. NÃO filtra a
+# detecção (s2b_v2.py continua a registar tudo, sempre) — só decide se o
+# paper mode abre posição a sério. Sinais fora do tecto continuam visíveis
+# no outcomes file, só não geram 'paper_trailing'.
+VAR_PRECO_GATILHO_MAX_PCT = float(os.environ.get("VAR_PRECO_GATILHO_MAX_PCT", "20"))
 MEXC_TICKER_URL = os.environ.get("MEXC_TICKER_URL", "https://contract.mexc.com/api/v1/contract/ticker")
 
 # Mecanismo de trailing — manual S2b Secção 6.2, validado contra 34 sinais reais.
@@ -327,6 +338,12 @@ def sincronizar_novos_sinais(con: sqlite3.Connection, outcomes: list):
         ts_entrada = datetime.fromisoformat(entrada["timestamp_entrada"])
         horas_decorridas = (agora - ts_entrada).total_seconds() / 3600
         if horas_decorridas < 0 or horas_decorridas > JANELA_SYNC_HORAS:
+            continue
+
+        var_preco_gatilho = entrada.get("var_preco_gatilho")
+        if var_preco_gatilho is not None and abs(var_preco_gatilho) > VAR_PRECO_GATILHO_MAX_PCT:
+            log.info("Fora do tecto de var_preco_gatilho (%.1f%% > %.1f%%) — sem posição paper: %s",
+                      abs(var_preco_gatilho), VAR_PRECO_GATILHO_MAX_PCT, entrada["symbol"])
             continue
 
         direccao = entrada["direccao"]
