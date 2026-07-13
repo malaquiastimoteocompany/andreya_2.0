@@ -11,11 +11,11 @@
       "data": "2026-07-13T07:23:53+00:00",
       "titulo": "Decisão: construir detector paralelo de 5 min (terceira via de gatilho)",
       "descricao": "Investigação de 13/07/2026 sobre 'porque entramos tarde' encontrou que |var_preco_gatilho| explica a maior parte do problema (ver evento anterior). Teste exploratório (fora do sistema, reconstruído via histórico da MEXC, NÃO dados próprios registados ao vivo) sugeriu que um detector a 5 min (em vez de 15 min) apanharia o mesmo movimento ~94 min mais cedo, com magnitude média de 2.71% em vez de 13.13% — mas com só 70% de acerto na direcção (sem confirmação fiável encontrada via tendência do token ou do BTC, ambas testadas e sem ajudar). Simulação (15 min forward, ATR aproximado) sugeriu resultado bem melhor que o actual nos mesmos tokens (+$1.75 vs -$0.06 em 27 casos) — mas isto é só simulação, zero dados reais ao vivo. Decisão: construir isto como TERCEIRA via de detecção, em paralelo ao gatilho clássico e ao sobe-desce, reaproveitando o mesmo mecanismo de fecho já validado (trailing 1.5x ATR, filtro var_preco_gatilho). Não substitui nada do que já existe.",
-      "impacto": "Nenhum sinal deste tipo existe antes desta data — é uma via nova, sem histórico. A implementação (código real, deploy) segue-se a esta decisão, na mesma sessão — se o timestamp real do deploy for sensivelmente diferente deste, actualizar esta entrada. Só considerar dados deste mecanismo como 'Amostra Real' a partir do deploy efectivo, não desta data de decisão."
+      "impacto": "CONFIRMADO: deploy real em 2026-07-13T12:14:14+00:00 (primeira execução bem-sucedida do workflow deteccao_rapida.yml, agendado de 5 em 5 min via cron-job.org a partir de 12:20 UTC). Nenhum sinal deste tipo (tipo_gatilho='deteccao_rapida_5min') existe antes desta data — é uma via nova, sem histórico. Só considerar dados deste mecanismo como 'Amostra Real' a partir daqui."
     }
   ],
   "resumo_pratico": {
     "momento_zero_filtro_var_preco_gatilho": "2026-07-13T07:05:58+00:00",
-    "momento_zero_detector_5min": "A CONFIRMAR — ver nota no evento, actualizar após deploy real"
+    "momento_zero_detector_5min": "2026-07-13T12:14:14+00:00"
   }
 }
