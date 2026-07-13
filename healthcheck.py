@@ -45,6 +45,7 @@ LIMITE_AVISO_BYTES = 800_000  # ~800KB, margem antes do limite de ~1MB da Conten
 FICHEIROS_VIGIADOS = [
     ("malaquiastimoteocompany/andreya_2.0", "s2b_outcomes_v2.json"),
     ("malaquiastimoteocompany/andreya_2.0", "s2b_historico.json"),
+    ("malaquiastimoteocompany/andreya_2.0", "s2b_historico_5min.json"),
     ("malaquiastimoteocompany/andreya_scalp", "csa_alertas.json"),
     ("malaquiastimoteocompany/andreya_scalp_data", "csa_alertas.json"),
 ]
@@ -159,6 +160,46 @@ def verificar_github():
 
 
 # --------------------------------------------------------------------------
+# 2b. Workflow de detecção rápida (5 min) — confirma que está mesmo a
+# correr, não só que existe. Nasceu 13/07/2026 junto com o mecanismo.
+# --------------------------------------------------------------------------
+
+def verificar_workflow_deteccao_rapida():
+    if not GITHUB_TOKEN:
+        registar("ERRO", "GITHUB_TOKEN não configurado — não foi possível verificar o workflow de detecção rápida")
+        return
+
+    headers = {"Authorization": f"Bearer {GITHUB_TOKEN}", "Accept": "application/vnd.github+json"}
+    try:
+        r = requests.get(
+            "https://api.github.com/repos/malaquiastimoteocompany/andreya_2.0/actions/workflows/deteccao_rapida.yml/runs",
+            headers=headers, params={"per_page": 1}, timeout=15,
+        )
+        if r.status_code != 200:
+            registar("AVISO", f"Detecção rápida — não foi possível listar execuções (status {r.status_code})")
+            return
+        runs = r.json().get("workflow_runs", [])
+        if not runs:
+            registar("AVISO", "Detecção rápida — nenhuma execução encontrada ainda")
+            return
+        ultimo = runs[0]
+        criado = datetime.fromisoformat(ultimo["created_at"].replace("Z", "+00:00"))
+        minutos_atras = (datetime.now(timezone.utc) - criado).total_seconds() / 60
+        conclusao = ultimo.get("conclusion")
+
+        # agendado a cada 5 min — mais de 20 min sem execução nova é sinal de
+        # que o cron-job.org parou de disparar (ou o token dele expirou)
+        if minutos_atras > 20:
+            registar("AVISO", f"Detecção rápida — última execução há {minutos_atras:.0f} min (esperado <=10)")
+        elif conclusao not in (None, "success"):
+            registar("ERRO", f"Detecção rápida — última execução falhou (conclusion={conclusao})")
+        else:
+            registar("OK", f"Detecção rápida — última execução há {minutos_atras:.0f} min, conclusão={conclusao or 'em curso'}")
+    except Exception as e:
+        registar("AVISO", f"Detecção rápida — erro ao verificar execuções: {e}")
+
+
+# --------------------------------------------------------------------------
 # 3. Notion
 # --------------------------------------------------------------------------
 
@@ -251,6 +292,7 @@ def main():
     print(f"Healthcheck — {datetime.now(timezone.utc).isoformat()}")
     verificar_mexc()
     verificar_github()
+    verificar_workflow_deteccao_rapida()
     verificar_notion()
     enviar_resumo()
 
