@@ -233,7 +233,8 @@ def _guardar_json_github(path: str, dados: Any, sha: Optional[str], mensagem: st
     sobreposição entre duas execuções, mais fácil de acontecer agora que o
     scan corre a cada 15 min e uma execução pode ainda estar a terminar
     quando a seguinte começa), busca o sha actual e tenta escrever outra
-    vez, até 3 vezes, antes de desistir. Sem isto, um 409 isolado derrubava
+    vez, até 6 vezes (subido de 3, ver nota de 14/07/2026 abaixo), antes de
+    desistir. Sem isto, um 409 isolado derrubava
     o scan inteiro a meio — já aconteceu (ver histórico de 09/07/2026).
 
     CORREÇÃO 14/07/2026: alargado a 422 Unprocessable Entity — mesma causa
@@ -253,17 +254,17 @@ def _guardar_json_github(path: str, dados: Any, sha: Optional[str], mensagem: st
     if sha:
         payload["sha"] = sha
 
-    for tentativa in range(3):
+    for tentativa in range(6):
         try:
             _github_request("PUT", path, payload)
             return
         except urllib.error.HTTPError as e:
-            if e.code not in (409, 422) or tentativa == 2:
+            if e.code not in (409, 422) or tentativa == 5:
                 raise
-            log.warning(f"{path}: HTTP {e.code} (tentativa {tentativa+1}/3) — a buscar sha actual e a repetir")
+            log.warning(f"{path}: HTTP {e.code} (tentativa {tentativa+1}/6) — a buscar sha actual e a repetir")
             _, sha_novo = _carregar_json_github(path, None)
             payload["sha"] = sha_novo
-            time.sleep(1)
+            time.sleep(1.5 * (tentativa + 1))
 
 
 # =============================================================================
