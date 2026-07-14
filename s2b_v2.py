@@ -132,19 +132,23 @@ OUTCOMES_PATH  = "s2b_outcomes_v2.json"
 
 def _com_retry_transiente(func, tentativas: int = 3, espera_inicial: float = 2.0):
     """
-    Repete func() em caso de erro transitório (429 rate limit, 5xx do lado
-    do servidor) — introduzido 09/07/2026 depois de um scan inteiro ter
-    rebentado por um único 429 isolado no download_url. Espera crescente
-    entre tentativas (2s, 4s, 8s...). Erros que não sejam destes códigos
-    propagam-se logo, sem repetir (não faz sentido repetir um 404, por
-    exemplo).
+    Repete func() em caso de erro transitório (429 rate limit, 403 limite
+    secundário de abuso, 5xx do lado do servidor) — introduzido 09/07/2026
+    depois de um scan inteiro ter rebentado por um único 429 isolado no
+    download_url. Espera crescente entre tentativas (2s, 4s, 8s...).
+    403 acrescentado 14/07/2026: com três processos (scanner clássico,
+    detecção rápida, execução paper) a escrever no mesmo s2b_outcomes_v2.json
+    com mais frequência, começou a aparecer 403 do limite secundário do
+    GitHub em escritas coincidentes — transitório, resolve-se sozinho ao
+    repetir. Erros que não sejam destes códigos propagam-se logo, sem
+    repetir (não faz sentido repetir um 404, por exemplo).
     """
     ultimo_erro = None
     for tentativa in range(tentativas):
         try:
             return func()
         except urllib.error.HTTPError as e:
-            if e.code not in (429, 500, 502, 503, 504):
+            if e.code not in (403, 429, 500, 502, 503, 504):
                 raise
             ultimo_erro = e
             if tentativa < tentativas - 1:
