@@ -130,18 +130,29 @@ OUTCOMES_PATH  = "s2b_outcomes_v2.json"
 # GITHUB — mesmo padrão já usado no resto do repo
 # =============================================================================
 
-def _com_retry_transiente(func, tentativas: int = 3, espera_inicial: float = 2.0):
+def _com_retry_transiente(func, tentativas: int = 5, espera_inicial: float = 2.0):
     """
-    Repete func() em caso de erro transitório (429 rate limit, 403 limite
-    secundário de abuso, 5xx do lado do servidor) — introduzido 09/07/2026
-    depois de um scan inteiro ter rebentado por um único 429 isolado no
-    download_url. Espera crescente entre tentativas (2s, 4s, 8s...).
-    403 acrescentado 14/07/2026: com três processos (scanner clássico,
-    detecção rápida, execução paper) a escrever no mesmo s2b_outcomes_v2.json
-    com mais frequência, começou a aparecer 403 do limite secundário do
-    GitHub em escritas coincidentes — transitório, resolve-se sozinho ao
-    repetir. Erros que não sejam destes códigos propagam-se logo, sem
-    repetir (não faz sentido repetir um 404, por exemplo).
+    Repete func() em caso de erro transitório:
+      - HTTPError com código 403 (limite secundário), 429 (rate limit),
+        ou 5xx (falha do lado do servidor)
+      - qualquer outro URLError (falha de rede — connection reset, timeout,
+        DNS) sem código HTTP associado
+    Espera crescente entre tentativas (2s, 4s, 8s, 16s, 32s).
+
+    Histórico: introduzido 09/07/2026 depois de um scan inteiro ter
+    rebentado por um único 429 isolado no download_url. 403 acrescentado
+    14/07/2026 quando três processos (scanner clássico, detecção rápida,
+    execução paper) passaram a escrever no mesmo s2b_outcomes_v2.json com
+    mais frequência, gerando colisões ocasionais. Tentativas subidas de 3
+    para 5 no mesmo dia, depois de uma colisão ter sobrevivido às 3
+    tentativas originais (a janela de contenção às vezes dura mais que os
+    ~14s que 3 tentativas cobriam). URLError acrescentado no mesmo momento,
+    depois de um "Connection reset by peer" (falha de rede pura, sem
+    código HTTP) ter passado incólume pela captura anterior, que só
+    apanhava HTTPError.
+
+    Erros que não sejam nenhum destes (ex: 404) propagam-se logo, sem
+    repetir — não faz sentido repetir um erro permanente.
     """
     ultimo_erro = None
     for tentativa in range(tentativas):
@@ -151,9 +162,14 @@ def _com_retry_transiente(func, tentativas: int = 3, espera_inicial: float = 2.0
             if e.code not in (403, 429, 500, 502, 503, 504):
                 raise
             ultimo_erro = e
-            if tentativa < tentativas - 1:
-                log.warning(f"HTTP {e.code} (tentativa {tentativa+1}/{tentativas}) — a esperar e a repetir")
-                time.sleep(espera_inicial * (2 ** tentativa))
+            motivo = f"HTTP {e.code}"
+        except urllib.error.URLError as e:
+            ultimo_erro = e
+            motivo = f"falha de rede ({e.reason})"
+
+        if tentativa < tentativas - 1:
+            log.warning(f"{motivo} (tentativa {tentativa+1}/{tentativas}) — a esperar e a repetir")
+            time.sleep(espera_inicial * (2 ** tentativa))
     raise ultimo_erro
 
 
