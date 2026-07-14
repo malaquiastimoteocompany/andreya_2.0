@@ -135,21 +135,22 @@ def _com_retry_transiente(func, tentativas: int = 5, espera_inicial: float = 2.0
     Repete func() em caso de erro transitório:
       - HTTPError com código 403 (limite secundário), 429 (rate limit),
         ou 5xx (falha do lado do servidor)
-      - qualquer outro URLError (falha de rede — connection reset, timeout,
-        DNS) sem código HTTP associado
+      - qualquer URLError ou OSError (falhas de rede — connection reset,
+        timeout de leitura, DNS, etc.)
     Espera crescente entre tentativas (2s, 4s, 8s, 16s, 32s).
 
-    Histórico: introduzido 09/07/2026 depois de um scan inteiro ter
-    rebentado por um único 429 isolado no download_url. 403 acrescentado
-    14/07/2026 quando três processos (scanner clássico, detecção rápida,
-    execução paper) passaram a escrever no mesmo s2b_outcomes_v2.json com
-    mais frequência, gerando colisões ocasionais. Tentativas subidas de 3
-    para 5 no mesmo dia, depois de uma colisão ter sobrevivido às 3
-    tentativas originais (a janela de contenção às vezes dura mais que os
-    ~14s que 3 tentativas cobriam). URLError acrescentado no mesmo momento,
-    depois de um "Connection reset by peer" (falha de rede pura, sem
-    código HTTP) ter passado incólume pela captura anterior, que só
-    apanhava HTTPError.
+    Histórico: introduzido 09/07/2026 (429 isolado no download_url). 403
+    acrescentado 14/07/2026 (colisões de escrita entre os três processos
+    que partilham o outcomes file). Tentativas subidas de 3 para 5 no
+    mesmo dia. URLError acrescentado depois de um "Connection reset by
+    peer" ter escapado à captura original (só HTTPError). Alargado a
+    OSError pouco depois, no mesmo dia, depois de um TimeoutError *puro*
+    (nem sequer URLError — um timeout de leitura ao nível do socket, que o
+    urllib nem sempre embrulha) ter escapado também. Em vez de continuar a
+    corrigir um subtipo de excepção de rede de cada vez, OSError cobre
+    toda a família de uma só vez (TimeoutError, ConnectionError,
+    ConnectionResetError, etc. são todos subclasses de OSError, tal como
+    URLError desde Python 3.3).
 
     Erros que não sejam nenhum destes (ex: 404) propagam-se logo, sem
     repetir — não faz sentido repetir um erro permanente.
@@ -163,9 +164,9 @@ def _com_retry_transiente(func, tentativas: int = 5, espera_inicial: float = 2.0
                 raise
             ultimo_erro = e
             motivo = f"HTTP {e.code}"
-        except urllib.error.URLError as e:
+        except (urllib.error.URLError, OSError) as e:
             ultimo_erro = e
-            motivo = f"falha de rede ({e.reason})"
+            motivo = f"falha de rede ({e})"
 
         if tentativa < tentativas - 1:
             log.warning(f"{motivo} (tentativa {tentativa+1}/{tentativas}) — a esperar e a repetir")
