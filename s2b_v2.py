@@ -235,6 +235,16 @@ def _guardar_json_github(path: str, dados: Any, sha: Optional[str], mensagem: st
     quando a seguinte começa), busca o sha actual e tenta escrever outra
     vez, até 3 vezes, antes de desistir. Sem isto, um 409 isolado derrubava
     o scan inteiro a meio — já aconteceu (ver histórico de 09/07/2026).
+
+    CORREÇÃO 14/07/2026: alargado a 422 Unprocessable Entity — mesma causa
+    de fundo (sha desactualizado), só que o GitHub por vezes devolve 422
+    em vez de 409 para o mesmo tipo de conflito. Ficou mais frequente
+    desde que três processos (scanner clássico, detecção rápida, execução
+    paper) passaram a escrever no mesmo outcomes file. Ao contrário dos
+    erros tratados em _com_retry_transiente (403/429/5xx/rede — esses sim
+    resolvem-se só com esperar e reenviar o mesmo pedido), um 409/422 por
+    sha desactualizado NÃO se resolve reenviando o mesmo payload — tem de
+    se buscar o sha actual primeiro, ou repete o mesmo erro para sempre.
     """
     conteudo_b64 = base64.b64encode(
         json.dumps(dados, indent=2, ensure_ascii=False).encode()
@@ -248,9 +258,9 @@ def _guardar_json_github(path: str, dados: Any, sha: Optional[str], mensagem: st
             _github_request("PUT", path, payload)
             return
         except urllib.error.HTTPError as e:
-            if e.code != 409 or tentativa == 2:
+            if e.code not in (409, 422) or tentativa == 2:
                 raise
-            log.warning(f"{path}: 409 Conflict (tentativa {tentativa+1}/3) — a buscar sha actual e a repetir")
+            log.warning(f"{path}: HTTP {e.code} (tentativa {tentativa+1}/3) — a buscar sha actual e a repetir")
             _, sha_novo = _carregar_json_github(path, None)
             payload["sha"] = sha_novo
             time.sleep(1)
