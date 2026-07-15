@@ -116,6 +116,27 @@ S2B_SOBE_DESCE_FORTE_PCT  = 60.0
 
 HISTORICO_PATH = "s2b_historico.json"
 OUTCOMES_PATH  = "s2b_outcomes_v2.json"
+
+
+def _caminho_arquivo(agora: datetime) -> str:
+    """
+    CORREÇÃO 15/07/2026 (nº5) — a causa raiz real de tudo o resto: o
+    outcomes_v2.json cresceu para 32.7MB (404 registos, dos quais 221 já
+    completos há muito) porque nunca nada saía de lá. Isso sozinho já
+    bastava para escritas falharem persistentemente dentro do GitHub
+    Actions (reproduzido fora do Actions sem problema — algo específico
+    desse ambiente/token faz o limite prático ser bem menor do que o
+    documentado). As correcções de colisão (separar ficheiros por
+    processo, mais tentativas) eram todas necessárias mas nenhuma
+    atacava isto.
+    Sinais completos (24h) passam a sair do ficheiro activo e a ser
+    arquivados por DIA (não um único arquivo cumulativo — esse cresceria
+    para sempre também) — mesmo princípio já usado no CSA. outcomes_v2.json
+    fica sempre pequeno (só o que está "em observação" nas últimas 24h).
+    Migração única 15/07/2026: os 221 completos que já existiam foram
+    movidos para s2b_arquivo_backlog_pre_15jul.json.
+    """
+    return f"s2b_arquivo_{agora.strftime('%Y-%m-%d')}.json"
 # CORREÇÃO 05/07/2026: usámos "s2b_outcomes.json" (o ficheiro antigo) até
 # esta versão — mas esse ficheiro já tinha 204 registos do sistema anterior
 # (schema diferente: "precos"/"sinais_evolucao" em vez de "checkpoints"),
@@ -638,6 +659,7 @@ def scan_s2b() -> None:
 
     # ── 2) Checkpoints dos que já estão em observação ──
     abertos = [o for o in outcomes if not o.get("completo")]
+    arquivar_hoje = []
     for o in abertos:
         symbol = o["symbol"]
         ticker = tickers.get(symbol)
@@ -663,11 +685,17 @@ def scan_s2b() -> None:
 
         if minutos >= S2B_JANELA_OBSERVACAO_MIN and not o.get("completo"):
             o["completo"] = True
+            arquivar_hoje.append(o)
             alterado_out = True
             if symbol in historico:
                 historico[symbol]["em_observacao"] = False  # liberta para poder voltar a disparar
                 alterado_hist = True
-            log.info(f"[{symbol}] S2b — observação de 24h completa ({len(checkpoints)} checkpoints)")
+            log.info(f"[{symbol}] S2b — observação de 24h completa ({len(checkpoints)} checkpoints) — arquivado")
+
+    # remove do ficheiro activo os que acabaram de ser arquivados — ver _caminho_arquivo()
+    if arquivar_hoje:
+        ids_arquivados = {id(o) for o in arquivar_hoje}
+        outcomes = [o for o in outcomes if id(o) not in ids_arquivados]
 
     # ── 3) Notificar + gravar ──
     if novos_disparos:
@@ -677,6 +705,12 @@ def scan_s2b() -> None:
         _guardar_json_github(HISTORICO_PATH, historico, sha_hist, f"S2b: histórico {agora.strftime('%Y-%m-%dT%H:%M')}")
     if alterado_out:
         _guardar_json_github(OUTCOMES_PATH, outcomes, sha_out, f"S2b: outcomes {agora.strftime('%Y-%m-%dT%H:%M')}")
+    if arquivar_hoje:
+        caminho_arq = _caminho_arquivo(agora)
+        arquivo_actual, sha_arq = _carregar_json_github(caminho_arq, [])
+        arquivo_actual.extend(arquivar_hoje)
+        _guardar_json_github(caminho_arq, arquivo_actual, sha_arq,
+                              f"S2b arquivo: +{len(arquivar_hoje)} sinal(is) completo(s) {agora.strftime('%Y-%m-%dT%H:%M')}")
 
     log.info(
         f"S2b concluído — {len(novos_disparos)} disparo(s) novo(s), "
