@@ -151,6 +151,23 @@
         "s6_preco_pct": -0.0147,
         "atr_pct": 0.7579502389190976,
         "rsi14": 49.241923553816704
+      },
+      "120": {
+        "preco": 0.00866,
+        "volume": 1194440.0,
+        "s1_valor": 0.8898886899433323,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": -0.0159,
+        "s2_vol_dir_pct": 0.43475217190319493,
+        "s3_funding": 5e-05,
+        "s4_range_pct": 0.04615384615384633,
+        "s5_ema9": 0.008684597795471464,
+        "s5_ema21": 0.008679097020142267,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": -0.0159,
+        "atr_pct": 0.6936416184971103,
+        "rsi14": 47.07654025760298
       }
     },
     "completo": false
@@ -502,6 +519,42 @@
         "rsi14": 37.304660339532774
       }
     },
+    "completo": false
+  },
+  {
+    "symbol": "H_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 0.0668,
+    "volume_entrada": 12992998.0,
+    "var_preco_gatilho": -1.5185021376971888,
+    "var_volume_gatilho": null,
+    "tipo_gatilho": "deteccao_rapida_5min",
+    "sinais_lancamento": {
+      "preco": 0.0668,
+      "volume": 12992998.0,
+      "s1_valor": 0.8211363273219222,
+      "s2_oi_pct": 0.0,
+      "s2_preco_pct": -0.0147,
+      "s2_vol_dir_pct": 0.5882450255257576,
+      "s3_funding": 5e-05,
+      "s4_range_pct": 0.06942528735632172,
+      "s5_ema9": 0.06763917068864676,
+      "s5_ema21": 0.0678962268814661,
+      "s5_estrutura": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": -0.0147,
+      "atr_pct": 1.3355431993156517,
+      "rsi14": 37.56904386129547
+    },
+    "buffer_pre_gatilho": {
+      "precos": [
+        0.06806,
+        0.06798,
+        0.06783
+      ]
+    },
+    "timestamp_entrada": "2026-07-15T03:01:29.950629+00:00",
+    "checkpoints": {},
     "completo": false
   }
 ]
