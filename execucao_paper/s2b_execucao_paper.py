@@ -381,6 +381,17 @@ def sincronizar_novos_sinais(con: sqlite3.Connection, outcomes: list, origem: st
         if horas_decorridas < 0 or horas_decorridas > JANELA_SYNC_HORAS:
             continue
 
+        # CORREÇÃO 15/07/2026: um único registo com sinais_lancamento=None
+        # (falha transitória na origem, ex: MEXC não respondeu a tempo do
+        # snapshot) rebentava este ciclo inteiro, sempre no mesmo sítio,
+        # todos os ciclos — nenhuma posição nova sincronizava enquanto o
+        # registo mau continuasse na lista (aconteceu com WISHBONE_USDT).
+        # Salta só este registo, não pára a sincronização dos outros.
+        sl_info = entrada.get("sinais_lancamento")
+        if not sl_info or sl_info.get("atr_pct") is None:
+            log.warning("Registo sem sinais_lancamento válido, a saltar [%s]: %s", origem, symbol)
+            continue
+
         var_preco_gatilho = entrada.get("var_preco_gatilho")
         if var_preco_gatilho is not None and abs(var_preco_gatilho) > VAR_PRECO_GATILHO_MAX_PCT:
             log.info("Fora do tecto de var_preco_gatilho (%.1f%% > %.1f%%) — sem posição paper: %s",
