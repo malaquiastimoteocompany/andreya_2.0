@@ -47,7 +47,15 @@ import requests
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
 GITHUB_REPO = os.environ.get("GITHUB_REPO", "malaquiastimoteocompany/andreya_2.0")
 GITHUB_BRANCH = os.environ.get("GITHUB_BRANCH", "main")
-OUTCOMES_PATH = os.environ.get("OUTCOMES_PATH", "s2b_outcomes_v2.json")
+# CORREÇÃO 15/07/2026: antes um só OUTCOMES_PATH partilhado entre os três
+# mecanismos de detecção — dois deles (clássico 15min + rápida 5min) a
+# escrever no mesmo ficheiro com tanta frequência causou impasse de
+# escrita (nenhum conseguia "ganhar a vez", ver README_regimes.json).
+# Agora cada mecanismo de detecção tem o seu próprio ficheiro; este
+# módulo lê e escreve nos dois, sabendo sempre de qual veio cada posição
+# (campo origem_ficheiro na SQLite).
+OUTCOMES_PATH_V2 = os.environ.get("OUTCOMES_PATH_V2", "s2b_outcomes_v2.json")
+OUTCOMES_PATH_RAPIDA = os.environ.get("OUTCOMES_PATH_RAPIDA", "s2b_outcomes_rapida.json")
 DB_PATH = os.environ.get("DB_PATH", "/data/s2b_execucao_paper.db")
 POLL_SECONDS = int(os.environ.get("POLL_SECONDS", "60"))
 JANELA_SYNC_HORAS = float(os.environ.get("JANELA_SYNC_HORAS", "24"))
@@ -124,13 +132,13 @@ def gh_get_blob(sha: str) -> bytes:
     return base64.b64decode(d["content"])
 
 
-def ler_outcomes() -> list:
-    sha = gh_get_file_sha(OUTCOMES_PATH)
+def ler_outcomes(path: str) -> list:
+    sha = gh_get_file_sha(path)
     raw = gh_get_blob(sha)
     return json.loads(raw)
 
 
-def escrever_outcomes(dados: list, mensagem: str, tentativas: int = 5) -> None:
+def escrever_outcomes(path: str, dados: list, mensagem: str, tentativas: int = 5) -> None:
     """Commit do ficheiro completo via Git Data API, com retry em 409/422
     (conflito de ref — outro processo, ex: o scan de detecção, comitou entretanto)."""
     novo_conteudo = json.dumps(dados, ensure_ascii=False, indent=None).encode("utf-8")
@@ -165,7 +173,7 @@ def escrever_outcomes(dados: list, mensagem: str, tentativas: int = 5) -> None:
                 json={
                     "base_tree": base_tree_sha,
                     "tree": [{
-                        "path": OUTCOMES_PATH,
+                        "path": path,
                         "mode": "100644",
                         "type": "blob",
                         "sha": novo_blob_sha,
@@ -196,7 +204,7 @@ def escrever_outcomes(dados: list, mensagem: str, tentativas: int = 5) -> None:
                 raise requests.HTTPError(f"conflito de ref ({update_ref.status_code})")
             update_ref.raise_for_status()
 
-            log.info("Commit escrito em %s: %s", OUTCOMES_PATH, mensagem)
+            log.info("Commit escrito em %s: %s", path, mensagem)
             return
 
         except requests.HTTPError as e:
@@ -205,7 +213,7 @@ def escrever_outcomes(dados: list, mensagem: str, tentativas: int = 5) -> None:
                         tentativa, tentativas, e, espera)
             time.sleep(espera)
 
-    raise RuntimeError(f"Não foi possível escrever '{OUTCOMES_PATH}' após {tentativas} tentativas.")
+    raise RuntimeError(f"Não foi possível escrever '{path}' após {tentativas} tentativas.")
 
 
 # --------------------------------------------------------------------------
@@ -256,6 +264,16 @@ def init_db():
             UNIQUE(symbol, timestamp_entrada)
         )
     """)
+    # CORREÇÃO 15/07/2026: origem_ficheiro diz de qual dos dois outcomes
+    # files (v2=clássico+sobe-desce, rapida=detecção rápida) este sinal
+    # veio — necessário desde que deixaram de partilhar o mesmo ficheiro,
+    # para saber onde escrever o resultado de volta ao fechar. ALTER TABLE
+    # em vez de incluir na CREATE TABLE porque bases já existentes (deploys
+    # anteriores a hoje) não voltam a correr o CREATE TABLE IF NOT EXISTS.
+    try:
+        con.execute("ALTER TABLE posicoes ADD COLUMN origem_ficheiro TEXT NOT NULL DEFAULT 'v2'")
+    except sqlite3.OperationalError:
+        pass  # coluna já existe, migração já correu antes
     con.execute("""
         CREATE TABLE IF NOT EXISTS sl_historico (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -323,7 +341,7 @@ def calcular_pnl_pct(direccao: str, preco_entrada: float, preco_fecho: float) ->
 # Sincronização de sinais novos (GitHub -> posições locais)
 # --------------------------------------------------------------------------
 
-def sincronizar_novos_sinais(con: sqlite3.Connection, outcomes: list):
+def sincronizar_novos_sinais(con: sqlite3.Connection, outcomes: list, origem: str):
     agora = datetime.now(timezone.utc)
     novos = 0
 
@@ -356,20 +374,20 @@ def sincronizar_novos_sinais(con: sqlite3.Connection, outcomes: list):
             con.execute(
                 """INSERT INTO posicoes
                    (symbol, timestamp_entrada, direccao, preco_entrada, atr_pct, atr_preco,
-                    sl_inicial, sl_atual, extremo_favoravel, activado, estado)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 'aberta')""",
+                    sl_inicial, sl_atual, extremo_favoravel, activado, estado, origem_ficheiro)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 'aberta', ?)""",
                 (symbol, entrada["timestamp_entrada"], direccao, preco_entrada, atr_pct,
-                 atr_preco, sl_inicial, sl_inicial, preco_entrada),
+                 atr_preco, sl_inicial, sl_inicial, preco_entrada, origem),
             )
             con.commit()
             novos += 1
-            log.info("Nova posição paper: %s %s @ %.8f (ATR%%=%.3f, SL inicial=%.8f)",
-                      symbol, direccao, preco_entrada, atr_pct, sl_inicial)
+            log.info("Nova posição paper [%s]: %s %s @ %.8f (ATR%%=%.3f, SL inicial=%.8f)",
+                      origem, symbol, direccao, preco_entrada, atr_pct, sl_inicial)
         except sqlite3.IntegrityError:
             pass  # já existe localmente (UNIQUE symbol+timestamp_entrada)
 
     if novos:
-        log.info("Sincronização: %d posição(ões) nova(s) apanhada(s).", novos)
+        log.info("Sincronização [%s]: %d posição(ões) nova(s) apanhada(s).", origem, novos)
 
 
 # --------------------------------------------------------------------------
@@ -442,52 +460,68 @@ def escrever_fechadas_no_github(con: sqlite3.Connection, ids_fechadas: list):
     if not ids_fechadas:
         return
 
-    outcomes = ler_outcomes()
-    indice = {(e["symbol"], e["timestamp_entrada"]): i for i, e in enumerate(outcomes)}
-
-    alteracoes = 0
+    # agrupar por origem — cada ficheiro só é lido/escrito uma vez, mesmo
+    # que haja fechos dos dois lados no mesmo ciclo
+    posicoes_por_id = {}
     for pid in ids_fechadas:
         cur = con.execute("SELECT * FROM posicoes WHERE id=?", (pid,))
         colunas = [d[0] for d in cur.description]
-        p = dict(zip(colunas, cur.fetchone()))
+        posicoes_por_id[pid] = dict(zip(colunas, cur.fetchone()))
 
-        chave = (p["symbol"], p["timestamp_entrada"])
-        if chave not in indice:
-            log.warning("Posição fechada localmente mas sinal já não existe no GitHub: %s", chave)
+    caminhos = {"v2": OUTCOMES_PATH_V2, "rapida": OUTCOMES_PATH_RAPIDA}
+    ids_por_origem = {"v2": [], "rapida": []}
+    for pid, p in posicoes_por_id.items():
+        origem = p.get("origem_ficheiro") or "v2"
+        ids_por_origem.setdefault(origem, []).append(pid)
+
+    for origem, ids_deste in ids_por_origem.items():
+        if not ids_deste:
             continue
+        path = caminhos.get(origem, OUTCOMES_PATH_V2)
+        outcomes = ler_outcomes(path)
+        indice = {(e["symbol"], e["timestamp_entrada"]): i for i, e in enumerate(outcomes)}
 
-        hist_cur = con.execute(
-            "SELECT timestamp, preco, sl, activado FROM sl_historico WHERE posicao_id=? ORDER BY timestamp",
-            (pid,),
-        )
-        sl_historico = [
-            {"timestamp": r[0], "preco": r[1], "sl": r[2], "activado": bool(r[3])}
-            for r in hist_cur.fetchall()
-        ]
+        alteracoes = 0
+        for pid in ids_deste:
+            p = posicoes_por_id[pid]
+            chave = (p["symbol"], p["timestamp_entrada"])
+            if chave not in indice:
+                log.warning("Posição fechada localmente mas sinal já não existe em %s: %s", path, chave)
+                continue
 
-        outcomes[indice[chave]]["paper_trailing"] = {
-            "direccao": p["direccao"],
-            "preco_entrada": p["preco_entrada"],
-            "atr_pct": p["atr_pct"],
-            "atr_preco": p["atr_preco"],
-            "sl_inicial": p["sl_inicial"],
-            "activado": bool(p["activado"]),
-            "activado_em": p["activado_em"],
-            "sl_historico": sl_historico,
-            "fecho": {
-                "motivo": p["motivo_fecho"],
-                "timestamp": p["timestamp_fecho"],
-                "preco": p["preco_fecho"],
-                "pnl_pct": p["pnl_pct"],
-            },
-        }
-        alteracoes += 1
+            hist_cur = con.execute(
+                "SELECT timestamp, preco, sl, activado FROM sl_historico WHERE posicao_id=? ORDER BY timestamp",
+                (pid,),
+            )
+            sl_historico = [
+                {"timestamp": r[0], "preco": r[1], "sl": r[2], "activado": bool(r[3])}
+                for r in hist_cur.fetchall()
+            ]
 
-    if alteracoes:
-        escrever_outcomes(
-            outcomes,
-            f"paper_trailing: {alteracoes} posição(ões) fechada(s) — {datetime.now(timezone.utc).isoformat()}",
-        )
+            outcomes[indice[chave]]["paper_trailing"] = {
+                "direccao": p["direccao"],
+                "preco_entrada": p["preco_entrada"],
+                "atr_pct": p["atr_pct"],
+                "atr_preco": p["atr_preco"],
+                "sl_inicial": p["sl_inicial"],
+                "activado": bool(p["activado"]),
+                "activado_em": p["activado_em"],
+                "sl_historico": sl_historico,
+                "fecho": {
+                    "motivo": p["motivo_fecho"],
+                    "timestamp": p["timestamp_fecho"],
+                    "preco": p["preco_fecho"],
+                    "pnl_pct": p["pnl_pct"],
+                },
+            }
+            alteracoes += 1
+
+        if alteracoes:
+            escrever_outcomes(
+                path,
+                outcomes,
+                f"paper_trailing [{origem}]: {alteracoes} posição(ões) fechada(s) — {datetime.now(timezone.utc).isoformat()}",
+            )
 
 
 # --------------------------------------------------------------------------
@@ -495,8 +529,10 @@ def escrever_fechadas_no_github(con: sqlite3.Connection, ids_fechadas: list):
 # --------------------------------------------------------------------------
 
 def ciclo(con: sqlite3.Connection):
-    outcomes = ler_outcomes()
-    sincronizar_novos_sinais(con, outcomes)
+    outcomes_v2 = ler_outcomes(OUTCOMES_PATH_V2)
+    sincronizar_novos_sinais(con, outcomes_v2, "v2")
+    outcomes_rapida = ler_outcomes(OUTCOMES_PATH_RAPIDA)
+    sincronizar_novos_sinais(con, outcomes_rapida, "rapida")
 
     precos = obter_precos_actuais()
     fechadas = atualizar_posicoes_abertas(con, precos)
