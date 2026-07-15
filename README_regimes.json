@@ -12,10 +12,18 @@
       "titulo": "Decisão: construir detector paralelo de 5 min (terceira via de gatilho)",
       "descricao": "Investigação de 13/07/2026 sobre 'porque entramos tarde' encontrou que |var_preco_gatilho| explica a maior parte do problema (ver evento anterior). Teste exploratório (fora do sistema, reconstruído via histórico da MEXC, NÃO dados próprios registados ao vivo) sugeriu que um detector a 5 min (em vez de 15 min) apanharia o mesmo movimento ~94 min mais cedo, com magnitude média de 2.71% em vez de 13.13% — mas com só 70% de acerto na direcção (sem confirmação fiável encontrada via tendência do token ou do BTC, ambas testadas e sem ajudar). Simulação (15 min forward, ATR aproximado) sugeriu resultado bem melhor que o actual nos mesmos tokens (+$1.75 vs -$0.06 em 27 casos) — mas isto é só simulação, zero dados reais ao vivo. Decisão: construir isto como TERCEIRA via de detecção, em paralelo ao gatilho clássico e ao sobe-desce, reaproveitando o mesmo mecanismo de fecho já validado (trailing 1.5x ATR, filtro var_preco_gatilho). Não substitui nada do que já existe.",
       "impacto": "CONFIRMADO: deploy real em 2026-07-13T12:14:14+00:00 (primeira execução bem-sucedida do workflow deteccao_rapida.yml, agendado de 5 em 5 min via cron-job.org a partir de 12:20 UTC). Nenhum sinal deste tipo (tipo_gatilho='deteccao_rapida_5min') existe antes desta data — é uma via nova, sem histórico. Só considerar dados deste mecanismo como 'Amostra Real' a partir daqui."
+    },
+    {
+      "data": "2026-07-15T09:10:16+00:00",
+      "titulo": "MOMENTO ZERO GERAL — limpeza completa pós-migração de infra-estrutura",
+      "descricao": "Sessão de 14-15/07/2026 fez cirurgia grande à infra-estrutura do S2b (separar Detecção Rápida para ficheiro próprio, migrar escrita para API de dados do Git, arquivar sinais completos por dia, separar fechos do módulo de execução para ficheiro próprio) — no meio disto, o serviço de execução Railway ficou preso a deployar sempre o mesmo commit antigo (09/07/2026!), porque serviceInstanceDeployV2 sem 'commitSha' explícito usa um valor por omissão desactualizado, não o HEAD do branch. Isto causou dados de fecho espalhados por sítios diferentes/errados durante ~32h (ficheiros pré-separação, ficheiros pós-separação, código antigo a tentar escrever em sítios já arquivados). Corrigido: (1) deploy passa sempre a usar commitSha explícito, nunca o default; (2) s2b_deteccao_rapida.py não regista sinal se snapshot_completo falhar (evita sinais_lancamento=None); (3) execucao_paper protegido contra registos mal formados, não pára o ciclo inteiro por um só. Decisão: em vez de tentar reconstruir/salvar os fechos dispersos dos últimos dias, ANULAM-SE — dados de paper_trailing anteriores a este timestamp não são fiáveis para análise de desempenho. Detecção (sinais, S1-S6, ATR, RSI) não é afectada, só os RESULTADOS de fecho.",
+      "impacto": "Só considerar paper_trailing/fechos_paper como fiável a partir de 2026-07-15T09:10:16+00:00. Contar com 3-4 dias antes de haver amostra sólida outra vez para qualquer um dos três mecanismos do S2b."
     }
   ],
   "resumo_pratico": {
     "momento_zero_filtro_var_preco_gatilho": "2026-07-13T07:05:58+00:00",
-    "momento_zero_detector_5min": "2026-07-13T12:14:14+00:00"
+    "momento_zero_detector_5min": "2026-07-13T12:14:14+00:00",
+    "momento_zero_GERAL_pos_limpeza_15jul": "2026-07-15T09:10:16+00:00",
+    "nota": "Dados de fecho (paper_trailing) anteriores a 15/07 09:10 UTC devem ser tratados como não-fiáveis — ver evento de limpeza."
   }
 }
