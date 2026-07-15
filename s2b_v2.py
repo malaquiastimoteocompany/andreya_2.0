@@ -193,6 +193,31 @@ def _github_request(method: str, path: str, payload: Optional[dict] = None) -> d
     return _com_retry_transiente(_fazer)
 
 
+def _github_api_call(method: str, endpoint: str, payload: Optional[dict] = None, timeout: int = 30) -> dict:
+    """
+    Chamada genérica à API do GitHub, para endpoints fora de /contents/{path}
+    — usado pela API de dados do Git (git/refs, git/commits, git/blobs,
+    git/trees), introduzida 15/07/2026. Mesmo padrão de headers/retry que
+    _github_request, só que endpoint é livre em vez de fixo em "contents".
+    """
+    def _fazer():
+        url  = f"https://api.github.com/repos/{GITHUB_REPO}/{endpoint}"
+        data = json.dumps(payload).encode() if payload is not None else None
+        req  = urllib.request.Request(
+            url, data=data,
+            headers={
+                "Authorization": f"token {GITHUB_TOKEN}",
+                "Accept": "application/vnd.github.v3+json",
+                "Content-Type": "application/json",
+                "User-Agent": "andreya-v2-s2b",
+            },
+            method=method,
+        )
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            return json.loads(r.read())
+    return _com_retry_transiente(_fazer)
+
+
 def _carregar_json_github(path: str, default: Any) -> tuple[Any, Optional[str]]:
     """
     CORREÇÃO 08/07/2026: a API "Contents" do GitHub só devolve o campo
@@ -230,40 +255,57 @@ def _carregar_json_github(path: str, default: Any) -> tuple[Any, Optional[str]]:
 def _guardar_json_github(path: str, dados: Any, sha: Optional[str], mensagem: str) -> None:
     """
     CORREÇÃO 09/07/2026: em 409 Conflict (sha desactualizado — provável
-    sobreposição entre duas execuções, mais fácil de acontecer agora que o
-    scan corre a cada 15 min e uma execução pode ainda estar a terminar
-    quando a seguinte começa), busca o sha actual e tenta escrever outra
-    vez, até 6 vezes (subido de 3, ver nota de 14/07/2026 abaixo), antes de
-    desistir. Sem isto, um 409 isolado derrubava
-    o scan inteiro a meio — já aconteceu (ver histórico de 09/07/2026).
+    sobreposição entre duas execuções)... [ver histórico completo abaixo]
 
-    CORREÇÃO 14/07/2026: alargado a 422 Unprocessable Entity — mesma causa
-    de fundo (sha desactualizado), só que o GitHub por vezes devolve 422
-    em vez de 409 para o mesmo tipo de conflito. Ficou mais frequente
-    desde que três processos (scanner clássico, detecção rápida, execução
-    paper) passaram a escrever no mesmo outcomes file. Ao contrário dos
-    erros tratados em _com_retry_transiente (403/429/5xx/rede — esses sim
-    resolvem-se só com esperar e reenviar o mesmo pedido), um 409/422 por
-    sha desactualizado NÃO se resolve reenviando o mesmo payload — tem de
-    se buscar o sha actual primeiro, ou repete o mesmo erro para sempre.
+    CORREÇÃO 15/07/2026 (nº4) — a que importa de facto: migrado da API
+    "Contents" simples (base64 num único pedido JSON) para a API de dados
+    do Git (blob+tree+commit+ref), já usada com sucesso no módulo de
+    execução paper para o mesmo tipo de ficheiro grande. A API Contents
+    tem um limite prático de ~1MB para o campo "content" — o
+    s2b_outcomes_v2.json já passou disso há dias (chegou a 29MB), e toda
+    escrita estava condenada à partida, com ou sem colisão. As correcções
+    anteriores do mesmo dia (separar ficheiros por processo, mais
+    tentativas) ajudaram com colisões genuínas que também existiam, mas
+    nenhuma atacava esta causa — que é sobre TAMANHO, não concorrência.
+    O parâmetro 'sha' já não é usado directamente (a API de dados
+    trabalha sobre a ref do branch, não o sha do blob de um ficheiro) —
+    mantido na assinatura só para não obrigar a mudar as chamadas
+    existentes.
     """
-    conteudo_b64 = base64.b64encode(
-        json.dumps(dados, indent=2, ensure_ascii=False).encode()
-    ).decode()
-    payload = {"message": mensagem, "content": conteudo_b64}
-    if sha:
-        payload["sha"] = sha
+    novo_conteudo = json.dumps(dados, indent=2, ensure_ascii=False).encode("utf-8")
 
     for tentativa in range(6):
         try:
-            _github_request("PUT", path, payload)
+            ref = _github_api_call("GET", "git/refs/heads/main")
+            commit_sha = ref["object"]["sha"]
+
+            commit = _github_api_call("GET", f"git/commits/{commit_sha}")
+            base_tree_sha = commit["tree"]["sha"]
+
+            blob = _github_api_call("POST", "git/blobs", {
+                "content": base64.b64encode(novo_conteudo).decode(), "encoding": "base64",
+            }, timeout=60)
+            novo_blob_sha = blob["sha"]
+
+            tree = _github_api_call("POST", "git/trees", {
+                "base_tree": base_tree_sha,
+                "tree": [{"path": path, "mode": "100644", "type": "blob", "sha": novo_blob_sha}],
+            })
+            novo_tree_sha = tree["sha"]
+
+            novo_commit = _github_api_call("POST", "git/commits", {
+                "message": mensagem, "tree": novo_tree_sha, "parents": [commit_sha],
+            })
+            novo_commit_sha = novo_commit["sha"]
+
+            _github_api_call("PATCH", "git/refs/heads/main", {
+                "sha": novo_commit_sha, "force": False,
+            })
             return
         except urllib.error.HTTPError as e:
             if e.code not in (409, 422) or tentativa == 5:
                 raise
-            log.warning(f"{path}: HTTP {e.code} (tentativa {tentativa+1}/6) — a buscar sha actual e a repetir")
-            _, sha_novo = _carregar_json_github(path, None)
-            payload["sha"] = sha_novo
+            log.warning(f"{path}: HTTP {e.code} (tentativa {tentativa+1}/6) — ref mudou entretanto, a repetir")
             time.sleep(1.5 * (tentativa + 1))
 
 
