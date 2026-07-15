@@ -146,6 +146,15 @@ def scan_rapido() -> None:
             if abs(var_preco) >= S2B_RAPIDA_PRECO_MIN_PCT:
                 direccao = "LONG" if var_preco > 0 else "SHORT"
                 snap = snapshot_completo(symbol, direccao, ticker)
+                if snap is None:
+                    # falha transitória (ex: MEXC não respondeu a tempo para o
+                    # snapshot de ATR/RSI) — não regista este ciclo, tenta-se
+                    # de novo no próximo (5 min depois). Sem isto, um
+                    # sinais_lancamento=None ficava gravado para sempre e
+                    # rebentava o módulo de execução sempre que tentasse
+                    # sincronizar (aconteceu 15/07/2026, WISHBONE_USDT).
+                    log.warning(f"[{symbol}] snapshot_completo falhou — sinal não registado neste ciclo, tenta-se a seguir")
+                    continue
                 registo["em_observacao"] = True
                 alterado_hist = True
 
