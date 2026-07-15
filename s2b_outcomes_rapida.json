@@ -2761,6 +2761,23 @@
         "s6_preco_pct": -0.0347,
         "atr_pct": 1.9445963428784803,
         "rsi14": 43.75609686620011
+      },
+      "525": {
+        "preco": 10.693,
+        "volume": 859536.0,
+        "s1_valor": 0.6427590745255224,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": -0.0363,
+        "s2_vol_dir_pct": 0.4673249126918357,
+        "s3_funding": -1.7e-05,
+        "s4_range_pct": 0.08098793796668582,
+        "s5_ema9": 10.781221559524903,
+        "s5_ema21": 10.87431526232131,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": -0.0363,
+        "atr_pct": 1.9598936553953827,
+        "rsi14": 43.083108584632114
       }
     },
     "completo": false
@@ -3940,6 +3957,23 @@
         "s6_preco_pct": 0.009,
         "atr_pct": 1.3571108120233286,
         "rsi14": 50.716492435301326
+      },
+      "495": {
+        "preco": 0.04456,
+        "volume": 4949542.0,
+        "s1_valor": 1.0532203009382035,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": 0.0081,
+        "s2_vol_dir_pct": 0.2765312064658981,
+        "s3_funding": 0.0001,
+        "s4_range_pct": 0.07917343858834464,
+        "s5_ema9": 0.044944686131609395,
+        "s5_ema21": 0.0446906331880428,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.5,
+        "s6_preco_pct": 0.0081,
+        "atr_pct": 1.359933286291616,
+        "rsi14": 50.09783177595082
       }
     },
     "completo": false
@@ -5632,6 +5666,23 @@
         "s6_preco_pct": -0.0453,
         "atr_pct": 1.6285884151520307,
         "rsi14": 55.2401901201599
+      },
+      "465": {
+        "preco": 3.332,
+        "volume": 7902234.0,
+        "s1_valor": 1.289070888316783,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": -0.0547,
+        "s2_vol_dir_pct": 0.46272281099895435,
+        "s3_funding": -4.9e-05,
+        "s4_range_pct": 0.1293130245570407,
+        "s5_ema9": 3.306239845984275,
+        "s5_ema21": 3.3210946240029973,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": -0.0547,
+        "atr_pct": 1.648516549476935,
+        "rsi14": 51.93533741513023
       }
     },
     "completo": false
@@ -9617,6 +9668,23 @@
         "s6_preco_pct": -0.0112,
         "atr_pct": 1.0766381106737655,
         "rsi14": 44.0602521313822
+      },
+      "390": {
+        "preco": 0.002471,
+        "volume": 17143726.0,
+        "s1_valor": 1.3033086298996668,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": -0.01,
+        "s2_vol_dir_pct": 0.7285044261564103,
+        "s3_funding": 1e-05,
+        "s4_range_pct": 0.04969199178644764,
+        "s5_ema9": 0.0024890181845783356,
+        "s5_ema21": 0.002489714703204009,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": -0.01,
+        "atr_pct": 1.0860146727514286,
+        "rsi14": 45.72820657744293
       }
     },
     "completo": false
@@ -10952,6 +11020,23 @@
         "s6_preco_pct": 0.0022,
         "atr_pct": 0.9355678490074832,
         "rsi14": 53.61429399884592
+      },
+      "345": {
+        "preco": 0.00879,
+        "volume": 24297423.0,
+        "s1_valor": 0.6803169616498814,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": 0.0022,
+        "s2_vol_dir_pct": 0.43977698567380424,
+        "s3_funding": 5e-05,
+        "s4_range_pct": 0.038461538461538304,
+        "s5_ema9": 0.008765366598115675,
+        "s5_ema21": 0.008748406446754209,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": 0.0022,
+        "atr_pct": 0.950755728912725,
+        "rsi14": 54.521039186530295
       }
     },
     "completo": false
@@ -11346,6 +11431,23 @@
         "s6_preco_pct": -0.0075,
         "atr_pct": 3.237691472985591,
         "rsi14": 57.8098114594107
+      },
+      "330": {
+        "preco": 0.005709,
+        "volume": 24290744.0,
+        "s1_valor": 0.488957905608318,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": 0.0008,
+        "s2_vol_dir_pct": 0.6317054312530774,
+        "s3_funding": -0.004241,
+        "s4_range_pct": 0.16197718631178715,
+        "s5_ema9": 0.005583540149803224,
+        "s5_ema21": 0.005516513921698173,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 0.5,
+        "s6_preco_pct": 0.0008,
+        "atr_pct": 3.278340207474067,
+        "rsi14": 59.82598930108107
       }
     },
     "completo": false
@@ -12511,6 +12613,23 @@
         "s6_preco_pct": 0.0357,
         "atr_pct": 1.33572243036325,
         "rsi14": 63.29836615553948
+      },
+      "315": {
+        "preco": 0.006126,
+        "volume": 52820613.0,
+        "s1_valor": 0.7946580646062017,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": 0.0335,
+        "s2_vol_dir_pct": 0.40948694507022576,
+        "s3_funding": 5e-05,
+        "s4_range_pct": 0.09351011863224006,
+        "s5_ema9": 0.0061136103040973855,
+        "s5_ema21": 0.0060373157973863615,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": 0.0335,
+        "atr_pct": 1.3565484931123688,
+        "rsi14": 62.08076151468898
       }
     },
     "completo": false
@@ -12871,6 +12990,23 @@
         "s6_preco_pct": 0.0332,
         "atr_pct": 1.353805073431242,
         "rsi14": 62.27546890723044
+      },
+      "300": {
+        "preco": 2.664,
+        "volume": 838892.0,
+        "s1_valor": 0.9069041075242115,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": 0.0297,
+        "s2_vol_dir_pct": 0.6564973886788495,
+        "s3_funding": 5e-05,
+        "s4_range_pct": 0.09382422802850361,
+        "s5_ema9": 2.6683606403743503,
+        "s5_ema21": 2.6381078497750505,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": 0.0297,
+        "atr_pct": 1.3888888888888895,
+        "rsi14": 59.06972277126762
       }
     },
     "completo": false
@@ -13231,6 +13367,23 @@
         "s6_preco_pct": 0.0303,
         "atr_pct": 1.0429835651074593,
         "rsi14": 74.88167708371797
+      },
+      "300": {
+        "preco": 0.01351,
+        "volume": 2135142.0,
+        "s1_valor": 1.315172054773691,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": 0.0265,
+        "s2_vol_dir_pct": 0.705932884758459,
+        "s3_funding": 5e-05,
+        "s4_range_pct": 0.061335403726707996,
+        "s5_ema9": 0.013346540211423735,
+        "s5_ema21": 0.013195941331499593,
+        "s5_estrutura": true,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": 0.0265,
+        "atr_pct": 1.072485207100592,
+        "rsi14": 72.10015117801436
       }
     },
     "completo": false
@@ -14946,6 +15099,23 @@
         "s6_preco_pct": 0.033,
         "atr_pct": 1.0421677088343766,
         "rsi14": 50.76950571641009
+      },
+      "240": {
+        "preco": 1.78e-06,
+        "volume": 649722.0,
+        "s1_valor": 0.7765182176557452,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": 0.0318,
+        "s2_vol_dir_pct": 0.5369780003016836,
+        "s3_funding": 5e-05,
+        "s4_range_pct": 0.09005297233666866,
+        "s5_ema9": 1.7942532841306913e-06,
+        "s5_ema21": 1.7823421700292435e-06,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": 0.0318,
+        "atr_pct": 1.0473515248796161,
+        "rsi14": 50.09775767873058
       }
     },
     "completo": false
@@ -15221,6 +15391,23 @@
         "s6_preco_pct": -0.0988,
         "atr_pct": 1.8375327080822061,
         "rsi14": 24.027387554312085
+      },
+      "225": {
+        "preco": 0.4856,
+        "volume": 316252.0,
+        "s1_valor": 1.2152988065305943,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": -0.0994,
+        "s2_vol_dir_pct": 0.7720615868669065,
+        "s3_funding": -0.000609,
+        "s4_range_pct": 0.1404871902561949,
+        "s5_ema9": 0.4957652581020439,
+        "s5_ema21": 0.5088229618476651,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 0.5,
+        "s6_preco_pct": -0.0994,
+        "atr_pct": 1.8650793650793678,
+        "rsi14": 24.07041616781612
       }
     },
     "completo": false
@@ -15496,6 +15683,23 @@
         "s6_preco_pct": 0.0054,
         "atr_pct": 1.0827231656021192,
         "rsi14": 60.63385026038086
+      },
+      "225": {
+        "preco": 0.00915,
+        "volume": 19751315.0,
+        "s1_valor": 1.0146551807078905,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": 0.0021,
+        "s2_vol_dir_pct": 0.5945419780561748,
+        "s3_funding": 5e-05,
+        "s4_range_pct": 0.0561282932416954,
+        "s5_ema9": 0.0090773362236441,
+        "s5_ema21": 0.009043440184303397,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": 0.0021,
+        "atr_pct": 1.1019068458893415,
+        "rsi14": 57.85293503232882
       }
     },
     "completo": false
@@ -16012,6 +16216,23 @@
         "s6_preco_pct": -0.0189,
         "atr_pct": 1.4275100827849712,
         "rsi14": 50.12373494236397
+      },
+      "195": {
+        "preco": 0.01345,
+        "volume": 923897.0,
+        "s1_valor": 0.941600022013883,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": -0.0211,
+        "s2_vol_dir_pct": 0.4684462158948112,
+        "s3_funding": 5e-05,
+        "s4_range_pct": 0.13990825688073394,
+        "s5_ema9": 0.01343672672866114,
+        "s5_ema21": 0.013448969344889842,
+        "s5_estrutura": true,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": -0.0211,
+        "atr_pct": 1.4370558913988754,
+        "rsi14": 50.606366974678316
       }
     },
     "completo": false
@@ -16185,6 +16406,23 @@
         "s6_preco_pct": 0.0048,
         "atr_pct": 0.8805468659483288,
         "rsi14": 55.908217046073666
+      },
+      "135": {
+        "preco": 0.03689,
+        "volume": 3520400.0,
+        "s1_valor": 0.5822234719073299,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": 0.0019,
+        "s2_vol_dir_pct": 0.5243745238655037,
+        "s3_funding": 1.4e-05,
+        "s4_range_pct": 0.043393602225312904,
+        "s5_ema9": 0.036691818811079434,
+        "s5_ema21": 0.03666307086094177,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": 0.0019,
+        "atr_pct": 0.898423885683308,
+        "rsi14": 53.87049246337339
       }
     },
     "completo": false
@@ -16358,6 +16596,23 @@
         "s6_preco_pct": -0.032,
         "atr_pct": 0.9978991596638623,
         "rsi14": 35.29041801676003
+      },
+      "135": {
+        "preco": 0.1082,
+        "volume": 1235281.0,
+        "s1_valor": 0.6637315858302169,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": -0.0382,
+        "s2_vol_dir_pct": 0.2978246790924371,
+        "s3_funding": -0.000117,
+        "s4_range_pct": 0.06430568499534006,
+        "s5_ema9": 0.10929669958596602,
+        "s5_ema21": 0.11038302884135008,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 0.5,
+        "s6_preco_pct": -0.0382,
+        "atr_pct": 1.0091017016224744,
+        "rsi14": 30.45600554737962
       }
     },
     "completo": false
@@ -16653,6 +16908,23 @@
         "s6_preco_pct": 0.0055,
         "atr_pct": 0.9301026320145669,
         "rsi14": 56.78261117345788
+      },
+      "90": {
+        "preco": 0.6915,
+        "volume": 2353614.0,
+        "s1_valor": 0.766191579123208,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": 0.0071,
+        "s2_vol_dir_pct": 0.6298359887142821,
+        "s3_funding": 5e-05,
+        "s4_range_pct": 0.05785249129183706,
+        "s5_ema9": 0.6900719451178225,
+        "s5_ema21": 0.6858160688119577,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": 0.0071,
+        "atr_pct": 0.9434351775392242,
+        "rsi14": 58.09455002523834
       }
     },
     "completo": false
@@ -16985,6 +17257,23 @@
         "s6_preco_pct": -0.0079,
         "atr_pct": 1.4334721881891674,
         "rsi14": 46.120249356312506
+      },
+      "60": {
+        "preco": 1.752,
+        "volume": 1012015.0,
+        "s1_valor": 0.8031153020219749,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": -0.0073,
+        "s2_vol_dir_pct": 0.5695925617105438,
+        "s3_funding": 5e-05,
+        "s4_range_pct": 0.05113306217315505,
+        "s5_ema9": 1.756123307674462,
+        "s5_ema21": 1.7597127856106662,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": -0.0073,
+        "atr_pct": 1.4350945857795159,
+        "rsi14": 46.95242994718955
       }
     },
     "completo": false
@@ -17110,6 +17399,150 @@
       ]
     },
     "timestamp_entrada": "2026-07-15T11:15:46.443364+00:00",
+    "checkpoints": {},
+    "completo": false
+  },
+  {
+    "symbol": "LUMIA_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.07273,
+    "volume_entrada": 4668741.0,
+    "var_preco_gatilho": 1.2247738343771828,
+    "var_volume_gatilho": null,
+    "tipo_gatilho": "deteccao_rapida_5min",
+    "sinais_lancamento": {
+      "preco": 0.07273,
+      "volume": 4668741.0,
+      "s1_valor": 1.4304311779251693,
+      "s2_oi_pct": 0.0,
+      "s2_preco_pct": -0.0144,
+      "s2_vol_dir_pct": 0.5364604778857299,
+      "s3_funding": 5e-05,
+      "s4_range_pct": 0.13409475465313037,
+      "s5_ema9": 0.07350979685563483,
+      "s5_ema21": 0.074147713679043,
+      "s5_estrutura": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": -0.0144,
+      "atr_pct": 2.0496552807841146,
+      "rsi14": 40.7578836578273
+    },
+    "buffer_pre_gatilho": {
+      "precos": [
+        0.07134,
+        0.07164,
+        0.07185
+      ]
+    },
+    "timestamp_entrada": "2026-07-15T11:21:16.370661+00:00",
+    "checkpoints": {},
+    "completo": false
+  },
+  {
+    "symbol": "ENSO_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.7384,
+    "volume_entrada": 254201.0,
+    "var_preco_gatilho": 3.7807449051299966,
+    "var_volume_gatilho": null,
+    "tipo_gatilho": "deteccao_rapida_5min",
+    "sinais_lancamento": {
+      "preco": 0.7384,
+      "volume": 254201.0,
+      "s1_valor": 0.6489191348702769,
+      "s2_oi_pct": 0.0,
+      "s2_preco_pct": 0.0404,
+      "s2_vol_dir_pct": 0.6661341853035144,
+      "s3_funding": 5e-05,
+      "s4_range_pct": 0.06875180167195168,
+      "s5_ema9": 0.7199080636488655,
+      "s5_ema21": 0.7124177917732035,
+      "s5_estrutura": true,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": 0.0404,
+      "atr_pct": 1.2130475158644178,
+      "rsi14": 72.55982267283149
+    },
+    "buffer_pre_gatilho": {
+      "precos": [
+        0.7092,
+        0.7102,
+        0.7115
+      ]
+    },
+    "timestamp_entrada": "2026-07-15T11:21:16.370661+00:00",
+    "checkpoints": {},
+    "completo": false
+  },
+  {
+    "symbol": "CGPT_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.01883,
+    "volume_entrada": 684571.0,
+    "var_preco_gatilho": 1.236559139784952,
+    "var_volume_gatilho": null,
+    "tipo_gatilho": "deteccao_rapida_5min",
+    "sinais_lancamento": {
+      "preco": 0.01883,
+      "volume": 684571.0,
+      "s1_valor": 0.9569389198205698,
+      "s2_oi_pct": 0.0,
+      "s2_preco_pct": -0.0156,
+      "s2_vol_dir_pct": 0.42813532762374173,
+      "s3_funding": 5e-05,
+      "s4_range_pct": 0.05750273822562992,
+      "s5_ema9": 0.0186948905862895,
+      "s5_ema21": 0.018696769432043143,
+      "s5_estrutura": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": -0.0156,
+      "atr_pct": 0.6445253260539885,
+      "rsi14": 57.77103543456868
+    },
+    "buffer_pre_gatilho": {
+      "precos": [
+        0.01859,
+        0.01859,
+        0.0186
+      ]
+    },
+    "timestamp_entrada": "2026-07-15T11:21:16.370661+00:00",
+    "checkpoints": {},
+    "completo": false
+  },
+  {
+    "symbol": "IN_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.0468,
+    "volume_entrada": 332981.0,
+    "var_preco_gatilho": 1.717018039556616,
+    "var_volume_gatilho": null,
+    "tipo_gatilho": "deteccao_rapida_5min",
+    "sinais_lancamento": {
+      "preco": 0.0468,
+      "volume": 332981.0,
+      "s1_valor": 0.9019021896849934,
+      "s2_oi_pct": 0.0,
+      "s2_preco_pct": 0.0162,
+      "s2_vol_dir_pct": 0.4491391426563598,
+      "s3_funding": 0.000248,
+      "s4_range_pct": 0.03539823008849567,
+      "s5_ema9": 0.04620042847678832,
+      "s5_ema21": 0.04599449625245844,
+      "s5_estrutura": false,
+      "s6_ls_ratio": 1.5,
+      "s6_preco_pct": 0.0162,
+      "atr_pct": 1.1742100768573887,
+      "rsi14": 66.45158924235791
+    },
+    "buffer_pre_gatilho": {
+      "precos": [
+        0.04606,
+        0.046,
+        0.04601
+      ]
+    },
+    "timestamp_entrada": "2026-07-15T11:21:16.370661+00:00",
     "checkpoints": {},
     "completo": false
   }
