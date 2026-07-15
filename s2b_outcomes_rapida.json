@@ -1061,6 +1061,23 @@
         "s6_preco_pct": -0.0099,
         "atr_pct": 1.7294738758419772,
         "rsi14": 50.46770577094359
+      },
+      "150": {
+        "preco": 10.998,
+        "volume": 930945.0,
+        "s1_valor": 0.6802390215336501,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": -0.0088,
+        "s2_vol_dir_pct": 0.44019715021586464,
+        "s3_funding": 5e-05,
+        "s4_range_pct": 0.08204097262109909,
+        "s5_ema9": 10.981804557513824,
+        "s5_ema21": 10.990298249251383,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": -0.0088,
+        "atr_pct": 1.6579429298767379,
+        "rsi14": 50.76762614273444
       }
     },
     "completo": false
@@ -1390,6 +1407,23 @@
         "s6_preco_pct": 0.0332,
         "atr_pct": 1.0588382495542565,
         "rsi14": 71.03537515841057
+      },
+      "120": {
+        "preco": 0.04581,
+        "volume": 3893985.0,
+        "s1_valor": 0.8349688878084577,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": 0.0364,
+        "s2_vol_dir_pct": 0.44087125751475464,
+        "s3_funding": -0.000344,
+        "s4_range_pct": 0.08598130841121503,
+        "s5_ema9": 0.0451683468765617,
+        "s5_ema21": 0.044512824963060464,
+        "s5_estrutura": true,
+        "s6_ls_ratio": 0.5,
+        "s6_preco_pct": 0.0364,
+        "atr_pct": 1.011943742788537,
+        "rsi14": 73.68867134794678
       }
     },
     "completo": false
@@ -1807,6 +1841,23 @@
         "s6_preco_pct": -0.0802,
         "atr_pct": 2.319996474839164,
         "rsi14": 41.01730721779997
+      },
+      "90": {
+        "preco": 3.233,
+        "volume": 7710084.0,
+        "s1_valor": 1.2808871341403634,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": -0.0828,
+        "s2_vol_dir_pct": 0.5203020222447986,
+        "s3_funding": -0.000174,
+        "s4_range_pct": 0.1507760532150776,
+        "s5_ema9": 3.316592967164135,
+        "s5_ema21": 3.339146888466101,
+        "s5_estrutura": true,
+        "s6_ls_ratio": 0.5,
+        "s6_preco_pct": -0.0828,
+        "atr_pct": 1.9442357827758372,
+        "rsi14": 40.73510914879601
       }
     },
     "completo": false
@@ -2410,7 +2461,25 @@
       ]
     },
     "timestamp_entrada": "2026-07-15T04:55:40.257206+00:00",
-    "checkpoints": {},
+    "checkpoints": {
+      "15": {
+        "preco": 0.002536,
+        "volume": 19495505.0,
+        "s1_valor": 1.4728066964545836,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": 0.016,
+        "s2_vol_dir_pct": 0.635073911208083,
+        "s3_funding": 4e-06,
+        "s4_range_pct": 0.053586150041220075,
+        "s5_ema9": 0.0025108213217862538,
+        "s5_ema21": 0.0024945676672318887,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": 0.016,
+        "atr_pct": 0.9544456332000671,
+        "rsi14": 65.84900294961052
+      }
+    },
     "completo": false
   },
   {
@@ -2446,6 +2515,42 @@
       ]
     },
     "timestamp_entrada": "2026-07-15T05:01:31.582805+00:00",
+    "checkpoints": {},
+    "completo": false
+  },
+  {
+    "symbol": "TIA_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 0.4013,
+    "volume_entrada": 15980531.0,
+    "var_preco_gatilho": -1.1332840601133267,
+    "var_volume_gatilho": null,
+    "tipo_gatilho": "deteccao_rapida_5min",
+    "sinais_lancamento": {
+      "preco": 0.4013,
+      "volume": 15980531.0,
+      "s1_valor": 0.6552514384973941,
+      "s2_oi_pct": 0.0,
+      "s2_preco_pct": 0.0014,
+      "s2_vol_dir_pct": 0.5457609353919952,
+      "s3_funding": 5e-05,
+      "s4_range_pct": 0.044550717342058885,
+      "s5_ema9": 0.4069462715842628,
+      "s5_ema21": 0.4058289898835519,
+      "s5_estrutura": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": 0.0014,
+      "atr_pct": 1.2851091096792564,
+      "rsi14": 44.56426426085592
+    },
+    "buffer_pre_gatilho": {
+      "precos": [
+        0.4087,
+        0.4086,
+        0.4059
+      ]
+    },
+    "timestamp_entrada": "2026-07-15T05:05:35.167653+00:00",
     "checkpoints": {},
     "completo": false
   }
