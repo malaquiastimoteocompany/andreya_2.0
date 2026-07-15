@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "symbol": "MOCA_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.00873,
+    "volume_entrada": 1197452.0,
+    "var_preco_gatilho": 1.0416666666666643,
+    "var_volume_gatilho": null,
+    "tipo_gatilho": "deteccao_rapida_5min",
+    "sinais_lancamento": {
+      "preco": 0.00873,
+      "volume": 1197452.0,
+      "s1_valor": 0.8911450703057391,
+      "s2_oi_pct": 0.0,
+      "s2_preco_pct": -0.0079,
+      "s2_vol_dir_pct": 0.43707518905377657,
+      "s3_funding": 5e-05,
+      "s4_range_pct": 0.04615384615384633,
+      "s5_ema9": 0.008705559055424162,
+      "s5_ema21": 0.008686025576190326,
+      "s5_estrutura": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": -0.0079,
+      "atr_pct": 0.8191349934469208,
+      "rsi14": 54.74040005150186
+    },
+    "buffer_pre_gatilho": {
+      "precos": [
+        0.00865,
+        0.00865,
+        0.00864
+      ]
+    },
+    "timestamp_entrada": "2026-07-15T01:05:37.787787+00:00",
+    "checkpoints": {},
+    "completo": false
+  }
+]
