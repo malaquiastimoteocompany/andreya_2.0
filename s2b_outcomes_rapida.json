@@ -392,6 +392,23 @@
         "s6_preco_pct": 0.0407,
         "atr_pct": 1.2378942608433519,
         "rsi14": 65.5656524793898
+      },
+      "150": {
+        "preco": 0.07667,
+        "volume": 6596272.0,
+        "s1_valor": 1.5422733893189913,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": 0.0524,
+        "s2_vol_dir_pct": 0.9406106604055153,
+        "s3_funding": 5e-05,
+        "s4_range_pct": 0.071568080357143,
+        "s5_ema9": 0.0747637976698981,
+        "s5_ema21": 0.07401554694440787,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": 0.0524,
+        "atr_pct": 1.2791369319346384,
+        "rsi14": 69.39843320705602
       }
     },
     "completo": false
@@ -565,6 +582,23 @@
         "s6_preco_pct": 0.0391,
         "atr_pct": 1.5487609912070355,
         "rsi14": 71.89349310095663
+      },
+      "135": {
+        "preco": 0.14885,
+        "volume": 5734522.0,
+        "s1_valor": 0.8150406115728277,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": 0.0303,
+        "s2_vol_dir_pct": 0.6420528305468018,
+        "s3_funding": 5e-05,
+        "s4_range_pct": 0.12043073767489569,
+        "s5_ema9": 0.1472686765340539,
+        "s5_ema21": 0.14489331518128204,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": 0.0303,
+        "atr_pct": 1.5936465281443453,
+        "rsi14": 66.56728101935481
       }
     },
     "completo": false
@@ -741,6 +775,23 @@
         "s6_preco_pct": -0.0112,
         "atr_pct": 1.373380497783836,
         "rsi14": 39.90344036238765
+      },
+      "45": {
+        "preco": 0.06723,
+        "volume": 13176930.0,
+        "s1_valor": 0.8312268232866045,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": -0.0084,
+        "s2_vol_dir_pct": 0.5789134386135233,
+        "s3_funding": 5e-05,
+        "s4_range_pct": 0.06942528735632172,
+        "s5_ema9": 0.06772517068864677,
+        "s5_ema21": 0.067935317790557,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": -0.0084,
+        "atr_pct": 1.3833110218652362,
+        "rsi14": 42.00355250740834
       }
     },
     "completo": false
@@ -903,6 +954,42 @@
       ]
     },
     "timestamp_entrada": "2026-07-15T03:35:34.985699+00:00",
+    "checkpoints": {},
+    "completo": false
+  },
+  {
+    "symbol": "EGLD_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 3.27,
+    "volume_entrada": 8246707.0,
+    "var_preco_gatilho": -1.1487303506650488,
+    "var_volume_gatilho": null,
+    "tipo_gatilho": "deteccao_rapida_5min",
+    "sinais_lancamento": {
+      "preco": 3.27,
+      "volume": 8246707.0,
+      "s1_valor": 1.380028189157191,
+      "s2_oi_pct": 0.0,
+      "s2_preco_pct": -0.0723,
+      "s2_vol_dir_pct": 0.5268547745424073,
+      "s3_funding": -0.000158,
+      "s4_range_pct": 0.1507760532150776,
+      "s5_ema9": 3.3672640111939613,
+      "s5_ema21": 3.362974098680346,
+      "s5_estrutura": true,
+      "s6_ls_ratio": 0.5,
+      "s6_preco_pct": -0.0723,
+      "atr_pct": 2.407164700742682,
+      "rsi14": 43.12452906771018
+    },
+    "buffer_pre_gatilho": {
+      "precos": [
+        3.316,
+        3.312,
+        3.308
+      ]
+    },
+    "timestamp_entrada": "2026-07-15T03:41:11.189993+00:00",
     "checkpoints": {},
     "completo": false
   }
