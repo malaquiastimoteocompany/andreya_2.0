@@ -721,6 +721,23 @@
         "s6_preco_pct": -0.052,
         "atr_pct": 1.4709477630184955,
         "rsi14": 34.32057781827304
+      },
+      "75": {
+        "preco": 10.579,
+        "volume": 875791.0,
+        "s1_valor": 0.6414752219199984,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": -0.0465,
+        "s2_vol_dir_pct": 0.49740208851503814,
+        "s3_funding": 5e-05,
+        "s4_range_pct": 0.08204097262109909,
+        "s5_ema9": 10.87998212111535,
+        "s5_ema21": 10.946952699775991,
+        "s5_estrutura": true,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": -0.0465,
+        "atr_pct": 1.4793458739011216,
+        "rsi14": 36.460833650247736
       }
     },
     "completo": false
@@ -880,6 +897,23 @@
         "s6_preco_pct": 0.0319,
         "atr_pct": 0.9067560372098857,
         "rsi14": 76.24457675096906
+      },
+      "45": {
+        "preco": 0.04601,
+        "volume": 3568401.0,
+        "s1_valor": 0.7708678460787924,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": 0.0409,
+        "s2_vol_dir_pct": 0.5182847109684834,
+        "s3_funding": -0.00042,
+        "s4_range_pct": 0.0833920601362463,
+        "s5_ema9": 0.04478741699462766,
+        "s5_ema21": 0.044231872750757704,
+        "s5_estrutura": true,
+        "s6_ls_ratio": 0.5,
+        "s6_preco_pct": 0.0409,
+        "atr_pct": 0.9485515571149135,
+        "rsi14": 78.86571197255324
       }
     },
     "completo": false
@@ -1042,6 +1076,60 @@
       ]
     },
     "timestamp_entrada": "2026-07-15T03:41:11.189993+00:00",
+    "checkpoints": {
+      "15": {
+        "preco": 3.268,
+        "volume": 8288874.0,
+        "s1_valor": 1.3855311177090848,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": -0.0729,
+        "s2_vol_dir_pct": 0.5293791155561481,
+        "s3_funding": -0.000142,
+        "s4_range_pct": 0.1507760532150776,
+        "s5_ema9": 3.3676640111939613,
+        "s5_ema21": 3.3631559168621643,
+        "s5_estrutura": true,
+        "s6_ls_ratio": 0.5,
+        "s6_preco_pct": -0.0729,
+        "atr_pct": 2.416608452672022,
+        "rsi14": 43.27466666626128
+      }
+    },
+    "completo": false
+  },
+  {
+    "symbol": "BLEND_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.06209,
+    "volume_entrada": 546912.0,
+    "var_preco_gatilho": 1.090849886030604,
+    "var_volume_gatilho": null,
+    "tipo_gatilho": "deteccao_rapida_5min",
+    "sinais_lancamento": {
+      "preco": 0.06209,
+      "volume": 546912.0,
+      "s1_valor": 1.5101338038419345,
+      "s2_oi_pct": 0.0,
+      "s2_preco_pct": -0.0046,
+      "s2_vol_dir_pct": 0.27230779694508384,
+      "s3_funding": 5e-05,
+      "s4_range_pct": 0.10606310920204849,
+      "s5_ema9": 0.06190624309878726,
+      "s5_ema21": 0.062282828878989144,
+      "s5_estrutura": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": -0.0046,
+      "atr_pct": 1.3965902031613102,
+      "rsi14": 48.08401454534406
+    },
+    "buffer_pre_gatilho": {
+      "precos": [
+        0.06127,
+        0.06148,
+        0.06142
+      ]
+    },
+    "timestamp_entrada": "2026-07-15T03:51:10.114788+00:00",
     "checkpoints": {},
     "completo": false
   }
