@@ -58,6 +58,14 @@ OUTCOMES_PATH_V2 = os.environ.get("OUTCOMES_PATH_V2", "s2b_outcomes_v2.json")
 OUTCOMES_PATH_RAPIDA = os.environ.get("OUTCOMES_PATH_RAPIDA", "s2b_outcomes_rapida.json")
 DB_PATH = os.environ.get("DB_PATH", "/data/s2b_execucao_paper.db")
 POLL_SECONDS = int(os.environ.get("POLL_SECONDS", "60"))
+EXPORT_INTERVAL_SECONDS = int(os.environ.get("EXPORT_INTERVAL_SECONDS", "180"))  # 3 min
+_ultima_exportacao = 0.0  # inicializado a 0 -- primeira exportação acontece já no 1º ciclo com fechos pendentes
+# CORREÇÃO 15/07/2026 (nº2): antes escrevia ao GitHub em todos os ciclos
+# (60s) em que alguma posição fechasse — colidia com o scanner.yml (15 min)
+# a escrever no mesmo s2b_outcomes_v2.json. Isto só afecta a CADÊNCIA da
+# escrita ao GitHub — a lógica de trailing em si (quando activa, quando
+# fecha) continua a correr a cada ciclo de 60s, sem alteração nenhuma; só
+# o "reportar ao GitHub" passa a ser em lote, a cada 3 min.
 JANELA_SYNC_HORAS = float(os.environ.get("JANELA_SYNC_HORAS", "24"))
 FILTRAR_SINTETICOS = os.environ.get("FILTRAR_SINTETICOS", "1") == "1"
 
@@ -274,6 +282,16 @@ def init_db():
         con.execute("ALTER TABLE posicoes ADD COLUMN origem_ficheiro TEXT NOT NULL DEFAULT 'v2'")
     except sqlite3.OperationalError:
         pass  # coluna já existe, migração já correu antes
+    # CORREÇÃO 15/07/2026 (nº2): antes escrevia ao GitHub em TODOS os ciclos
+    # (60s) em que alguma posição fechasse — com o volume de sinais de hoje,
+    # isso colidia com o scanner.yml (15 min) a escrever no mesmo
+    # s2b_outcomes_v2.json. 'exportado' marca posições já fechadas mas ainda
+    # por escrever no GitHub — passam a acumular-se e a ser escritas em lote,
+    # de X em X minutos (ver EXPORT_INTERVAL_SECONDS), não a cada fecho.
+    try:
+        con.execute("ALTER TABLE posicoes ADD COLUMN exportado INTEGER NOT NULL DEFAULT 0")
+    except sqlite3.OperationalError:
+        pass
     con.execute("""
         CREATE TABLE IF NOT EXISTS sl_historico (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -522,6 +540,11 @@ def escrever_fechadas_no_github(con: sqlite3.Connection, ids_fechadas: list):
                 outcomes,
                 f"paper_trailing [{origem}]: {alteracoes} posição(ões) fechada(s) — {datetime.now(timezone.utc).isoformat()}",
             )
+            con.executemany(
+                "UPDATE posicoes SET exportado=1 WHERE id=?",
+                [(pid,) for pid in ids_deste],
+            )
+            con.commit()
 
 
 # --------------------------------------------------------------------------
@@ -529,15 +552,24 @@ def escrever_fechadas_no_github(con: sqlite3.Connection, ids_fechadas: list):
 # --------------------------------------------------------------------------
 
 def ciclo(con: sqlite3.Connection):
+    global _ultima_exportacao
+
     outcomes_v2 = ler_outcomes(OUTCOMES_PATH_V2)
     sincronizar_novos_sinais(con, outcomes_v2, "v2")
     outcomes_rapida = ler_outcomes(OUTCOMES_PATH_RAPIDA)
     sincronizar_novos_sinais(con, outcomes_rapida, "rapida")
 
     precos = obter_precos_actuais()
-    fechadas = atualizar_posicoes_abertas(con, precos)
+    atualizar_posicoes_abertas(con, precos)  # actualiza trailing/fecha a cada ciclo, sempre
 
-    escrever_fechadas_no_github(con, fechadas)
+    # Exportar ao GitHub em lote, não a cada fecho — ver EXPORT_INTERVAL_SECONDS.
+    agora_ts = time.time()
+    if agora_ts - _ultima_exportacao >= EXPORT_INTERVAL_SECONDS:
+        cur = con.execute("SELECT id FROM posicoes WHERE estado='fechada' AND exportado=0")
+        pendentes = [row[0] for row in cur.fetchall()]
+        if pendentes:
+            escrever_fechadas_no_github(con, pendentes)
+        _ultima_exportacao = agora_ts
 
 
 def main():
