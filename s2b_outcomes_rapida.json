@@ -49,6 +49,23 @@
         "s6_preco_pct": -0.0113,
         "atr_pct": 0.8210180623973735,
         "rsi14": 52.74640661612595
+      },
+      "30": {
+        "preco": 0.00872,
+        "volume": 1216059.0,
+        "s1_valor": 0.9030070841033061,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": -0.009,
+        "s2_vol_dir_pct": 0.4460022468549782,
+        "s3_funding": 5e-05,
+        "s4_range_pct": 0.04615384615384633,
+        "s5_ema9": 0.008703559055424161,
+        "s5_ema21": 0.008685116485281235,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": -0.009,
+        "atr_pct": 0.8200754469411191,
+        "rsi14": 53.76489221381643
       }
     },
     "completo": false
@@ -105,6 +122,42 @@
         "rsi14": 58.0037437262987
       }
     },
+    "completo": false
+  },
+  {
+    "symbol": "FARTCOIN_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.15108,
+    "volume_entrada": 5158908.0,
+    "var_preco_gatilho": 1.5595590212422619,
+    "var_volume_gatilho": null,
+    "tipo_gatilho": "deteccao_rapida_5min",
+    "sinais_lancamento": {
+      "preco": 0.15108,
+      "volume": 5158908.0,
+      "s1_valor": 0.7318413849142941,
+      "s2_oi_pct": 0.0,
+      "s2_preco_pct": 0.0458,
+      "s2_vol_dir_pct": 0.6754709991877669,
+      "s3_funding": 5e-05,
+      "s4_range_pct": 0.10768441872390315,
+      "s5_ema9": 0.14618668208445923,
+      "s5_ema21": 0.14398813864207854,
+      "s5_estrutura": true,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": 0.0458,
+      "atr_pct": 1.7242520518930395,
+      "rsi14": 76.90373232543119
+    },
+    "buffer_pre_gatilho": {
+      "precos": [
+        0.14725,
+        0.1475,
+        0.14876
+      ]
+    },
+    "timestamp_entrada": "2026-07-15T01:31:20.078065+00:00",
+    "checkpoints": {},
     "completo": false
   }
 ]
