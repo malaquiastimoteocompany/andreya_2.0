@@ -56,6 +56,11 @@ GITHUB_BRANCH = os.environ.get("GITHUB_BRANCH", "main")
 # (campo origem_ficheiro na SQLite).
 OUTCOMES_PATH_V2 = os.environ.get("OUTCOMES_PATH_V2", "s2b_outcomes_v2.json")
 OUTCOMES_PATH_RAPIDA = os.environ.get("OUTCOMES_PATH_RAPIDA", "s2b_outcomes_rapida.json")
+FECHOS_PATH = os.environ.get("FECHOS_PATH", "s2b_fechos_paper.json")
+# CORREÇÃO 15/07/2026 (nº3): resultados de fecho passam a viver aqui,
+# separados dos outcomes files — ver docstring de escrever_fechadas_no_github.
+# Para juntar sinal+resultado numa análise: indexar por (symbol,
+# timestamp_entrada) nos dois lados.
 DB_PATH = os.environ.get("DB_PATH", "/data/s2b_execucao_paper.db")
 POLL_SECONDS = int(os.environ.get("POLL_SECONDS", "60"))
 EXPORT_INTERVAL_SECONDS = int(os.environ.get("EXPORT_INTERVAL_SECONDS", "180"))  # 3 min
@@ -475,48 +480,45 @@ def atualizar_posicoes_abertas(con: sqlite3.Connection, precos: dict):
 # --------------------------------------------------------------------------
 
 def escrever_fechadas_no_github(con: sqlite3.Connection, ids_fechadas: list):
+    """
+    CORREÇÃO 15/07/2026 (nº3): antes escrevia de volta DENTRO dos outcomes
+    files (v2/rapida), fundindo com o registo do sinal original — mas isso
+    mantinha uma colisão com o scanner.yml (escreve no mesmo v2.json a
+    cada 15 min) e com a detecção rápida (rapida.json a cada 5 min). O
+    lote de 3 em 3 min (correcção nº2) reduziu a frequência mas não
+    eliminou — a janela de tentativas do scanner sozinha já dura quase um
+    minuto, e continuava a haver sobreposição.
+    Agora escreve num ficheiro PRÓPRIO (FECHOS_PATH), que mais ninguém
+    toca — elimina a colisão por completo, não só reduz. Cada registo
+    fica indexado por (symbol, timestamp_entrada), a mesma chave usada em
+    todo o resto do sistema, para se poder juntar de volta ao sinal
+    original em qualquer análise futura.
+    """
     if not ids_fechadas:
         return
 
-    # agrupar por origem — cada ficheiro só é lido/escrito uma vez, mesmo
-    # que haja fechos dos dois lados no mesmo ciclo
-    posicoes_por_id = {}
+    fechos = ler_outcomes(FECHOS_PATH)
+    alteracoes = 0
+
     for pid in ids_fechadas:
         cur = con.execute("SELECT * FROM posicoes WHERE id=?", (pid,))
         colunas = [d[0] for d in cur.description]
-        posicoes_por_id[pid] = dict(zip(colunas, cur.fetchone()))
+        p = dict(zip(colunas, cur.fetchone()))
 
-    caminhos = {"v2": OUTCOMES_PATH_V2, "rapida": OUTCOMES_PATH_RAPIDA}
-    ids_por_origem = {"v2": [], "rapida": []}
-    for pid, p in posicoes_por_id.items():
-        origem = p.get("origem_ficheiro") or "v2"
-        ids_por_origem.setdefault(origem, []).append(pid)
+        hist_cur = con.execute(
+            "SELECT timestamp, preco, sl, activado FROM sl_historico WHERE posicao_id=? ORDER BY timestamp",
+            (pid,),
+        )
+        sl_historico = [
+            {"timestamp": r[0], "preco": r[1], "sl": r[2], "activado": bool(r[3])}
+            for r in hist_cur.fetchall()
+        ]
 
-    for origem, ids_deste in ids_por_origem.items():
-        if not ids_deste:
-            continue
-        path = caminhos.get(origem, OUTCOMES_PATH_V2)
-        outcomes = ler_outcomes(path)
-        indice = {(e["symbol"], e["timestamp_entrada"]): i for i, e in enumerate(outcomes)}
-
-        alteracoes = 0
-        for pid in ids_deste:
-            p = posicoes_por_id[pid]
-            chave = (p["symbol"], p["timestamp_entrada"])
-            if chave not in indice:
-                log.warning("Posição fechada localmente mas sinal já não existe em %s: %s", path, chave)
-                continue
-
-            hist_cur = con.execute(
-                "SELECT timestamp, preco, sl, activado FROM sl_historico WHERE posicao_id=? ORDER BY timestamp",
-                (pid,),
-            )
-            sl_historico = [
-                {"timestamp": r[0], "preco": r[1], "sl": r[2], "activado": bool(r[3])}
-                for r in hist_cur.fetchall()
-            ]
-
-            outcomes[indice[chave]]["paper_trailing"] = {
+        fechos.append({
+            "symbol": p["symbol"],
+            "timestamp_entrada": p["timestamp_entrada"],
+            "origem_ficheiro": p.get("origem_ficheiro") or "v2",
+            "paper_trailing": {
                 "direccao": p["direccao"],
                 "preco_entrada": p["preco_entrada"],
                 "atr_pct": p["atr_pct"],
@@ -531,20 +533,21 @@ def escrever_fechadas_no_github(con: sqlite3.Connection, ids_fechadas: list):
                     "preco": p["preco_fecho"],
                     "pnl_pct": p["pnl_pct"],
                 },
-            }
-            alteracoes += 1
+            },
+        })
+        alteracoes += 1
 
-        if alteracoes:
-            escrever_outcomes(
-                path,
-                outcomes,
-                f"paper_trailing [{origem}]: {alteracoes} posição(ões) fechada(s) — {datetime.now(timezone.utc).isoformat()}",
-            )
-            con.executemany(
-                "UPDATE posicoes SET exportado=1 WHERE id=?",
-                [(pid,) for pid in ids_deste],
-            )
-            con.commit()
+    if alteracoes:
+        escrever_outcomes(
+            FECHOS_PATH,
+            fechos,
+            f"fechos_paper: {alteracoes} posição(ões) fechada(s) — {datetime.now(timezone.utc).isoformat()}",
+        )
+        con.executemany(
+            "UPDATE posicoes SET exportado=1 WHERE id=?",
+            [(pid,) for pid in ids_fechadas],
+        )
+        con.commit()
 
 
 # --------------------------------------------------------------------------
