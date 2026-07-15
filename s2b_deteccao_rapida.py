@@ -75,7 +75,15 @@ S2B_RAPIDA_JANELA_OBS_MIN = 1440      # 24h, mesma janela do resto do sistema
 
 HISTORICO_RAPIDA_PATH   = "s2b_historico_5min.json"
 HISTORICO_CLASSICO_PATH = "s2b_historico.json"   # só leitura, nunca escrito por este script
-OUTCOMES_PATH            = "s2b_outcomes_v2.json"  # partilhado com os outros dois mecanismos
+OUTCOMES_PATH            = "s2b_outcomes_rapida.json"  # CORREÇÃO 15/07/2026:
+# antes partilhado com s2b_v2.json (clássico + sobe-desce), mas dois
+# processos frequentes (15min + 5min) a escrever no mesmo ficheiro
+# resultaram em impasse — cada tentativa de "buscar sha novo e repetir"
+# encontrava o ficheiro já mudado outra vez pelo outro processo, esgotando
+# as 6 tentativas seguidas, todos os ciclos. Ficheiro próprio elimina essa
+# colisão específica. scan_s2b() (clássico) trata dos checkpoints deste
+# ficheiro também, à parte do seu próprio — ver s2b_v2.py.
+# execucao_paper/s2b_execucao_paper.py lê os dois ficheiros.
 
 TIPO_GATILHO = "deteccao_rapida_5min"
 
@@ -166,22 +174,43 @@ def scan_rapido() -> None:
         registo["precos"] = precos_ant
         alterado_hist = True
 
-    # ── 2) Libertar em_observacao própria às 24h ─────────────────────────────
-    # (checkpoints e "completo" já são tratados pelo scan_s2b() clássico,
-    # que percorre TODO o outcomes file independentemente do tipo_gatilho)
+    # ── 2) Checkpoints + libertar em_observacao própria às 24h ───────────────
+    # CORREÇÃO 15/07/2026: antes disto, os checkpoints eram tratados pelo
+    # scan_s2b() clássico (que percorria TODO o outcomes file partilhado).
+    # Agora que este mecanismo tem ficheiro próprio (ver nota no
+    # OUTCOMES_PATH acima), teria de ser o clássico a escrever também aqui
+    # — o que só movia o mesmo impasse de escrita de um ficheiro para
+    # outro. Em vez disso, este mecanismo passa a tratar dos seus próprios
+    # checkpoints, sozinho — um único escritor por ficheiro, sem colisão
+    # possível consigo mesmo.
     proprios_abertos = [o for o in outcomes if o.get("tipo_gatilho") == TIPO_GATILHO and not o.get("completo")]
     for o in proprios_abertos:
+        symbol = o["symbol"]
+        ticker = tickers.get(symbol)
         try:
             entrada = datetime.fromisoformat(o["timestamp_entrada"])
         except Exception:
             continue
         minutos = (agora - entrada).total_seconds() / 60
-        if minutos >= S2B_RAPIDA_JANELA_OBS_MIN:
-            symbol = o["symbol"]
+        minutos_capados = min(minutos, S2B_RAPIDA_JANELA_OBS_MIN)
+
+        if ticker:
+            checkpoint = round(minutos_capados / 15) * 15  # mesma cadência do clássico
+            chave = str(int(checkpoint))
+            checkpoints = o.setdefault("checkpoints", {})
+            if checkpoint > 0 and chave not in checkpoints:
+                snap = snapshot_completo(symbol, o["direccao"], ticker)
+                if snap is not None:
+                    checkpoints[chave] = snap
+                    alterado_out = True
+
+        if minutos >= S2B_RAPIDA_JANELA_OBS_MIN and not o.get("completo"):
+            o["completo"] = True
+            alterado_out = True
             if symbol in historico_rapida and historico_rapida[symbol].get("em_observacao"):
                 historico_rapida[symbol]["em_observacao"] = False
                 alterado_hist = True
-                log.info("[%s] Detecção rápida — libertado após 24h", symbol)
+            log.info("[%s] Detecção rápida — observação de 24h completa", symbol)
 
     # ── 3) Notificar + gravar ────────────────────────────────────────────────
     if novos_disparos:
