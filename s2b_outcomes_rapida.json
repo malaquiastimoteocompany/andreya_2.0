@@ -324,6 +324,23 @@
         "s6_preco_pct": 0.0384,
         "atr_pct": 1.2397318477952997,
         "rsi14": 64.86431334443779
+      },
+      "120": {
+        "preco": 0.07576,
+        "volume": 6417047.0,
+        "s1_valor": 1.5104153808581717,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": 0.0399,
+        "s2_vol_dir_pct": 0.9351032836510138,
+        "s3_funding": 5e-05,
+        "s4_range_pct": 0.071568080357143,
+        "s5_ema9": 0.0745817976698981,
+        "s5_ema21": 0.0739328196716806,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": 0.0399,
+        "atr_pct": 1.2171896213606899,
+        "rsi14": 65.00756703410738
       }
     },
     "completo": false
@@ -463,6 +480,23 @@
         "s6_preco_pct": 0.0364,
         "atr_pct": 1.6335660866910882,
         "rsi14": 70.98973569276544
+      },
+      "105": {
+        "preco": 0.1507,
+        "volume": 5675793.0,
+        "s1_valor": 0.8077637728929135,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": 0.0431,
+        "s2_vol_dir_pct": 0.6595480409225939,
+        "s3_funding": 5e-05,
+        "s4_range_pct": 0.12043073767489569,
+        "s5_ema9": 0.1476386765340539,
+        "s5_ema21": 0.14506149699946386,
+        "s5_estrutura": true,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": 0.0431,
+        "atr_pct": 1.5266849938382805,
+        "rsi14": 73.01110809489124
       }
     },
     "completo": false
@@ -571,6 +605,60 @@
       ]
     },
     "timestamp_entrada": "2026-07-15T03:01:29.950629+00:00",
+    "checkpoints": {
+      "15": {
+        "preco": 0.06688,
+        "volume": 13005182.0,
+        "s1_valor": 0.8218042806904713,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": -0.0135,
+        "s2_vol_dir_pct": 0.5886445378509292,
+        "s3_funding": 5e-05,
+        "s4_range_pct": 0.06942528735632172,
+        "s5_ema9": 0.06765317068864676,
+        "s5_ema21": 0.06790259051782974,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": -0.0135,
+        "atr_pct": 1.3555085560469118,
+        "rsi14": 38.07899619469627
+      }
+    },
+    "completo": false
+  },
+  {
+    "symbol": "MINA_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.04577,
+    "volume_entrada": 3373387.0,
+    "var_preco_gatilho": 1.733718604134243,
+    "var_volume_gatilho": null,
+    "tipo_gatilho": "deteccao_rapida_5min",
+    "sinais_lancamento": {
+      "preco": 0.04577,
+      "volume": 3373387.0,
+      "s1_valor": 0.7336846367451964,
+      "s2_oi_pct": 0.0,
+      "s2_preco_pct": 0.0355,
+      "s2_vol_dir_pct": 0.48854218144109324,
+      "s3_funding": -0.000441,
+      "s4_range_pct": 0.07587502936340156,
+      "s5_ema9": 0.04472941699462766,
+      "s5_ema21": 0.04420550911439407,
+      "s5_estrutura": true,
+      "s6_ls_ratio": 0.5,
+      "s6_preco_pct": 0.0355,
+      "atr_pct": 0.904574428196476,
+      "rsi14": 77.02806428444077
+    },
+    "buffer_pre_gatilho": {
+      "precos": [
+        0.04497,
+        0.04496,
+        0.04499
+      ]
+    },
+    "timestamp_entrada": "2026-07-15T03:11:08.194805+00:00",
     "checkpoints": {},
     "completo": false
   }
