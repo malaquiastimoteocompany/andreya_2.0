@@ -86,7 +86,25 @@
       ]
     },
     "timestamp_entrada": "2026-07-15T01:15:47.000462+00:00",
-    "checkpoints": {},
+    "checkpoints": {
+      "15": {
+        "preco": 0.07465,
+        "volume": 6224163.0,
+        "s1_valor": 1.4755872534790186,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": 0.0247,
+        "s2_vol_dir_pct": 0.920202253340987,
+        "s3_funding": 5e-05,
+        "s4_range_pct": 0.05064174107142869,
+        "s5_ema9": 0.07371705885921578,
+        "s5_ema21": 0.07345838453000625,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": 0.0247,
+        "atr_pct": 1.1647110786780126,
+        "rsi14": 58.0037437262987
+      }
+    },
     "completo": false
   }
 ]
