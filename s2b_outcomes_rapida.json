@@ -32,6 +32,60 @@
       ]
     },
     "timestamp_entrada": "2026-07-15T01:05:37.787787+00:00",
+    "checkpoints": {
+      "15": {
+        "preco": 0.0087,
+        "volume": 1204500.0,
+        "s1_valor": 0.8956621334891911,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": -0.0113,
+        "s2_vol_dir_pct": 0.4404091057318644,
+        "s3_funding": 5e-05,
+        "s4_range_pct": 0.04615384615384633,
+        "s5_ema9": 0.008701559055424161,
+        "s5_ema21": 0.008684207394372144,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": -0.0113,
+        "atr_pct": 0.8210180623973735,
+        "rsi14": 52.74640661612595
+      }
+    },
+    "completo": false
+  },
+  {
+    "symbol": "A_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.07469,
+    "volume_entrada": 6210714.0,
+    "var_preco_gatilho": 2.511666209168285,
+    "var_volume_gatilho": null,
+    "tipo_gatilho": "deteccao_rapida_5min",
+    "sinais_lancamento": {
+      "preco": 0.07469,
+      "volume": 6210714.0,
+      "s1_valor": 1.4729160955128622,
+      "s2_oi_pct": 0.0,
+      "s2_preco_pct": 0.0252,
+      "s2_vol_dir_pct": 0.9200814291959969,
+      "s3_funding": 5e-05,
+      "s4_range_pct": 0.05064174107142869,
+      "s5_ema9": 0.07379105885921579,
+      "s5_ema21": 0.07349202089364261,
+      "s5_estrutura": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": 0.0252,
+      "atr_pct": 1.1589467247573215,
+      "rsi14": 60.23603347713305
+    },
+    "buffer_pre_gatilho": {
+      "precos": [
+        0.07288,
+        0.07286,
+        0.07286
+      ]
+    },
+    "timestamp_entrada": "2026-07-15T01:15:47.000462+00:00",
     "checkpoints": {},
     "completo": false
   }
