@@ -159,7 +159,17 @@ def gh_get_blob(sha: str) -> bytes:
 
 
 def ler_outcomes(path: str) -> list:
-    sha = gh_get_file_sha(path)
+    """
+    CORREÇÃO 17/07/2026: com ficheiros por dia, o de hoje pode
+    legitimamente ainda não existir (primeiro fecho do dia) — 404 nesse
+    caso é normal, não um erro; devolve lista vazia em vez de rebentar.
+    """
+    try:
+        sha = gh_get_file_sha(path)
+    except requests.exceptions.HTTPError as e:
+        if e.response is not None and e.response.status_code == 404:
+            return []
+        raise
     raw = gh_get_blob(sha)
     return json.loads(raw)
 
