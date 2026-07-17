@@ -1580,5 +1580,95 @@
       }
     },
     "completo": true
+  },
+  {
+    "symbol": "KORU_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 20.67,
+    "volume_entrada": 783587.0,
+    "var_preco_gatilho": -28.043028697892098,
+    "var_volume_gatilho": -99.55754677366066,
+    "tipo_gatilho": "sobe_desce_volume",
+    "confirmacao_forte_60pct": true,
+    "volume_subida_pct": 2065.358999343028,
+    "volume_descida_pct": -99.55754677366066,
+    "sinais_lancamento": null,
+    "buffer_pre_gatilho": {
+      "precos": [
+        546.16,
+        545.15,
+        537.5,
+        543.29,
+        541.39,
+        533.59,
+        551.26,
+        396.67
+      ],
+      "volumes": [
+        4109065.0,
+        4157007.0,
+        4285582.0,
+        4351350.0,
+        4420614.0,
+        4925480.0,
+        19017783.0,
+        177100528.0
+      ]
+    },
+    "timestamp_entrada": "2026-07-16T02:31:21.516728+00:00",
+    "checkpoints": {
+      "1410": {
+        "preco": 17.94,
+        "volume": 1941050079.0,
+        "s1_valor": 0.8999999995827,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": -0.0911,
+        "s2_vol_dir_pct": 0.058386505084304374,
+        "s3_funding": 0.000654,
+        "s4_range_pct": 0.24380630630630618,
+        "s5_ema9": 18.477890114008574,
+        "s5_ema21": 19.252143328747387,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.5,
+        "s6_preco_pct": -0.0911,
+        "atr_pct": 3.8342092689918754,
+        "rsi14": 25.90389196005566
+      },
+      "1425": {
+        "preco": 17.86,
+        "volume": 1951320546.0,
+        "s1_valor": 0.8999999995848965,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": -0.0952,
+        "s2_vol_dir_pct": 0.05807901862124901,
+        "s3_funding": 0.000697,
+        "s4_range_pct": 0.24380630630630618,
+        "s5_ema9": 18.461890114008575,
+        "s5_ema21": 19.24487060147466,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.5,
+        "s6_preco_pct": -0.0952,
+        "atr_pct": 3.8873780195168752,
+        "rsi14": 24.317951757040348
+      },
+      "1440": {
+        "preco": 17.78,
+        "volume": 1953550901.0,
+        "s1_valor": 0.8999998325818186,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": -0.0992,
+        "s2_vol_dir_pct": 0.06442001780140112,
+        "s3_funding": 0.000783,
+        "s4_range_pct": 0.24450704225352113,
+        "s5_ema9": 18.441890114008576,
+        "s5_ema21": 19.23577969238375,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.5,
+        "s6_preco_pct": -0.0992,
+        "atr_pct": 3.9173101673101653,
+        "rsi14": 23.266314212009334
+      }
+    },
+    "completo": true
   }
 ]
