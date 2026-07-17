@@ -56,7 +56,20 @@ GITHUB_BRANCH = os.environ.get("GITHUB_BRANCH", "main")
 # (campo origem_ficheiro na SQLite).
 OUTCOMES_PATH_V2 = os.environ.get("OUTCOMES_PATH_V2", "s2b_outcomes_v2.json")
 OUTCOMES_PATH_RAPIDA = os.environ.get("OUTCOMES_PATH_RAPIDA", "s2b_outcomes_rapida.json")
-FECHOS_PATH = os.environ.get("FECHOS_PATH", "s2b_fechos_paper.json")
+FECHOS_PATH = os.environ.get("FECHOS_PATH", "s2b_fechos_paper.json")  # já não usado directamente, mantido só de referência
+
+
+def _caminho_fechos_hoje(agora: datetime) -> str:
+    """
+    CORREÇÃO 17/07/2026: s2b_fechos_paper.json cresceu para 39.9MB em só 2
+    dias (470 fechos) e passou a falhar a escrever, mesmo com a API de
+    dados do Git — mesmo padrão exacto do outcomes_v2.json de 15/07/2026.
+    Passa a ser um ficheiro por dia (mesmo princípio já usado no arquivo
+    de sinais completos do s2b_v2.py, e no CSA) — nunca mais cresce sem
+    controlo. Migração única 17/07/2026: os 470 fechos existentes foram
+    divididos por dia em s2b_fechos_paper_AAAA-MM-DD.json.
+    """
+    return f"s2b_fechos_paper_{agora.strftime('%Y-%m-%d')}.json"
 # CORREÇÃO 15/07/2026 (nº3): resultados de fecho passam a viver aqui,
 # separados dos outcomes files — ver docstring de escrever_fechadas_no_github.
 # Para juntar sinal+resultado numa análise: indexar por (symbol,
@@ -508,7 +521,8 @@ def escrever_fechadas_no_github(con: sqlite3.Connection, ids_fechadas: list):
     if not ids_fechadas:
         return
 
-    fechos = ler_outcomes(FECHOS_PATH)
+    caminho_hoje = _caminho_fechos_hoje(datetime.now(timezone.utc))
+    fechos = ler_outcomes(caminho_hoje)
     alteracoes = 0
 
     for pid in ids_fechadas:
@@ -550,7 +564,7 @@ def escrever_fechadas_no_github(con: sqlite3.Connection, ids_fechadas: list):
 
     if alteracoes:
         escrever_outcomes(
-            FECHOS_PATH,
+            caminho_hoje,
             fechos,
             f"fechos_paper: {alteracoes} posição(ões) fechada(s) — {datetime.now(timezone.utc).isoformat()}",
         )
