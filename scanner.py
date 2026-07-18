@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+import html
 import json
 import logging
 import os
@@ -1517,6 +1518,18 @@ def analise_token() -> None:
             )
         except Exception as e:
             log.warning(f"[{symbol}] gerar_opiniao falhou, a usar veredicto por regras: {e}")
+
+    # CORRECÇÃO 18/07/2026: escapar o texto livre do Claude antes de o meter
+    # na mensagem — a mensagem usa parse_mode=HTML (ver notificacoes.py), e
+    # um simples "<" ou "&" na opinião (ex: "RSI < 30") parte o parser do
+    # Telegram. O 400 Bad Request resultante era engolido silenciosamente:
+    # o scanner.py não verifica o retorno de enviar_analise_token(), por
+    # isso o job do GitHub Actions reportava "success" mesmo sem a
+    # mensagem chegar ao Telegram. Caso real: /analise_token SIREN,
+    # 18/07/2026 14:26 UTC — opinião gerada (598 chars), Telegram
+    # rejeitou com HTTP 400, scan terminou como sucesso na mesma.
+    if opiniao_texto:
+        opiniao_texto = html.escape(opiniao_texto)
 
     veredicto = opiniao_texto if opiniao_texto else veredicto_regras
 
