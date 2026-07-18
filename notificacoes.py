@@ -15,8 +15,11 @@ from __future__ import annotations
 
 import json
 import logging
+import re
+import urllib.error
 import urllib.request
 from datetime import datetime, timezone
+from html import unescape
 from typing import Optional
 from zoneinfo import ZoneInfo
 
@@ -38,12 +41,11 @@ _TELEGRAM_API = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
 # BASE — envio HTTP
 # =============================================================================
 
-def _enviar(texto: str, parse_mode: str = "HTML") -> bool:
-    payload = json.dumps({
-        "chat_id":    TELEGRAM_CHAT_ID,
-        "text":       texto,
-        "parse_mode": parse_mode,
-    }).encode()
+def _enviar(texto: str, parse_mode: Optional[str] = "HTML") -> bool:
+    payload_dict = {"chat_id": TELEGRAM_CHAT_ID, "text": texto}
+    if parse_mode:
+        payload_dict["parse_mode"] = parse_mode
+    payload = json.dumps(payload_dict).encode()
     req = urllib.request.Request(
         _TELEGRAM_API,
         data=payload,
@@ -57,6 +59,14 @@ def _enviar(texto: str, parse_mode: str = "HTML") -> bool:
                 log.error(f"Telegram API erro: {resp}")
                 return False
             return True
+    except urllib.error.HTTPError as e:
+        corpo = e.read().decode(errors="replace")
+        log.error(f"Falha ao enviar mensagem Telegram: HTTP {e.code} — {corpo}")
+        if parse_mode == "HTML" and "can't parse entities" in corpo:
+            log.warning("Entidade HTML mal formada — a repetir em texto simples para não perder a mensagem")
+            texto_simples = unescape(re.sub(r"</?[a-zA-Z][^>]*>", "", texto))
+            return _enviar(texto_simples, parse_mode=None)
+        return False
     except Exception as e:
         log.error(f"Falha ao enviar mensagem Telegram: {e}")
         return False
