@@ -88,6 +88,21 @@ try:
 except ImportError:
     def log_scan(*a, **k): pass
     def log_deteccao(*a, **k): pass
+
+# opiniao_claude / historico_cruzado — só usados por analise_token() (comando
+# /analise_token do Telegram). Guardados com fallback: se qualquer um faltar
+# ou falhar ao importar, analise_token() usa o veredicto por regras (já
+# existente) em vez de rebentar o comando inteiro.
+try:
+    from opiniao_claude import gerar_opiniao
+except ImportError:
+    gerar_opiniao = None
+
+try:
+    from historico_cruzado import obter_historico_s2b, obter_historico_csa
+except ImportError:
+    def obter_historico_s2b(*a, **k): return {"em_observacao": False, "sinais": []}
+    def obter_historico_csa(*a, **k): return {"alertas": []}
     def log_move_update(*a, **k): pass
     def log_miss(*a, **k): pass
     def log_move_conclusao(*a, **k): pass
@@ -1459,21 +1474,59 @@ def analise_token() -> None:
     estado_actual  = campos_existentes.get("estado", 1) if ja_no_universo else None
     estado_str = f"Estado {estado_actual}" if ja_no_universo else "fora do universo activo do CFI"
 
-    # ── Veredicto sintetizado — regras simples, sem dependências externas ────
-    # (versão temporária; a versão com opinião gerada pelo Claude fica para
-    # quando opiniao_claude.py for publicado — ver nota 03/07/2026)
+    # ── Veredicto por regras — sempre calculado, serve de fallback ───────────
     if sl.score >= 4 and sl.score >= ss.score + 2:
-        veredicto = f"🟢 Sinais LONG a alinhar-se ({sl.score}/6) — vale vigiar de perto."
+        veredicto_regras = f"🟢 Sinais LONG a alinhar-se ({sl.score}/6) — vale vigiar de perto."
     elif ss.score >= 4 and ss.score >= sl.score + 2:
-        veredicto = f"🔴 Sinais SHORT a alinhar-se ({ss.score}/6) — vale vigiar de perto."
+        veredicto_regras = f"🔴 Sinais SHORT a alinhar-se ({ss.score}/6) — vale vigiar de perto."
     elif rsi14 is not None and rsi14 >= 70:
-        veredicto = f"🟡 Sobrecomprado (RSI {rsi14:.0f}) — cuidado com entradas tardias em LONG."
+        veredicto_regras = f"🟡 Sobrecomprado (RSI {rsi14:.0f}) — cuidado com entradas tardias em LONG."
     elif rsi14 is not None and rsi14 <= 30:
-        veredicto = f"🟡 Sobrevendido (RSI {rsi14:.0f}) — possível zona de ressalto, sem confirmação ainda."
+        veredicto_regras = f"🟡 Sobrevendido (RSI {rsi14:.0f}) — possível zona de ressalto, sem confirmação ainda."
     elif atr_pct < 0.01 and abs(mexc_d.preco_change_24h_pct) < 0.03:
-        veredicto = "⚪ Mercado morto — sem volume, sem volatilidade, sem sinal para explorar."
+        veredicto_regras = "⚪ Mercado morto — sem volume, sem volatilidade, sem sinal para explorar."
     else:
-        veredicto = "⚪ Sem confluência clara nos dois sentidos — nada de accionável agora."
+        veredicto_regras = "⚪ Sem confluência clara nos dois sentidos — nada de accionável agora."
+
+    # ── Cruzamento com histórico já detectado pelo S2b/CSA (best-effort) ────
+    hist_s2b = obter_historico_s2b(symbol)
+    hist_csa = obter_historico_csa(symbol)
+
+    # ── Opinião via Claude (usa o histórico acima); cai para veredicto_regras
+    # se a API falhar ou o módulo não estiver disponível ──────────────────
+    opiniao_texto = None
+    if gerar_opiniao is not None:
+        try:
+            opiniao_texto = gerar_opiniao(
+                symbol=symbol,
+                preco=preco,
+                var_24h_pct=mexc_d.preco_change_24h_pct * 100,
+                funding=cg_d.funding_rate,
+                oi=float(ticker.get("holdVol", 0)),
+                volume_24h=mexc_d.volume_24h,
+                rsi14=rsi14,
+                atr_pct=atr_pct,
+                estrutura_ema=estrutura_ema,
+                score_long=sl.score,
+                resumo_long=sl.resumo(),
+                score_short=ss.score,
+                resumo_short=ss.resumo(),
+                no_universo=ja_no_universo,
+                historico_s2b=hist_s2b,
+                historico_csa=hist_csa,
+            )
+        except Exception as e:
+            log.warning(f"[{symbol}] gerar_opiniao falhou, a usar veredicto por regras: {e}")
+
+    veredicto = opiniao_texto if opiniao_texto else veredicto_regras
+
+    n_sinais_s2b = len(hist_s2b.get("sinais", []))
+    n_alertas_csa = len(hist_csa.get("alertas", []))
+    linha_historico = (
+        f"Histórico: S2b {n_sinais_s2b}x"
+        + (" (em observação agora)" if hist_s2b.get("em_observacao") else "")
+        + f" · CSA {n_alertas_csa}x"
+    )
 
     linhas = [
         f"🔍 <b>Análise ad-hoc — {symbol}</b>",
@@ -1492,7 +1545,9 @@ def analise_token() -> None:
         f"No teu universo: {estado_str}." if ja_no_universo else
         "Não está no universo activo do CFI (fora dos critérios de volume/listagem).",
         "",
-        veredicto,
+        linha_historico,
+        "",
+        (f"🧠 {veredicto}" if opiniao_texto else veredicto),
         "",
         "<i>Leitura técnica, não é conselho de investimento.</i>",
     ]
