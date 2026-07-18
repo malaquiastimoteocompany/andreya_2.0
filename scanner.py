@@ -1550,7 +1550,7 @@ def analise_token() -> None:
         f"Volume 24h: <code>${mexc_d.volume_24h:,.0f}</code>",
         f"RSI(14): <code>{rsi14:.1f}</code>" if rsi14 is not None else "RSI(14): —",
         f"ATR(1h): <code>{atr_pct*100:.2f}%</code>",
-        f"EMA9/21: {estrutura_ema}",
+        f"EMA9/21: {html.escape(estrutura_ema)}",
         "",
         f"<b>S1-S6 LONG:</b> {sl.score}/6  ({sl.resumo()})",
         f"<b>S1-S6 SHORT:</b> {ss.score}/6  ({ss.resumo()})",
