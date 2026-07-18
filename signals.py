@@ -110,10 +110,10 @@ class ResultadoSinais:
         self.score = sum([self.s1, self.s2, self.s3, self.s4, self.s5, self.s6])
 
     def resumo(self) -> str:
-        """Linha de resumo para Telegram/PDF. Ex: 'S1 OK S2 -- S3 OK S4 OK S5 -- S6 OK'"""
+        """Linha de resumo para Telegram/PDF. Ex: 'S1 ✅ S2 ❌ S3 ✅ S4 ✅ S5 ❌ S6 ✅'"""
         sinais = [self.s1, self.s2, self.s3, self.s4, self.s5, self.s6]
         partes = [
-            f"S{i + 1} {'OK' if v else '--'}"
+            f"S{i + 1} {'✅' if v else '❌'}"
             for i, v in enumerate(sinais)
         ]
         return "  ".join(partes)
