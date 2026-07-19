@@ -536,6 +536,7 @@ def scan_s2b() -> None:
     alterado_hist  = False
     alterado_out   = False
     novos_disparos = []
+    quase_dispararam = []
 
     # ── 1) Elegibilidade + gatilho, para todos os tokens ainda não em observação ──
     for symbol, ticker in tickers.items():
@@ -563,6 +564,18 @@ def scan_s2b() -> None:
             var_preco  = (preco - precos_ant[-1]) / precos_ant[-1] * 100
             media_vol  = sum(vols_ant[-S2B_JANELA_TRAILING:]) / S2B_JANELA_TRAILING
             var_volume = ((volume - media_vol) / media_vol * 100) if media_vol else 0.0
+
+            # DIAGNÓSTICO 19/07/2026: log normal só regista disparos reais —
+            # "0 disparos, 893 avaliados" não diz se um candidato passou perto.
+            # Caso concreto que motivou isto: TLM_USDT teve +12.94%/+757% vol
+            # numa vela (18/07 22:30), gatilho devia ter disparado, mas não há
+            # como confirmar retroactivamente se foi avaliado e ficou perto,
+            # ou nem chegou a ser visto — o histórico ao vivo só guarda 2h.
+            # "Quase disparou" = preço sozinho já passou o threshold, mas o
+            # volume não acompanhou. Não regista todos os ~900 tickers, só os
+            # que bateram o lado do preço — mantém o log proporcional.
+            if abs(var_preco) >= S2B_PRECO_MIN_PCT and var_volume < S2B_VOLUME_MIN_PCT:
+                quase_dispararam.append((symbol, var_preco, var_volume))
 
             if abs(var_preco) >= S2B_PRECO_MIN_PCT and var_volume >= S2B_VOLUME_MIN_PCT:
                 direccao = "LONG" if var_preco > 0 else "SHORT"
@@ -716,6 +729,10 @@ def scan_s2b() -> None:
         f"S2b concluído — {len(novos_disparos)} disparo(s) novo(s), "
         f"{len(abertos)} em observação, {len(tickers)} tickers avaliados"
     )
+    if quase_dispararam:
+        quase_dispararam.sort(key=lambda t: abs(t[1]), reverse=True)
+        resumo = ", ".join(f"{s} (preço {vp:+.1f}%/vol {vv:+.0f}%)" for s, vp, vv in quase_dispararam[:10])
+        log.info(f"S2b — {len(quase_dispararam)} quase-disparo(s) (preço OK, volume não): {resumo}")
 
 
 if __name__ == "__main__":
