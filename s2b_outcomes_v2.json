@@ -15930,5 +15930,56 @@
       }
     },
     "completo": false
+  },
+  {
+    "symbol": "G_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 0.003587,
+    "volume_entrada": 2145936.0,
+    "var_preco_gatilho": -4.423128164135356,
+    "var_volume_gatilho": 505.75299021832177,
+    "tipo_gatilho": "preco_volume_classico",
+    "sinais_lancamento": {
+      "preco": 0.003587,
+      "volume": 2145936.0,
+      "s1_valor": 3.0811240551443713,
+      "s2_oi_pct": 0.0,
+      "s2_preco_pct": 0.0843,
+      "s2_vol_dir_pct": 0.7028435443052201,
+      "s3_funding": -7e-06,
+      "s4_range_pct": 0.2481912551116704,
+      "s5_ema9": 0.0035212931753074014,
+      "s5_ema21": 0.0034605508233292743,
+      "s5_estrutura": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": 0.0843,
+      "atr_pct": 2.4533035963200445,
+      "rsi14": 63.37019128280934
+    },
+    "buffer_pre_gatilho": {
+      "precos": [
+        0.003381,
+        0.00337,
+        0.003371,
+        0.003373,
+        0.00337,
+        0.003376,
+        0.003367,
+        0.003753
+      ],
+      "volumes": [
+        305580.0,
+        308453.0,
+        300590.0,
+        303478.0,
+        306099.0,
+        308961.0,
+        283919.0,
+        518058.0
+      ]
+    },
+    "timestamp_entrada": "2026-07-19T08:35:24.047109+00:00",
+    "checkpoints": {},
+    "completo": false
   }
 ]
