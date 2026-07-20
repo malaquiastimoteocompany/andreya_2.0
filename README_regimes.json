@@ -18,12 +18,19 @@
       "titulo": "MOMENTO ZERO GERAL — limpeza completa pós-migração de infra-estrutura",
       "descricao": "Sessão de 14-15/07/2026 fez cirurgia grande à infra-estrutura do S2b (separar Detecção Rápida para ficheiro próprio, migrar escrita para API de dados do Git, arquivar sinais completos por dia, separar fechos do módulo de execução para ficheiro próprio) — no meio disto, o serviço de execução Railway ficou preso a deployar sempre o mesmo commit antigo (09/07/2026!), porque serviceInstanceDeployV2 sem 'commitSha' explícito usa um valor por omissão desactualizado, não o HEAD do branch. Isto causou dados de fecho espalhados por sítios diferentes/errados durante ~32h (ficheiros pré-separação, ficheiros pós-separação, código antigo a tentar escrever em sítios já arquivados). Corrigido: (1) deploy passa sempre a usar commitSha explícito, nunca o default; (2) s2b_deteccao_rapida.py não regista sinal se snapshot_completo falhar (evita sinais_lancamento=None); (3) execucao_paper protegido contra registos mal formados, não pára o ciclo inteiro por um só. Decisão: em vez de tentar reconstruir/salvar os fechos dispersos dos últimos dias, ANULAM-SE — dados de paper_trailing anteriores a este timestamp não são fiáveis para análise de desempenho. Detecção (sinais, S1-S6, ATR, RSI) não é afectada, só os RESULTADOS de fecho.",
       "impacto": "Só considerar paper_trailing/fechos_paper como fiável a partir de 2026-07-15T09:10:16+00:00. Contar com 3-4 dias antes de haver amostra sólida outra vez para qualquer um dos três mecanismos do S2b."
+    },
+    {
+      "data": "2026-07-20T12:41:00+00:00",
+      "titulo": "Fade implementado — inverte posições que não activam em 3h",
+      "descricao": "Descoberto 20/07/2026: mercado calmo há dias fazia com que 'não activaram' (103 de 267 trades) tivesse 5.7% win rate, -4.60% médio. Testado — fechar às 3h se ainda não activou E abrir posição invertida a partir daí, aplicado uniformemente a TODOS os trades (não só retrospectivamente aos que sabíamos que iam falhar): virou o sistema de -$1.76 para +$0.52 no total de 267 trades. Implementado como FADE_ATIVO=1 (env var), FADE_HORAS_LIMITE=3.0. Rastreável via fade_origem_id no registo de cada posição (None=sinal original, id=posição que originou o fade).",
+      "impacto": "AINDA NÃO VALIDADO FORA DA AMOSTRA — descoberto e testado só nos mesmos 267 trades que estava a tentar corrigir. Tratar resultados de motivo='fade_invertido' com a mesma cautela que qualquer achado dentro da amostra até termos dias de dados novos."
     }
   ],
   "resumo_pratico": {
     "momento_zero_filtro_var_preco_gatilho": "2026-07-13T07:05:58+00:00",
     "momento_zero_detector_5min": "2026-07-13T12:14:14+00:00",
     "momento_zero_GERAL_pos_limpeza_15jul": "2026-07-15T09:10:16+00:00",
-    "nota": "Dados de fecho (paper_trailing) anteriores a 15/07 09:10 UTC devem ser tratados como não-fiáveis — ver evento de limpeza."
+    "nota": "Dados de fecho (paper_trailing) anteriores a 15/07 09:10 UTC devem ser tratados como não-fiáveis — ver evento de limpeza.",
+    "momento_zero_fade": "2026-07-20T12:41:00+00:00"
   }
 }
