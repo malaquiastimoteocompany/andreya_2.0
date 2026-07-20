@@ -87,6 +87,18 @@ _ultima_exportacao = 0.0  # inicializado a 0 -- primeira exportação acontece j
 JANELA_SYNC_HORAS = float(os.environ.get("JANELA_SYNC_HORAS", "24"))
 FILTRAR_SINTETICOS = os.environ.get("FILTRAR_SINTETICOS", "1") == "1"
 
+# CORREÇÃO 20/07/2026: fade — testado contra 267 trades reais (15-20/07,
+# mercado calmo), aplicado uniformemente a todos (não só retrospectivamente
+# aos que sabíamos que iam falhar): sem regra dava -$1.76 no total; fechar
+# às 3h se ainda não tiver activado E abrir a posição invertida a partir
+# daí deu +$0.52 — vira o sistema de prejuízo para lucro. Mecanismo: em
+# mercado calmo/de range, um falso arranque tende a reverter, mesmo
+# princípio que traders humanos usam para "fade" breakouts falhados.
+# Ainda por validar fora da amostra (mesma amostra onde foi descoberto) —
+# ver README_regimes.json para o momento zero desta funcionalidade.
+FADE_ATIVO = os.environ.get("FADE_ATIVO", "1") == "1"
+FADE_HORAS_LIMITE = float(os.environ.get("FADE_HORAS_LIMITE", "3.0"))
+
 # Filtro de var_preco_gatilho — testado 13/07/2026 contra a Amostra Real (32
 # trades reais, monitorização a 1min): sinais com |var_preco_gatilho| > 20%
 # tiveram só 14.3% win rate (-8.02% médio) vs 60% win rate (+2.26% médio)
@@ -320,6 +332,15 @@ def init_db():
         con.execute("ALTER TABLE posicoes ADD COLUMN exportado INTEGER NOT NULL DEFAULT 0")
     except sqlite3.OperationalError:
         pass
+    # CORREÇÃO 20/07/2026: fade_origem_id — NULL para sinais originais,
+    # id da posição original para posições invertidas (fade). Serve dois
+    # propósitos: rastreabilidade (juntar de volta à posição que a
+    # originou) e guarda contra fade-de-fade (só sinais originais, com
+    # fade_origem_id NULL, são elegíveis para serem invertidos).
+    try:
+        con.execute("ALTER TABLE posicoes ADD COLUMN fade_origem_id INTEGER")
+    except sqlite3.OperationalError:
+        pass
     con.execute("""
         CREATE TABLE IF NOT EXISTS sl_historico (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -468,6 +489,41 @@ def atualizar_posicoes_abertas(con: sqlite3.Connection, precos: dict):
         ts_entrada = datetime.fromisoformat(p["timestamp_entrada"])
         horas_decorridas = (agora - ts_entrada).total_seconds() / 3600
 
+        # Fade — ver constante FADE_ATIVO/FADE_HORAS_LIMITE para o porquê.
+        # fade_origem_id IS NULL garante que só sinais originais são
+        # elegíveis (a posição invertida em si nunca é fadeada outra vez).
+        if (FADE_ATIVO and not p["activado"] and not p["fade_origem_id"]
+                and horas_decorridas >= FADE_HORAS_LIMITE):
+            pnl_pct = calcular_pnl_pct(p["direccao"], p["preco_entrada"], preco_atual)
+            con.execute(
+                """UPDATE posicoes SET estado='fechada', motivo_fecho='fade_invertido',
+                   timestamp_fecho=?, preco_fecho=?, pnl_pct=? WHERE id=?""",
+                (agora.isoformat(), preco_atual, pnl_pct, p["id"]),
+            )
+            log.info("Posição fechada (fade): %s %s preço=%.8f pnl=%.2f%% — a abrir invertida",
+                      p["symbol"], p["direccao"], preco_atual, pnl_pct)
+            fechadas.append(p["id"])
+
+            direccao_invertida = "SHORT" if p["direccao"] == "LONG" else "LONG"
+            sl_inicial_novo = calcular_sl_inicial(direccao_invertida, preco_atual, p["atr_preco"])
+            try:
+                con.execute(
+                    """INSERT INTO posicoes
+                       (symbol, timestamp_entrada, direccao, preco_entrada, atr_pct, atr_preco,
+                        sl_inicial, sl_atual, extremo_favoravel, activado, estado, origem_ficheiro,
+                        fade_origem_id)
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 'aberta', ?, ?)""",
+                    (p["symbol"], agora.isoformat(), direccao_invertida, preco_atual, p["atr_pct"],
+                     p["atr_preco"], sl_inicial_novo, sl_inicial_novo, preco_atual,
+                     p["origem_ficheiro"], p["id"]),
+                )
+                log.info("Posição fade aberta: %s %s @ %.8f (invertida de %s)",
+                          p["symbol"], direccao_invertida, preco_atual, p["direccao"])
+            except sqlite3.IntegrityError:
+                pass  # já existe localmente (raro, mesmo símbolo+segundo)
+            con.commit()
+            continue
+
         novo_extremo, novo_sl, activado, deve_fechar, motivo = atualizar_trailing(
             p["direccao"], p["preco_entrada"], p["atr_preco"],
             p["extremo_favoravel"], p["sl_atual"], bool(p["activado"]), preco_atual,
@@ -553,6 +609,7 @@ def escrever_fechadas_no_github(con: sqlite3.Connection, ids_fechadas: list):
             "symbol": p["symbol"],
             "timestamp_entrada": p["timestamp_entrada"],
             "origem_ficheiro": p.get("origem_ficheiro") or "v2",
+            "fade_origem_id": p.get("fade_origem_id"),  # None = sinal original; caso contrário, id da posição que originou este fade
             "paper_trailing": {
                 "direccao": p["direccao"],
                 "preco_entrada": p["preco_entrada"],
