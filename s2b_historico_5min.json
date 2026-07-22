@@ -1321,11 +1321,11 @@
   },
   "NEX_USDT": {
     "precos": [
-      1.686e-06,
       1.685e-06,
-      1.661e-06
+      1.661e-06,
+      1.637e-06
     ],
-    "em_observacao": false
+    "em_observacao": true
   },
   "MMT_USDT": {
     "precos": [
