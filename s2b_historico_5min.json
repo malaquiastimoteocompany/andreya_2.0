@@ -1,17 +1,17 @@
 {
   "BTC_USDT": {
     "precos": [
-      65609.6,
       65587.9,
-      65585.2
+      65585.2,
+      65584.7
     ],
     "em_observacao": false
   },
   "ETH_USDT": {
     "precos": [
-      1921.69,
       1921.05,
-      1920.32
+      1920.32,
+      1918.3
     ],
     "em_observacao": false
   },
@@ -49,9 +49,9 @@
   },
   "XRP_USDT": {
     "precos": [
-      1.1352,
       1.135,
-      1.1348
+      1.1348,
+      1.1344
     ],
     "em_observacao": false
   },
@@ -89,9 +89,9 @@
   },
   "SOL_USDT": {
     "precos": [
-      77.57,
       77.56,
-      77.52
+      77.52,
+      77.42
     ],
     "em_observacao": false
   },
@@ -177,8 +177,8 @@
   },
   "PIPPIN_USDT": {
     "precos": [
-      0.01706,
       0.01704,
+      0.01703,
       0.01703
     ],
     "em_observacao": false
@@ -249,8 +249,8 @@
   },
   "DOGE_USDT": {
     "precos": [
-      0.07247,
       0.07248,
+      0.07247,
       0.07247
     ],
     "em_observacao": false
@@ -329,9 +329,9 @@
   },
   "AVAX_USDT": {
     "precos": [
-      6.552,
       6.551,
-      6.547
+      6.547,
+      6.541
     ],
     "em_observacao": false
   },
@@ -377,9 +377,9 @@
   },
   "BNB_USDT": {
     "precos": [
-      571.4,
       571.5,
-      571.2
+      571.2,
+      571.0
     ],
     "em_observacao": false
   },
@@ -433,9 +433,9 @@
   },
   "XLM_USDT": {
     "precos": [
-      0.1841,
       0.18414,
-      0.18428
+      0.18428,
+      0.18434
     ],
     "em_observacao": false
   },
@@ -481,9 +481,9 @@
   },
   "HBAR_USDT": {
     "precos": [
-      0.07311,
       0.07297,
-      0.07304
+      0.07304,
+      0.07314
     ],
     "em_observacao": false
   },
@@ -505,7 +505,7 @@
   },
   "LTC_USDT": {
     "precos": [
-      47.14,
+      47.17,
       47.17,
       47.17
     ],
@@ -561,9 +561,9 @@
   },
   "FARTCOIN_USDT": {
     "precos": [
-      0.13626,
       0.13633,
-      0.13613
+      0.13613,
+      0.13616
     ],
     "em_observacao": false
   },
@@ -641,9 +641,9 @@
   },
   "SPX500_USDT": {
     "precos": [
-      7492.5,
       7490.1,
-      7488.7
+      7488.7,
+      7488.4
     ],
     "em_observacao": false
   },
@@ -657,17 +657,17 @@
   },
   "FET_USDT": {
     "precos": [
-      0.1545,
       0.1546,
+      0.1543,
       0.1543
     ],
     "em_observacao": false
   },
   "NVIDIA_USDT": {
     "precos": [
-      212.42,
       212.33,
-      212.22
+      212.22,
+      212.18
     ],
     "em_observacao": false
   },
@@ -705,17 +705,17 @@
   },
   "ASTER_USDT": {
     "precos": [
-      0.6223,
       0.6226,
-      0.6229
+      0.6229,
+      0.6228
     ],
     "em_observacao": false
   },
   "XMR_USDT": {
     "precos": [
-      351.81,
       351.7,
-      351.36
+      351.36,
+      351.07
     ],
     "em_observacao": false
   },
@@ -745,32 +745,32 @@
   },
   "SHIB_USDT": {
     "precos": [
-      4.234e-06,
       4.231e-06,
+      4.225e-06,
       4.225e-06
     ],
     "em_observacao": false
   },
   "WIF_USDT": {
     "precos": [
-      0.1517,
       0.1516,
+      0.1517,
       0.1517
     ],
     "em_observacao": false
   },
   "OP_USDT": {
     "precos": [
-      0.0962,
       0.0961,
+      0.0962,
       0.0962
     ],
     "em_observacao": false
   },
   "ICP_USDT": {
     "precos": [
-      2.192,
       2.196,
+      2.192,
       2.192
     ],
     "em_observacao": false
@@ -786,8 +786,8 @@
   "TRX_USDT": {
     "precos": [
       0.32861,
-      0.32861,
-      0.32875
+      0.32875,
+      0.32869
     ],
     "em_observacao": false
   },
@@ -833,9 +833,9 @@
   },
   "PENGU_USDT": {
     "precos": [
-      0.006295,
       0.006296,
-      0.006291
+      0.006291,
+      0.006285
     ],
     "em_observacao": false
   },
@@ -865,9 +865,9 @@
   },
   "XPL_USDT": {
     "precos": [
-      0.08444,
       0.08453,
-      0.08418
+      0.08418,
+      0.08411
     ],
     "em_observacao": false
   },
@@ -889,16 +889,16 @@
   },
   "NAS100_USDT": {
     "precos": [
-      28992.0,
       28979.0,
-      28963.0
+      28963.0,
+      28958.0
     ],
     "em_observacao": false
   },
   "SEI_USDT": {
     "precos": [
-      0.04602,
       0.04601,
+      0.04605,
       0.04605
     ],
     "em_observacao": false
@@ -914,8 +914,8 @@
   "POL_USDT": {
     "precos": [
       0.07862,
-      0.07862,
-      0.07853
+      0.07853,
+      0.07866
     ],
     "em_observacao": false
   },
@@ -969,8 +969,8 @@
   },
   "GRT_USDT": {
     "precos": [
-      0.01637,
       0.01639,
+      0.01638,
       0.01638
     ],
     "em_observacao": false
@@ -978,7 +978,7 @@
   "RENDER_USDT": {
     "precos": [
       1.506,
-      1.506,
+      1.508,
       1.508
     ],
     "em_observacao": false
@@ -1041,9 +1041,9 @@
   },
   "ALGO_USDT": {
     "precos": [
-      0.08444,
       0.08445,
-      0.08449
+      0.08449,
+      0.08442
     ],
     "em_observacao": false
   },
@@ -1161,9 +1161,9 @@
   },
   "VVV_USDT": {
     "precos": [
-      12.303,
       12.272,
-      12.272
+      12.272,
+      12.252
     ],
     "em_observacao": false
   },
@@ -1177,9 +1177,9 @@
   },
   "FLOKI_USDT": {
     "precos": [
-      2.146e-05,
       2.147e-05,
-      2.146e-05
+      2.146e-05,
+      2.144e-05
     ],
     "em_observacao": false
   },
@@ -1225,17 +1225,17 @@
   },
   "NIL_USDT": {
     "precos": [
-      0.03603,
       0.03602,
-      0.03598
+      0.03598,
+      0.03599
     ],
     "em_observacao": false
   },
   "NGAS_USDT": {
     "precos": [
-      2.935,
       2.933,
-      2.935
+      2.935,
+      2.932
     ],
     "em_observacao": false
   },
@@ -1297,8 +1297,8 @@
   },
   "ETC_USDT": {
     "precos": [
-      6.915,
       6.918,
+      6.915,
       6.915
     ],
     "em_observacao": false
@@ -1337,8 +1337,8 @@
   },
   "CHZ_USDT": {
     "precos": [
-      0.01473,
       0.0147,
+      0.01469,
       0.01469
     ],
     "em_observacao": false
@@ -1361,9 +1361,9 @@
   },
   "MANTA_USDT": {
     "precos": [
-      0.0631,
       0.0632,
-      0.06321
+      0.06321,
+      0.06316
     ],
     "em_observacao": false
   },
@@ -1497,17 +1497,17 @@
   },
   "ARKM_USDT": {
     "precos": [
-      0.1093,
       0.1096,
+      0.1094,
       0.1094
     ],
     "em_observacao": false
   },
   "4_USDT": {
     "precos": [
-      0.00829,
       0.00831,
-      0.00831
+      0.00831,
+      0.0083
     ],
     "em_observacao": false
   },
@@ -1523,7 +1523,7 @@
     "precos": [
       0.0743,
       0.0743,
-      0.0743
+      0.0742
     ],
     "em_observacao": false
   },
@@ -1561,8 +1561,8 @@
   },
   "QNT_USDT": {
     "precos": [
-      63.47,
       63.46,
+      63.47,
       63.47
     ],
     "em_observacao": false
@@ -1585,9 +1585,9 @@
   },
   "MOODENG_USDT": {
     "precos": [
-      0.03783,
       0.03787,
-      0.03786
+      0.03786,
+      0.03823
     ],
     "em_observacao": false
   },
@@ -1641,7 +1641,7 @@
   },
   "C98_USDT": {
     "precos": [
-      0.01315,
+      0.01314,
       0.01314,
       0.01314
     ],
@@ -1722,8 +1722,8 @@
   "COPPER_USDT": {
     "precos": [
       6.546,
-      6.546,
-      6.543
+      6.543,
+      6.542
     ],
     "em_observacao": false
   },
@@ -1754,7 +1754,7 @@
   "CORE_USDT": {
     "precos": [
       0.02377,
-      0.02377,
+      0.02376,
       0.02376
     ],
     "em_observacao": false
@@ -1769,9 +1769,9 @@
   },
   "AIGENSYN_USDT": {
     "precos": [
-      0.02486,
       0.02489,
-      0.02493
+      0.02493,
+      0.02494
     ],
     "em_observacao": false
   },
@@ -1779,7 +1779,7 @@
     "precos": [
       13.61,
       13.61,
-      13.61
+      13.62
     ],
     "em_observacao": false
   },
@@ -1905,9 +1905,9 @@
   },
   "EUR_USDT": {
     "precos": [
-      1.1439,
       1.1438,
-      1.1437
+      1.1437,
+      1.1436
     ],
     "em_observacao": false
   },
@@ -1961,17 +1961,17 @@
   },
   "RED_USDT": {
     "precos": [
-      0.1008,
       0.1007,
+      0.1004,
       0.1004
     ],
     "em_observacao": false
   },
   "SENT_USDT": {
     "precos": [
-      0.0137,
       0.01368,
-      0.01371
+      0.01371,
+      0.0137
     ],
     "em_observacao": false
   },
@@ -2002,7 +2002,7 @@
   "W_USDT": {
     "precos": [
       0.00911,
-      0.00911,
+      0.00908,
       0.00908
     ],
     "em_observacao": false
@@ -2041,9 +2041,9 @@
   },
   "ENJ_USDT": {
     "precos": [
-      0.02803,
       0.02805,
-      0.02805
+      0.02805,
+      0.02804
     ],
     "em_observacao": false
   },
@@ -2097,9 +2097,9 @@
   },
   "EWY_USDT": {
     "precos": [
-      175.63,
       175.59,
-      175.58
+      175.58,
+      175.39
     ],
     "em_observacao": false
   },
@@ -2177,9 +2177,9 @@
   },
   "S_USDT": {
     "precos": [
-      0.02424,
       0.02421,
-      0.02418
+      0.02418,
+      0.02417
     ],
     "em_observacao": false
   },
@@ -2281,9 +2281,9 @@
   },
   "MEME_USDT": {
     "precos": [
-      0.0005291,
       0.0005292,
-      0.0005288
+      0.0005288,
+      0.0005283
     ],
     "em_observacao": false
   },
@@ -2306,16 +2306,16 @@
   "RPL_USDT": {
     "precos": [
       1.772,
-      1.772,
-      1.774
+      1.774,
+      1.773
     ],
     "em_observacao": false
   },
   "RARE_USDT": {
     "precos": [
-      0.01259,
       0.01263,
-      0.01263
+      0.01263,
+      0.0126
     ],
     "em_observacao": false
   },
@@ -2346,8 +2346,8 @@
   "MANA_USDT": {
     "precos": [
       0.06902,
-      0.06902,
-      0.06895
+      0.06895,
+      0.06889
     ],
     "em_observacao": false
   },
@@ -2385,9 +2385,9 @@
   },
   "CARV_USDT": {
     "precos": [
-      0.03118,
       0.0312,
-      0.03121
+      0.03121,
+      0.03119
     ],
     "em_observacao": false
   },
@@ -2433,9 +2433,9 @@
   },
   "ZRX_USDT": {
     "precos": [
-      0.0853,
       0.0849,
-      0.0854
+      0.0854,
+      0.0851
     ],
     "em_observacao": false
   },
@@ -2473,9 +2473,9 @@
   },
   "BAT_USDT": {
     "precos": [
-      0.07941,
       0.07814,
-      0.07816
+      0.07816,
+      0.07806
     ],
     "em_observacao": false
   },
@@ -2561,9 +2561,9 @@
   },
   "COTI_USDT": {
     "precos": [
-      0.007547,
       0.007545,
-      0.007538
+      0.007538,
+      0.007525
     ],
     "em_observacao": false
   },
@@ -2585,9 +2585,9 @@
   },
   "LINEA_USDT": {
     "precos": [
-      0.002442,
       0.002444,
-      0.002452
+      0.002452,
+      0.00244
     ],
     "em_observacao": false
   },
@@ -2673,9 +2673,9 @@
   },
   "MITO_USDT": {
     "precos": [
-      0.02526,
       0.02524,
-      0.02517
+      0.02517,
+      0.02519
     ],
     "em_observacao": false
   },
@@ -2698,7 +2698,7 @@
   "BAND_USDT": {
     "precos": [
       0.1648,
-      0.1648,
+      0.1649,
       0.1649
     ],
     "em_observacao": false
@@ -2785,9 +2785,9 @@
   },
   "HUMA_USDT": {
     "precos": [
-      0.02174,
       0.02172,
-      0.0217
+      0.0217,
+      0.02168
     ],
     "em_observacao": false
   },
@@ -2889,9 +2889,9 @@
   },
   "ARIA_USDT": {
     "precos": [
-      0.02699,
       0.02702,
-      0.02701
+      0.02701,
+      0.02697
     ],
     "em_observacao": false
   },
@@ -2993,9 +2993,9 @@
   },
   "PIXEL_USDT": {
     "precos": [
-      0.004552,
       0.004556,
-      0.004556
+      0.004556,
+      0.00456
     ],
     "em_observacao": false
   },
@@ -3025,9 +3025,9 @@
   },
   "US30_USDT": {
     "precos": [
-      52234.16,
       52218.29,
-      52213.94
+      52213.94,
+      52205.09
     ],
     "em_observacao": false
   },
@@ -3051,7 +3051,7 @@
     "precos": [
       0.00856,
       0.00856,
-      0.00856
+      0.00853
     ],
     "em_observacao": false
   },
@@ -3105,16 +3105,16 @@
   },
   "MAGIC_USDT": {
     "precos": [
-      0.04269,
       0.0427,
-      0.04267
+      0.04267,
+      0.04262
     ],
     "em_observacao": false
   },
   "AXL_USDT": {
     "precos": [
       0.04149,
-      0.04149,
+      0.04146,
       0.04146
     ],
     "em_observacao": false
@@ -3137,9 +3137,9 @@
   },
   "IOST_USDT": {
     "precos": [
-      0.000664,
       0.0006638,
-      0.0006635
+      0.0006635,
+      0.0006638
     ],
     "em_observacao": false
   },
@@ -3209,9 +3209,9 @@
   },
   "SATS_USDT": {
     "precos": [
-      9.55e-09,
       9.56e-09,
-      9.55e-09
+      9.55e-09,
+      9.54e-09
     ],
     "em_observacao": false
   },
@@ -3241,9 +3241,9 @@
   },
   "FORM_USDT": {
     "precos": [
-      0.1954,
       0.1956,
-      0.1956
+      0.1956,
+      0.1955
     ],
     "em_observacao": false
   },
@@ -3306,8 +3306,8 @@
   "UMA_USDT": {
     "precos": [
       0.3683,
-      0.3683,
-      0.3684
+      0.3684,
+      0.3682
     ],
     "em_observacao": false
   },
@@ -3321,9 +3321,9 @@
   },
   "FIDA_USDT": {
     "precos": [
-      0.02064,
       0.02065,
-      0.02062
+      0.02062,
+      0.02063
     ],
     "em_observacao": false
   },
@@ -3385,17 +3385,17 @@
   },
   "IOTX_USDT": {
     "precos": [
-      0.002404,
       0.002405,
-      0.002401
+      0.002401,
+      0.0024
     ],
     "em_observacao": false
   },
   "GIGA_USDT": {
     "precos": [
-      0.002186,
       0.002188,
-      0.002186
+      0.002186,
+      0.002183
     ],
     "em_observacao": false
   },
@@ -3433,17 +3433,17 @@
   },
   "CYBER_USDT": {
     "precos": [
-      0.337,
       0.3368,
-      0.3366
+      0.3366,
+      0.3361
     ],
     "em_observacao": false
   },
   "SOPH_USDT": {
     "precos": [
-      0.004604,
       0.004608,
-      0.004605
+      0.004605,
+      0.004602
     ],
     "em_observacao": false
   },
@@ -3465,8 +3465,8 @@
   },
   "AUDIO_USDT": {
     "precos": [
-      0.01341,
       0.01338,
+      0.01339,
       0.01339
     ],
     "em_observacao": false
@@ -3489,9 +3489,9 @@
   },
   "LPT_USDT": {
     "precos": [
-      1.448,
       1.447,
-      1.448
+      1.448,
+      1.447
     ],
     "em_observacao": false
   },
@@ -3610,7 +3610,7 @@
   "EUL_USDT": {
     "precos": [
       0.996,
-      0.996,
+      0.997,
       0.997
     ],
     "em_observacao": false
@@ -3641,9 +3641,9 @@
   },
   "CAT_USDT": {
     "precos": [
-      1.311e-06,
       1.312e-06,
-      1.312e-06
+      1.312e-06,
+      1.31e-06
     ],
     "em_observacao": false
   },
@@ -3682,8 +3682,8 @@
   "SIGN_USDT": {
     "precos": [
       0.008577,
-      0.008577,
-      0.008583
+      0.008583,
+      0.008564
     ],
     "em_observacao": false
   },
@@ -3761,9 +3761,9 @@
   },
   "SPY_USDT": {
     "precos": [
-      747.4,
       747.16,
-      747.04
+      747.04,
+      747.02
     ],
     "em_observacao": false
   },
@@ -3777,9 +3777,9 @@
   },
   "ZETA_USDT": {
     "precos": [
-      0.03398,
       0.03402,
-      0.03399
+      0.03399,
+      0.03392
     ],
     "em_observacao": false
   },
@@ -3857,7 +3857,7 @@
   },
   "MOCA_USDT": {
     "precos": [
-      0.00875,
+      0.00874,
       0.00874,
       0.00874
     ],
@@ -3873,9 +3873,9 @@
   },
   "ZKC_USDT": {
     "precos": [
-      0.04351,
       0.04354,
-      0.04351
+      0.04351,
+      0.04346
     ],
     "em_observacao": false
   },
@@ -3883,22 +3883,22 @@
     "precos": [
       0.0003637,
       0.0003637,
-      0.0003637
+      0.0003632
     ],
     "em_observacao": false
   },
   "PHAROS_USDT": {
     "precos": [
-      0.4101,
       0.4091,
-      0.4096
+      0.4096,
+      0.4144
     ],
     "em_observacao": false
   },
   "MTL_USDT": {
     "precos": [
       0.2231,
-      0.2231,
+      0.223,
       0.223
     ],
     "em_observacao": false
@@ -3913,25 +3913,25 @@
   },
   "CVC_USDT": {
     "precos": [
-      0.01983,
       0.01982,
-      0.01982
+      0.01982,
+      0.01981
     ],
     "em_observacao": false
   },
   "WAXP_USDT": {
     "precos": [
-      0.003963,
       0.003967,
-      0.003964
+      0.003964,
+      0.003963
     ],
     "em_observacao": false
   },
   "SFP_USDT": {
     "precos": [
-      0.2185,
       0.2186,
-      0.219
+      0.219,
+      0.2185
     ],
     "em_observacao": false
   },
@@ -3945,9 +3945,9 @@
   },
   "PROVE_USDT": {
     "precos": [
-      0.1925,
       0.1922,
-      0.1923
+      0.1923,
+      0.1924
     ],
     "em_observacao": false
   },
@@ -3969,9 +3969,9 @@
   },
   "CTK_USDT": {
     "precos": [
-      0.1044,
       0.1043,
-      0.1041
+      0.1041,
+      0.1042
     ],
     "em_observacao": false
   },
@@ -4001,17 +4001,17 @@
   },
   "NICKEL_USDT": {
     "precos": [
-      17276.76,
       17266.76,
-      17264.04
+      17264.04,
+      17261.78
     ],
     "em_observacao": false
   },
   "HIVE_USDT": {
     "precos": [
-      0.04804,
       0.04805,
-      0.04804
+      0.04804,
+      0.048
     ],
     "em_observacao": false
   },
@@ -4033,7 +4033,7 @@
   },
   "LSK_USDT": {
     "precos": [
-      0.0869,
+      0.0868,
       0.0868,
       0.0868
     ],
@@ -4072,9 +4072,9 @@
   },
   "LEAD_USDT": {
     "precos": [
-      1905.66,
       1905.6,
-      1905.76
+      1905.76,
+      1905.25
     ],
     "em_observacao": false
   },
@@ -4326,17 +4326,17 @@
   },
   "ALUMINUM_USDT": {
     "precos": [
-      3205.35,
       3205.16,
-      3204.35
+      3204.35,
+      3203.05
     ],
     "em_observacao": false
   },
   "ZINC_USDT": {
     "precos": [
-      3613.31,
       3612.82,
-      3613.95
+      3613.95,
+      3613.76
     ],
     "em_observacao": false
   },
@@ -4390,9 +4390,9 @@
   },
   "ARKK_USDT": {
     "precos": [
-      75.82,
       75.8,
-      75.65
+      75.65,
+      75.66
     ],
     "em_observacao": false
   },
@@ -4429,9 +4429,9 @@
   },
   "AUD_USDT": {
     "precos": [
-      0.7023,
       0.702,
-      0.7021
+      0.7021,
+      0.7019
     ],
     "em_observacao": false
   },
@@ -4752,9 +4752,9 @@
   },
   "EWT_USDT": {
     "precos": [
-      101.19,
       101.0,
-      101.02
+      101.02,
+      101.08
     ],
     "em_observacao": false
   },
@@ -4769,8 +4769,8 @@
   "XDC_USDT": {
     "precos": [
       0.02829,
-      0.02829,
-      0.02836
+      0.02836,
+      0.02835
     ],
     "em_observacao": false
   },
