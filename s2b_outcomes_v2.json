@@ -5379,6 +5379,23 @@
         "s6_preco_pct": -0.0043,
         "atr_pct": 3.615039854002844,
         "rsi14": 46.32150301827733
+      },
+      "810": {
+        "preco": 0.05286,
+        "volume": 49995169.0,
+        "s1_valor": 1.3925775463794123,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": -0.0112,
+        "s2_vol_dir_pct": 0.8131366616548672,
+        "s3_funding": -0.009114,
+        "s4_range_pct": 0.20085907138474116,
+        "s5_ema9": 0.052195524896044336,
+        "s5_ema21": 0.053520726060025496,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 0.5,
+        "s6_preco_pct": -0.0112,
+        "atr_pct": 3.6410325719691836,
+        "rsi14": 45.17089572568222
       }
     },
     "completo": false
@@ -6094,8 +6111,127 @@
         "s6_preco_pct": -0.0081,
         "atr_pct": 8.798843078319065,
         "rsi14": 59.91150292998057
+      },
+      "600": {
+        "preco": 0.015873,
+        "volume": 1405098197.0,
+        "s1_valor": 2.0865628711472213,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": -0.1083,
+        "s2_vol_dir_pct": 0.5655128725572575,
+        "s3_funding": -0.000841,
+        "s4_range_pct": 0.7056113902847573,
+        "s5_ema9": 0.017031044667945132,
+        "s5_ema21": 0.016265897381520504,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 0.5,
+        "s6_preco_pct": -0.1083,
+        "atr_pct": 10.688475729637046,
+        "rsi14": 50.519527281353454
       }
     },
+    "completo": false
+  },
+  {
+    "symbol": "ACH_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.00477,
+    "volume_entrada": 561623942.0,
+    "var_preco_gatilho": 10.64718162839249,
+    "var_volume_gatilho": 262.90971819050145,
+    "tipo_gatilho": "preco_volume_classico",
+    "sinais_lancamento": {
+      "preco": 0.00477,
+      "volume": 561623942.0,
+      "s1_valor": 3.145027856009486,
+      "s2_oi_pct": 0.0,
+      "s2_preco_pct": -0.0215,
+      "s2_vol_dir_pct": 0.5640007786223953,
+      "s3_funding": -0.000421,
+      "s4_range_pct": 0.26366184026156,
+      "s5_ema9": 0.0049341366616418615,
+      "s5_ema21": 0.0048605827393697724,
+      "s5_estrutura": false,
+      "s6_ls_ratio": 0.5,
+      "s6_preco_pct": -0.0215,
+      "atr_pct": 4.161932667583567,
+      "rsi14": 48.57643233915075
+    },
+    "buffer_pre_gatilho": {
+      "precos": [
+        0.004383,
+        0.004459,
+        0.004446,
+        0.004425,
+        0.004542,
+        0.005,
+        0.004688,
+        0.004311
+      ],
+      "volumes": [
+        81566576.0,
+        82319038.0,
+        84452290.0,
+        85578795.0,
+        98677181.0,
+        119819178.0,
+        171633411.0,
+        228893545.0
+      ]
+    },
+    "timestamp_entrada": "2026-07-30T07:45:57.836592+00:00",
+    "checkpoints": {},
+    "completo": false
+  },
+  {
+    "symbol": "EPIC_USDT",
+    "direccao": "SHORT",
+    "preco_entrada": 0.7317,
+    "volume_entrada": 1299777.0,
+    "var_preco_gatilho": -3.201481677470565,
+    "var_volume_gatilho": 90.84155744618997,
+    "tipo_gatilho": "preco_volume_classico",
+    "sinais_lancamento": {
+      "preco": 0.7317,
+      "volume": 1299777.0,
+      "s1_valor": 1.4073001604133408,
+      "s2_oi_pct": 0.0,
+      "s2_preco_pct": 0.002,
+      "s2_vol_dir_pct": 0.597048029159814,
+      "s3_funding": -1.1e-05,
+      "s4_range_pct": 0.35532850858521353,
+      "s5_ema9": 0.7855565845979401,
+      "s5_ema21": 0.7584030839042624,
+      "s5_estrutura": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": 0.002,
+      "atr_pct": 5.769944341372915,
+      "rsi14": 47.66553588553984
+    },
+    "buffer_pre_gatilho": {
+      "precos": [
+        0.8053,
+        0.8087,
+        0.8212,
+        0.8539,
+        0.8605,
+        0.939,
+        0.9322,
+        0.7559
+      ],
+      "volumes": [
+        389876.0,
+        390477.0,
+        403951.0,
+        470359.0,
+        496896.0,
+        619557.0,
+        706134.0,
+        901719.0
+      ]
+    },
+    "timestamp_entrada": "2026-07-30T07:45:57.836592+00:00",
+    "checkpoints": {},
     "completo": false
   }
 ]
