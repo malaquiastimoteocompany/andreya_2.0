@@ -5546,6 +5546,23 @@
         "s6_preco_pct": 0.0077,
         "atr_pct": 1.3684913217623493,
         "rsi14": 50.189931362996894
+      },
+      "960": {
+        "preco": 0.009627,
+        "volume": 14342126.0,
+        "s1_valor": 3.9216006289880587,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": 0.0074,
+        "s2_vol_dir_pct": 0.5279517731150344,
+        "s3_funding": 5e-05,
+        "s4_range_pct": 0.09670329670329657,
+        "s5_ema9": 0.009613640955619934,
+        "s5_ema21": 0.009620981702609338,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": 0.0074,
+        "atr_pct": 1.394144444939084,
+        "rsi14": 50.04845447086516
       }
     },
     "completo": false
@@ -6533,6 +6550,23 @@
         "s6_preco_pct": -0.1904,
         "atr_pct": 10.061728395061731,
         "rsi14": 42.443803189131316
+      },
+      "840": {
+        "preco": 0.3257,
+        "volume": 22102089.0,
+        "s1_valor": 3.1851782731422764,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": -0.1861,
+        "s2_vol_dir_pct": 0.7420940300738993,
+        "s3_funding": 5e-05,
+        "s4_range_pct": 0.9554170661553211,
+        "s5_ema9": 0.3248232057983822,
+        "s5_ema21": 0.3405935943763864,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": -0.1861,
+        "atr_pct": 10.287731918066585,
+        "rsi14": 42.864494159314106
       }
     },
     "completo": false
@@ -7384,6 +7418,23 @@
         "s6_preco_pct": -0.0339,
         "atr_pct": 1.2028825339994715,
         "rsi14": 40.78368324713503
+      },
+      "720": {
+        "preco": 156.67,
+        "volume": 605265.0,
+        "s1_valor": 1.7818922097060723,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": -0.0323,
+        "s2_vol_dir_pct": 0.7627865399091814,
+        "s3_funding": 0.0,
+        "s4_range_pct": 0.0857199288959116,
+        "s5_ema9": 156.42026271504253,
+        "s5_ema21": 157.76854066164336,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": -0.0323,
+        "atr_pct": 1.2273295097064825,
+        "rsi14": 42.094421659771974
       }
     },
     "completo": false
@@ -7640,6 +7691,23 @@
         "s6_preco_pct": 0.0842,
         "atr_pct": 2.8310693362518498,
         "rsi14": 62.78236462888411
+      },
+      "195": {
+        "preco": 0.045,
+        "volume": 68498122.0,
+        "s1_valor": 3.84432583837344,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": 0.0951,
+        "s2_vol_dir_pct": 0.896614413514265,
+        "s3_funding": -0.00442,
+        "s4_range_pct": 0.22879880626709773,
+        "s5_ema9": 0.04318433429100963,
+        "s5_ema21": 0.04225255309149501,
+        "s5_estrutura": false,
+        "s6_ls_ratio": 0.5,
+        "s6_preco_pct": 0.0951,
+        "atr_pct": 2.89047619047619,
+        "rsi14": 66.4782001998226
       }
     },
     "completo": false
@@ -7879,8 +7947,130 @@
         "s6_preco_pct": -0.2435,
         "atr_pct": 7.517636684303351,
         "rsi14": 26.0970735730685
+      },
+      "180": {
+        "preco": 0.06813,
+        "volume": 867574.0,
+        "s1_valor": 2.7932067279609605,
+        "s2_oi_pct": 0.0,
+        "s2_preco_pct": -0.2394,
+        "s2_vol_dir_pct": 0.4228487793870609,
+        "s3_funding": 5e-05,
+        "s4_range_pct": 0.7999645012424564,
+        "s5_ema9": 0.07510980531705592,
+        "s5_ema21": 0.08267124591219799,
+        "s5_estrutura": true,
+        "s6_ls_ratio": 1.0,
+        "s6_preco_pct": -0.2394,
+        "atr_pct": 7.646096747814053,
+        "rsi14": 26.159744179931707
       }
     },
+    "completo": false
+  },
+  {
+    "symbol": "EPIC_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.7702,
+    "volume_entrada": 1643958.0,
+    "var_preco_gatilho": 5.261719283859502,
+    "var_volume_gatilho": 86.43275788893528,
+    "tipo_gatilho": "preco_volume_classico",
+    "sinais_lancamento": {
+      "preco": 0.7702,
+      "volume": 1643958.0,
+      "s1_valor": 1.4719525627249062,
+      "s2_oi_pct": 0.0,
+      "s2_preco_pct": -0.1144,
+      "s2_vol_dir_pct": 0.5751485849317227,
+      "s3_funding": 5e-05,
+      "s4_range_pct": 0.26369426751592356,
+      "s5_ema9": 0.7670662111193829,
+      "s5_ema21": 0.7646543409902464,
+      "s5_estrutura": false,
+      "s6_ls_ratio": 1.0,
+      "s6_preco_pct": -0.1144,
+      "atr_pct": 4.345809993693658,
+      "rsi14": 51.14283712696546
+    },
+    "buffer_pre_gatilho": {
+      "precos": [
+        0.8087,
+        0.8212,
+        0.8539,
+        0.8605,
+        0.939,
+        0.9322,
+        0.7559,
+        0.7317
+      ],
+      "volumes": [
+        390477.0,
+        403951.0,
+        470359.0,
+        496896.0,
+        619557.0,
+        706134.0,
+        901719.0,
+        1299777.0
+      ]
+    },
+    "timestamp_entrada": "2026-07-31T08:15:36.598704+00:00",
+    "checkpoints": {},
+    "completo": false
+  },
+  {
+    "symbol": "ACH_USDT",
+    "direccao": "LONG",
+    "preco_entrada": 0.004491,
+    "volume_entrada": 157317444.0,
+    "var_preco_gatilho": 10.64718162839249,
+    "var_volume_gatilho": -71.9888287810921,
+    "tipo_gatilho": "sobe_desce_volume",
+    "confirmacao_forte_60pct": true,
+    "volume_subida_pct": 262.90971819050145,
+    "volume_descida_pct": -71.9888287810921,
+    "sinais_lancamento": {
+      "preco": 0.004491,
+      "volume": 157317444.0,
+      "s1_valor": 0.8045547387129871,
+      "s2_oi_pct": 0.0,
+      "s2_preco_pct": -0.0103,
+      "s2_vol_dir_pct": 0.40888236583316956,
+      "s3_funding": -0.000357,
+      "s4_range_pct": 0.07914970601537777,
+      "s5_ema9": 0.004496256735114052,
+      "s5_ema21": 0.004540482929217352,
+      "s5_estrutura": false,
+      "s6_ls_ratio": 0.5,
+      "s6_preco_pct": -0.0103,
+      "atr_pct": 1.665235232369497,
+      "rsi14": 44.3493034222958
+    },
+    "buffer_pre_gatilho": {
+      "precos": [
+        0.004459,
+        0.004446,
+        0.004425,
+        0.004542,
+        0.005,
+        0.004688,
+        0.004311,
+        0.00477
+      ],
+      "volumes": [
+        82319038.0,
+        84452290.0,
+        85578795.0,
+        98677181.0,
+        119819178.0,
+        171633411.0,
+        228893545.0,
+        561623942.0
+      ]
+    },
+    "timestamp_entrada": "2026-07-31T08:15:36.598704+00:00",
+    "checkpoints": {},
     "completo": false
   }
 ]
